@@ -5,6 +5,14 @@
    other public sites make. */
 @import "@fontsource-variable/inter";
 
+/* Tailwind v4's own `dark:` variant only ever matches
+   prefers-color-scheme, with no way to override it manually. Re-pointing
+   it at data-theme="dark" (set by the inline bootstrap script in
+   Layout.astro, always resolved before first paint — see
+   src/lib/themePreference.ts) is what makes the toggle in SiteHeader.astro
+   actually override the OS preference rather than just reading it. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme {
   --font-sans: "Inter Variable", system-ui, sans-serif;
 }

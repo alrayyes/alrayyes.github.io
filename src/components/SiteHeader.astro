@@ -1,0 +1,127 @@
+---
+// A persistent site-wide header, present on every page via Layout.astro —
+// the only way back to "/" from a subpage (privacy, disclaimer, and the
+// changelog/license pages) before this existed. Kept separate from each
+// page's own <h1> (index.astro's "APIs" hero, say): this is site chrome,
+// not page content.
+//
+// The light/dark toggle lives here too, not repeated per page — same
+// placement convention washy-washy-web's own ThemeToggle uses. This site
+// has no JS framework (unlike washy-washy-web's Svelte), so the toggle is
+// a plain <script>, not a component with reactive state — one button
+// doesn't justify adding a framework dependency for it.
+---
+
+<header class="mb-8 flex items-center justify-between border-b border-slate-200 pb-4 dark:border-slate-700">
+  <a
+    href="/"
+    class="text-sm font-semibold tracking-tight text-slate-900 hover:text-blue-700 dark:text-slate-100 dark:hover:text-blue-400"
+  >
+    alrayyes<span class="text-slate-400 dark:text-slate-500">/</span>APIs
+  </a>
+
+  <button
+    type="button"
+    id="theme-toggle"
+    class="inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border border-slate-200 bg-white p-1.5 text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+  >
+    {/* Both icons are always in the DOM; a data-theme-scoped CSS rule
+    (below) shows exactly one — avoids a hydration flash where the wrong
+    icon briefly shows before JS decides which one to render. */}
+    <svg
+      id="theme-toggle-sun"
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linejoin="round"
+        d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.7 6.7 0 0 0 10.5 10.5Z"
+      ></path>
+    </svg>
+    <svg
+      id="theme-toggle-moon"
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      aria-hidden="true"
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r="4.5"
+        stroke="currentColor"
+        stroke-width="1.8"
+      ></circle>
+      <path
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        d="M12 2.5v2.3M12 19.2v2.3M21.5 12h-2.3M4.8 12H2.5M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6M18.4 18.4l-1.6-1.6M7.2 7.2 5.6 5.6"
+      ></path>
+    </svg>
+  </button>
+</header>
+
+<style>
+  /* Sun shows in light mode (invites switching to dark), moon shows in
+  dark mode — same pairing washy-washy-web's ThemeToggle uses. */
+  #theme-toggle-moon {
+    display: none;
+  }
+  :global([data-theme="dark"]) #theme-toggle-sun {
+    display: none;
+  }
+  :global([data-theme="dark"]) #theme-toggle-moon {
+    display: block;
+  }
+</style>
+
+<script>
+  import {
+    readThemePreference,
+    writeThemePreference,
+  } from "../lib/themePreference";
+
+  const button = document.getElementById("theme-toggle") as HTMLButtonElement;
+
+  function setLabel(theme: "light" | "dark") {
+    button.setAttribute(
+      "aria-label",
+      theme === "dark" ? "Switch to light theme" : "Switch to dark theme",
+    );
+  }
+
+  // The bootstrap script in Layout.astro already resolved data-theme
+  // before this ran; read it back rather than re-deriving it, so this
+  // stays in exact agreement with what's already painted.
+  setLabel(
+    (document.documentElement.dataset.theme as "light" | "dark" | undefined) ??
+      "light",
+  );
+
+  button.addEventListener("click", () => {
+    const current =
+      document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+    const next = current === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    writeThemePreference(next);
+    setLabel(next);
+  });
+
+  // A change in OS-level preference only matters when there's no explicit
+  // choice on record — an explicit choice always wins.
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (event) => {
+      if (readThemePreference() !== null) return;
+      const next = event.matches ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      setLabel(next);
+    });
+</script>
