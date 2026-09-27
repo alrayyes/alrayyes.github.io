@@ -1,0 +1,51 @@
+{
+  "ltex.language": "en-GB",
+  "ltex.dictionary": {
+    "en-GB": [
+      "alrayyes",
+      "Astro",
+      "Biome",
+      "biomejs",
+      "bunx",
+      "commitlint",
+      "Dependabot",
+      "forge-dashboard",
+      "hush-hush",
+      "lefthook",
+      "LTeX",
+      "ltex-cli-plus",
+      "ltex-ls-plus",
+      "markdownlint",
+      "OpenAPI",
+      "OpenSpec",
+      "pipeline-analytics",
+      "Playwright",
+      "pre-commit",
+      "proselint",
+      "Renovate",
+      "ruleset",
+      "rulesets",
+      "Semgrep",
+      "toolchain",
+      "wrangler"
+    ]
+  },
+  "ltex.disabledRules": {
+    "en-GB": [
+      "GITHUB",
+      "PASSIVE_VOICE",
+      "A_INFINITIVE",
+      "ENGLISH_WORD_REPEAT_BEGINNING_RULE",
+      "WHETHER",
+      "DASH_RULE",
+      "EN_QUOTES",
+      "UPPERCASE_SENTENCE_START",
+      "SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA",
+      "ID_CASING",
+      "PREPOSITION_VERB",
+      "COMMA_COMPOUND_SENTENCE",
+      "COMMA_COMPOUND_SENTENCE_2",
+      "OXFORD_SPELLING_Z_NOT_S"
+    ]
+  }
+}

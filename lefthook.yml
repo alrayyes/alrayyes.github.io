@@ -1,0 +1,67 @@
+# The same commands CI runs, so the two cannot drift. The hook catches it
+# early; CI is the gate that cannot be skipped.
+
+pre-commit:
+  jobs:
+    - name: biome
+      glob: "*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,json,jsonc}"
+      run: bunx biome check --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+
+    - name: prettier
+      glob: "*.{md,yml,yaml,astro}"
+      run: bunx prettier --write {staged_files}
+      stage_fixed: true
+
+    - name: markdownlint
+      glob: "*.md"
+      run: bunx markdownlint-cli2 {staged_files}
+
+    - name: sort-package-json
+      glob: "package.json"
+      run: bunx sort-package-json {staged_files}
+      stage_fixed: true
+
+    - name: vale
+      glob: "*.md"
+      exclude:
+        - "CHANGELOG.md"
+        - ".claude/**"
+        - "openspec/changes/**"
+        - "openspec/specs/**"
+      run: vale {staged_files}
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: bunx commitlint --edit {1}
+
+pre-push:
+  parallel: true
+  jobs:
+    - name: test
+      run: bun run test
+
+    - name: check
+      run: bun run check
+
+    - name: biome
+      run: bun run lint
+
+    - name: tailwind
+      run: bun run lint:tailwind
+
+    - name: prettier
+      run: bun run format:check
+
+    - name: markdownlint
+      run: bun run lint:md
+
+    - name: sort-package-json
+      run: bun run sort-package-json:check
+
+    - name: vale
+      run: bun run lint:prose
+
+    - name: mechanics
+      run: bun run lint:mechanics

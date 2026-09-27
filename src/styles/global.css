@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/* Self-hosted (fontsource, not a Google Fonts <link>) so a visitor's font
+   request never leaves this site's own origin — same choice this account's
+   other public sites make. */
+@import "@fontsource-variable/inter";
+
+@theme {
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+}
+
+@source "../**/*.{astro,ts}";
+
+body {
+  @apply min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-100;
+}
