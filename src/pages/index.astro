@@ -1,0 +1,31 @@
+---
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import ApiCard from "../components/ApiCard.astro";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import { apis } from "../data/apis";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="APIs — alrayyes">
+  <header class="mb-10">
+    <h1 class="text-3xl font-bold">APIs</h1>
+    <p class="mt-2 text-slate-600 dark:text-slate-300">
+      Every public HTTP API I maintain, its OpenAPI spec, and every generated
+      SDK —{" "}
+      <a
+        class="underline underline-offset-2"
+        href="https://github.com/alrayyes"
+      >
+        github.com/alrayyes
+      </a>
+      .
+    </p>
+  </header>
+
+  <div class="grid gap-6">
+    {apis.map((api) => (
+      <ApiCard api={api} />
+    ))}
+  </div>
+</Layout>

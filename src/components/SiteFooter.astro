@@ -1,0 +1,49 @@
+---
+// version is read from package.json at build time (bumped automatically by
+// release-please on every release) so this stays honest with no separate
+// value to remember — same approach movie-planner-web's own footer uses.
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import packageJson from "../../package.json";
+---
+
+<footer class="mt-10 border-t border-slate-200 pt-6 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+  <div class="flex flex-col items-center gap-2 text-center">
+    <div class="flex flex-wrap justify-center gap-x-4 gap-y-1">
+      <a
+        href="https://github.com/alrayyes/alrayyes.github.io"
+        class="underline decoration-slate-300 underline-offset-2 hover:text-blue-700 hover:decoration-blue-700 dark:decoration-slate-600 dark:hover:text-blue-400 dark:hover:decoration-blue-400"
+      >
+        GitHub
+      </a>
+      <a
+        href="/disclaimer"
+        class="underline decoration-slate-300 underline-offset-2 hover:text-blue-700 hover:decoration-blue-700 dark:decoration-slate-600 dark:hover:text-blue-400 dark:hover:decoration-blue-400"
+      >
+        Disclaimer
+      </a>
+      <a
+        href="/privacy"
+        class="underline decoration-slate-300 underline-offset-2 hover:text-blue-700 hover:decoration-blue-700 dark:decoration-slate-600 dark:hover:text-blue-400 dark:hover:decoration-blue-400"
+      >
+        Privacy
+      </a>
+      <a
+        href="https://github.com/alrayyes/alrayyes.github.io/blob/main/CHANGELOG.md"
+        class="underline decoration-slate-300 underline-offset-2 hover:text-blue-700 hover:decoration-blue-700 dark:decoration-slate-600 dark:hover:text-blue-400 dark:hover:decoration-blue-400"
+      >
+        v{packageJson.version}
+      </a>
+    </div>
+    <p class="max-w-md text-xs">
+      &copy; {new Date().getFullYear()} the alrayyes.github.io contributors.
+      Licensed{" "}
+      <a
+        href="https://github.com/alrayyes/alrayyes.github.io/blob/main/LICENSE"
+        class="underline decoration-slate-300 underline-offset-2 hover:text-blue-700 hover:decoration-blue-700 dark:decoration-slate-600 dark:hover:text-blue-400 dark:hover:decoration-blue-400"
+      >
+        GPL-3.0-or-later
+      </a>
+      .
+    </p>
+  </div>
+</footer>

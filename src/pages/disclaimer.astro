@@ -1,0 +1,28 @@
+---
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Disclaimer — APIs">
+  <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+    Disclaimer
+  </h1>
+  <div class="mt-6 flex flex-col gap-4 text-slate-700 dark:text-slate-300">
+    <p>
+      This site is an independent hobby project listing APIs I maintain myself.
+      It isn't affiliated with, endorsed by, or sponsored by GitHub or the Go
+      module proxy (pkg.go.dev) — any product names, logos, and brands mentioned
+      are the property of their respective owners.
+    </p>
+    <p>
+      The links here (repos, OpenAPI specs, SDK docs) point at the actual source
+      of truth for each API and are kept up to date on a best-effort basis, but
+      this page itself can lag the repos it links to — the repo is always the
+      authority, not this catalogue.
+    </p>
+    <p>
+      This software is provided as-is, without warranty of any kind, per the
+      terms of the GPL-3.0-or-later licence it's distributed under.
+    </p>
+  </div>
+</Layout>

@@ -1,0 +1,25 @@
+---
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Privacy — APIs">
+  <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+    Privacy
+  </h1>
+  <div class="mt-6 flex flex-col gap-4 text-slate-700 dark:text-slate-300">
+    <p>
+      This site is fully static. There's no server-side application code of any
+      kind in this repository's build output, no database, and no analytics or
+      tracking script of any kind.
+    </p>
+    <p>
+      Its own font is self-hosted (bundled at build time, not loaded from a font
+      CDN), so loading this page makes no request to any third party at all —
+      only clicking a link on it sends your browser to that link's own
+      destination (a GitHub repo, an SDK's docs site, or pkg.go.dev), each
+      governed by that destination's own privacy policy, not this one.
+    </p>
+    <p>This site sets no cookies and stores nothing in your browser.</p>
+  </div>
+</Layout>
