@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.3.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.2.1...alrayyes.github.io-v0.3.0) (2026-09-27)
+
+
+### Features
+
+* **theme:** add a manual light/dark toggle ([376a8a0](https://github.com/alrayyes/alrayyes.github.io/commit/376a8a0d267aeeccc678d5e477f4c986bb8fc442))
+* **theme:** add a manual light/dark toggle ([e4201e9](https://github.com/alrayyes/alrayyes.github.io/commit/e4201e9d9986332174f17935fdc3fc66cdad4eda)), closes [#8](https://github.com/alrayyes/alrayyes.github.io/issues/8)
+* **ui:** add icons to repo/spec/SDK links ([#13](https://github.com/alrayyes/alrayyes.github.io/issues/13)) ([9591a54](https://github.com/alrayyes/alrayyes.github.io/commit/9591a54c8f298b88e942599fb50720867e30691b)), closes [#9](https://github.com/alrayyes/alrayyes.github.io/issues/9)
+
+
+### Bug Fixes
+
+* **layout:** add a persistent site header linking home ([92be65a](https://github.com/alrayyes/alrayyes.github.io/commit/92be65a81526c69ca2b71ef4ac28131681d4b9a3))
+* **layout:** add a persistent site header linking home ([2976f6c](https://github.com/alrayyes/alrayyes.github.io/commit/2976f6ca64c55790a37f184dc06d6ef613b91ef5)), closes [#7](https://github.com/alrayyes/alrayyes.github.io/issues/7)
+
 ## [0.2.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.2.0...alrayyes.github.io-v0.2.1) (2026-09-27)
 
 
