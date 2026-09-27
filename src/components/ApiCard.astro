@@ -1,5 +1,7 @@
 ---
 import type { Api } from "../data/apis";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import BrandIcon, { type BrandIconName } from "./icons/BrandIcon.astro";
 
 interface Props {
   api: Api;
@@ -7,6 +9,16 @@ interface Props {
 
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 const { api } = Astro.props;
+
+// Every SDK language here is one of these four -- see src/data/apis.ts.
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+function languageIcon(language: string): BrandIconName {
+  if (language.startsWith("Node")) return "nodedotjs";
+  if (language === "PHP") return "php";
+  if (language === "Python") return "python";
+  if (language === "Go") return "go";
+  throw new Error(`no brand icon mapped for SDK language: ${language}`);
+}
 ---
 
 <section
@@ -19,19 +31,23 @@ const { api } = Astro.props;
   <p class="mt-1 text-slate-600 dark:text-slate-300">{api.description}</p>
 
   <ul class="mt-3 flex flex-wrap gap-4 text-sm">
+    {/* py-1 gives each a 24px tall hit area -- WCAG 2.5.8's minimum for a
+    standalone target, confirmed via a Playwright boundingBox() check. */}
     <li>
       <a
-        class="font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+        class="inline-flex items-center gap-1.5 py-1 font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
         href={api.repo}
       >
+        <BrandIcon name="github" />
         GitHub repo
       </a>
     </li>
     <li>
       <a
-        class="font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+        class="inline-flex items-center gap-1.5 py-1 font-medium text-blue-700 underline underline-offset-2 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
         href={api.spec}
       >
+        <BrandIcon name="openapiinitiative" />
         OpenAPI spec
       </a>
     </li>
@@ -43,19 +59,27 @@ const { api } = Astro.props;
   <ul class="mt-2 grid gap-2 sm:grid-cols-2">
     {api.sdks.map((sdk) => (
       <li class="rounded-md border border-slate-200 px-3 py-2 dark:border-slate-700">
-        <div class="font-medium">{sdk.language}</div>
+        <div class="flex items-center gap-1.5 font-medium">
+          <BrandIcon name={languageIcon(sdk.language)} />
+          {sdk.language}
+        </div>
         <div class="mt-1 flex flex-wrap gap-3 text-sm">
+          {/* py-1 on top of the 20px line-height text-sm gives these a
+          24px tall hit area -- WCAG 2.5.8's minimum for a standalone
+          target, confirmed via a Playwright boundingBox() check. */}
           <a
-            class="text-blue-700 underline underline-offset-2 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+            class="inline-flex items-center gap-1 py-1 text-blue-700 underline underline-offset-2 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
             href={sdk.repo}
           >
+            <BrandIcon name="github" class="size-3.5" />
             repo
           </a>
           {sdk.docs && (
             <a
-              class="text-blue-700 underline underline-offset-2 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+              class="inline-flex items-center gap-1 py-1 text-blue-700 underline underline-offset-2 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
               href={sdk.docs}
             >
+              <BrandIcon name="docs" class="size-3.5" />
               docs
             </a>
           )}
