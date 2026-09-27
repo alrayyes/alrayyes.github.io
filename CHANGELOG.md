@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.3.0...alrayyes.github.io-v0.4.0) (2026-09-27)
+
+
+### Features
+
+* **pages:** add changelog and license pages ([#15](https://github.com/alrayyes/alrayyes.github.io/issues/15)) ([f055064](https://github.com/alrayyes/alrayyes.github.io/commit/f055064734ea867da579aeef858b5bac2f0f9ff2)), closes [#10](https://github.com/alrayyes/alrayyes.github.io/issues/10)
+
+
+### Bug Fixes
+
+* **ui:** replace default blue link colour with a considered accent ([#17](https://github.com/alrayyes/alrayyes.github.io/issues/17)) ([984bea1](https://github.com/alrayyes/alrayyes.github.io/commit/984bea1e2b7bbfb95b82de221c171f41f4a26dc6))
+
 ## [0.3.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.2.1...alrayyes.github.io-v0.3.0) (2026-09-27)
 
 
