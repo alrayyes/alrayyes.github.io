@@ -1,6 +1,6 @@
 {
   "name": "alrayyes.github.io",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "A catalogue of the public HTTP APIs I maintain, and every SDK generated for each.",
   "scripts": {
