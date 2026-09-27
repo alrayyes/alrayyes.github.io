@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.4.0...alrayyes.github.io-v0.4.1) (2026-09-27)
+
+
+### Bug Fixes
+
+* **ci:** skip the prepare script in every bun install ([#20](https://github.com/alrayyes/alrayyes.github.io/issues/20)) ([17a2b40](https://github.com/alrayyes/alrayyes.github.io/commit/17a2b40a58b150432a5026cad96dcbb99aa57c4d)), closes [#19](https://github.com/alrayyes/alrayyes.github.io/issues/19)
+
 ## [0.4.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.3.0...alrayyes.github.io-v0.4.0) (2026-09-27)
 
 
