@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-for (const path of ["/", "/disclaimer", "/privacy"]) {
+for (const path of ["/", "/disclaimer", "/privacy", "/changelog", "/license"]) {
   test(`${path} has no detectable accessibility violations`, async ({ page }) => {
     await page.goto(path);
     const results = await new AxeBuilder({ page }).analyze();
@@ -24,7 +24,22 @@ test("footer links to GitHub, disclaimer, privacy and the licence", async ({ pag
     "/disclaimer",
   );
   await expect(page.getByRole("link", { name: "Privacy" })).toHaveAttribute("href", "/privacy");
-  await expect(page.getByRole("link", { name: "GPL-3.0-or-later" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "GPL-3.0-or-later" })).toHaveAttribute(
+    "href",
+    "/license",
+  );
+  await expect(page.getByRole("link", { name: /^v\d/ })).toHaveAttribute("href", "/changelog");
+});
+
+test("changelog and license pages render this repo's own files, not a GitHub link-out", async ({
+  page,
+}) => {
+  await page.goto("/changelog");
+  await expect(page.getByRole("heading", { name: "Changelog", level: 1 })).toBeVisible();
+
+  await page.goto("/license");
+  await expect(page.getByRole("heading", { name: "License", level: 1 })).toBeVisible();
+  await expect(page.getByText("GNU GENERAL PUBLIC LICENSE")).toBeVisible();
 });
 
 test("icon links meet the 24x24 CSS px minimum target size (WCAG 2.5.8)", async ({ page }) => {

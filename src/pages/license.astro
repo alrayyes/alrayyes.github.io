@@ -1,0 +1,22 @@
+---
+// Renders this repo's own LICENSE file in full, styled with the site's
+// chrome, instead of sending visitors to the raw file on GitHub -- same
+// idea as changelog.astro, adapted for plain text rather than Markdown
+// (GPL-3.0's own LICENSE file has no markdown structure to render).
+// `?raw` (Vite) reads the file's text at build time with no npm content
+// collection needed for a single plain-text file.
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import licenseText from "../../LICENSE?raw";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="License — APIs">
+  <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+    License
+  </h1>
+  <p class="mt-2 text-slate-600 dark:text-slate-300">
+    GPL-3.0-or-later, in full, below.
+  </p>
+  <pre class="mt-6 max-w-full overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-4 text-xs leading-relaxed whitespace-pre-wrap text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">{licenseText}</pre>
+</Layout>
