@@ -1,0 +1,16 @@
+---
+// A persistent site-wide header, present on every page via Layout.astro —
+// the only way back to "/" from a subpage (privacy, disclaimer, and the
+// changelog/license pages to come) before this existed. Kept separate from
+// each page's own <h1> (index.astro's "APIs" hero, say): this is site
+// chrome, not page content.
+---
+
+<header class="mb-8 flex items-center justify-between border-b border-slate-200 pb-4 dark:border-slate-700">
+  <a
+    href="/"
+    class="text-sm font-semibold tracking-tight text-slate-900 hover:text-blue-700 dark:text-slate-100 dark:hover:text-blue-400"
+  >
+    alrayyes<span class="text-slate-400 dark:text-slate-500">/</span>APIs
+  </a>
+</header>
