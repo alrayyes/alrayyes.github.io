@@ -15,6 +15,29 @@
 
 @theme {
   --font-sans: "Inter Variable", system-ui, sans-serif;
+
+  /* Every link on this site used Tailwind's default blue-700/blue-400,
+     which read as noticeably more saturated/neon than the rest of the
+     slate palette around it. Replaced with GitHub's own Primer link
+     colour (fg.accent / #0969da light, #4493f8 dark) instead of a
+     different arbitrary blue: still blue specifically (WebAIM notes
+     blue reads correctly for red-green colour blindness, unlike most
+     other hues -- https://webaim.org/blog/wcag-2-0-and-link-colors/),
+     already proven at this exact job on a link-and-repo-heavy page, and
+     thematically apt for a site that's mostly links to GitHub. Verified
+     contrast (WCAG 2.1 AA, 4.5:1 minimum for text):
+       light:  #0969da on #f8fafc (bg-slate-50)  -> 4.96:1
+       dark:   #4493f8 on #0f172a (bg-slate-900) -> 5.76:1
+       light hover: #033d8b on #f8fafc -> 9.82:1
+       dark hover:  #6cb6ff on #0f172a -> 8.31:1
+     Two custom colours, not one switched by the `dark:` variant at the
+     call site -- Tailwind's @theme values are static, so both live here
+     and every use pairs `text-accent dark:text-accent-dark` explicitly,
+     same as this site's other dark-mode-aware colours. */
+  --color-accent: #0969da;
+  --color-accent-hover: #033d8b;
+  --color-accent-dark: #4493f8;
+  --color-accent-dark-hover: #6cb6ff;
 }
 
 @source "../**/*.{astro,ts}";
