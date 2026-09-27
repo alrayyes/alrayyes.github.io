@@ -1,0 +1,93 @@
+---
+// Renders CHANGELOG.md as-is (src/content.config.ts's `changelog`
+// collection) styled with the site's own chrome, instead of sending
+// visitors to the raw file on GitHub -- same approach washy-washy-web's
+// own changelog page uses.
+import { getCollection, render } from "astro:content";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import Layout from "../layouts/Layout.astro";
+
+const [entry] = await getCollection("changelog");
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const { Content } = await render(entry);
+---
+
+{/* No page-level <h1> here: CHANGELOG.md's own leading "# Changelog"
+becomes the page's real <h1> via <Content /> below (styled to match via
+the .docs-content h1 rule) -- a second one would duplicate it, confirmed
+by a Playwright strict-mode failure ("resolved to 2 elements") while
+building this page. */}
+<Layout title="Changelog — APIs">
+  <article class="docs-content">
+    <Content />
+  </article>
+</Layout>
+
+<style>
+  /* Plain heading/list/link rules for CHANGELOG.md's own markdown --
+  there's no prose plugin or docs framework loaded here, same hand-rolled
+  approach washy-washy-web's own ChangelogPage.astro uses for the same
+  reason (no Starlight on this route). */
+  .docs-content :global(h1) {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: rgb(15 23 42); /* slate-900 */
+  }
+
+  :global([data-theme="dark"]) .docs-content :global(h1) {
+    color: rgb(241 245 249); /* slate-100 */
+  }
+
+  .docs-content :global(h2) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.375rem;
+    font-weight: 700;
+  }
+
+  .docs-content :global(h3) {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.0625rem;
+    font-weight: 700;
+  }
+
+  .docs-content :global(p),
+  .docs-content :global(ul) {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
+    color: rgb(51 65 85); /* slate-700 */
+  }
+
+  :global([data-theme="dark"]) .docs-content :global(p),
+  :global([data-theme="dark"]) .docs-content :global(ul) {
+    color: rgb(203 213 225); /* slate-300 */
+  }
+
+  .docs-content :global(ul) {
+    padding-left: 1.5rem;
+    list-style: disc;
+  }
+
+  .docs-content :global(li) {
+    margin-top: 0.25rem;
+  }
+
+  .docs-content :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .docs-content :global(code) {
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.375rem;
+    font-size: 0.875em;
+    background-color: rgb(241 245 249); /* slate-100 */
+  }
+
+  :global([data-theme="dark"]) .docs-content :global(code) {
+    background-color: rgb(51 65 85); /* slate-700 */
+  }
+</style>
