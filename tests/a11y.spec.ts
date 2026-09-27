@@ -27,6 +27,18 @@ test("footer links to GitHub, disclaimer, privacy and the licence", async ({ pag
   await expect(page.getByRole("link", { name: "GPL-3.0-or-later" })).toBeVisible();
 });
 
+test("icon links meet the 24x24 CSS px minimum target size (WCAG 2.5.8)", async ({ page }) => {
+  await page.goto("/");
+  for (const name of ["GitHub repo", "OpenAPI spec"]) {
+    const box = await page.getByRole("link", { name }).first().boundingBox();
+    expect(box?.height).toBeGreaterThanOrEqual(24);
+  }
+  for (const name of ["repo", "docs"]) {
+    const box = await page.getByRole("link", { name, exact: true }).first().boundingBox();
+    expect(box?.height).toBeGreaterThanOrEqual(24);
+  }
+});
+
 test("header links back to home from a subpage", async ({ page }) => {
   await page.goto("/privacy");
   await page.getByRole("link", { name: "alrayyes/APIs" }).click();
