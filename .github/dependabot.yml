@@ -26,6 +26,16 @@ updates:
       bun-dependencies:
         patterns: ["*"]
         update-types: [minor, patch]
+    # @astrojs/check (via @astrojs/language-server) depends on TypeScript's
+    # Language Service API, which TS 7's native compiler ("Strada") doesn't
+    # carry forward and hasn't replaced yet - confirmed live on #23,
+    # `astro check` fails outright with "does not expose the programmatic
+    # API that astro check relies on". Tracked upstream:
+    # https://github.com/withastro/roadmap/discussions/1321. Remove this
+    # once @astrojs/check ships TS 7 support.
+    ignore:
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
