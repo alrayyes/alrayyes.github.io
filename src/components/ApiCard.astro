@@ -51,6 +51,17 @@ function languageIcon(language: string): BrandIconName {
         OpenAPI spec
       </a>
     </li>
+    {api.docs && (
+      <li>
+        <a
+          class="inline-flex items-center gap-1.5 py-1 font-medium text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
+          href={api.docs}
+        >
+          <BrandIcon name="docs" />
+          API docs
+        </a>
+      </li>
+    )}
   </ul>
 
   <h3 class="mt-5 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">
