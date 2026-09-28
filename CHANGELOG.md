@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.4.2...alrayyes.github.io-v0.5.0) (2026-09-28)
+
+
+### Features
+
+* link each API's generated docs page from the homepage ([f30cf3a](https://github.com/alrayyes/alrayyes.github.io/commit/f30cf3ad42dfbbe35e1caf86c3bea61367809db7))
+* link each API's generated docs page from the homepage ([7c91942](https://github.com/alrayyes/alrayyes.github.io/commit/7c9194243dbb67cbd8d47b85758422ec6f8eb4c7)), closes [#26](https://github.com/alrayyes/alrayyes.github.io/issues/26)
+
 ## [0.4.2](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.4.1...alrayyes.github.io-v0.4.2) (2026-09-28)
 
 
