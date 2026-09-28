@@ -82,9 +82,7 @@ export const apis: Api[] = [
     description: "Self-hosted pipeline analytics for GitHub Actions and Forgejo Actions.",
     repo: "https://github.com/alrayyes/pipeline-analytics",
     spec: "https://github.com/alrayyes/pipeline-analytics/blob/main/openapi/openapi.yaml",
-    // No docs link yet -- the repo has a docs/api/index.html but no Pages
-    // deploy workflow, so apis.ryankes.eu/pipeline-analytics/docs/api/
-    // still 404s. Tracked in alrayyes/pipeline-analytics#322.
+    docs: "https://apis.ryankes.eu/pipeline-analytics/docs/api/#description/introduction",
     sdks: [
       {
         language: "PHP",

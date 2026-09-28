@@ -34,9 +34,11 @@ test("each API's docs link points at that API's generated docs on apis.ryankes.e
     "https://apis.ryankes.eu/forge-dashboard/docs/api/#description/introduction",
   );
 
-  // pipeline-analytics's docs page doesn't resolve yet (alrayyes/pipeline-analytics#322)
   const pipelineAnalytics = page.getByRole("region", { name: "pipeline-analytics" });
-  await expect(pipelineAnalytics.getByRole("link", { name: "API docs" })).toHaveCount(0);
+  await expect(pipelineAnalytics.getByRole("link", { name: "API docs" })).toHaveAttribute(
+    "href",
+    "https://apis.ryankes.eu/pipeline-analytics/docs/api/#description/introduction",
+  );
 });
 
 test("footer links to GitHub, disclaimer, privacy and the licence", async ({ page }) => {
