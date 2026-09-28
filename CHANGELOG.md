@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.4.1...alrayyes.github.io-v0.4.2) (2026-09-28)
+
+
+### Bug Fixes
+
+* **deps:** bump the bun-dependencies group with 8 updates ([#22](https://github.com/alrayyes/alrayyes.github.io/issues/22)) ([e6c38b1](https://github.com/alrayyes/alrayyes.github.io/commit/e6c38b11725577d7a1bcdd18501879ca9922814f))
+
 ## [0.4.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.4.0...alrayyes.github.io-v0.4.1) (2026-09-27)
 
 
