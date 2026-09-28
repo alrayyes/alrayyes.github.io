@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.5.0...alrayyes.github.io-v0.6.0) (2026-09-28)
+
+
+### Features
+
+* link pipeline-analytics's docs page now that it resolves ([#29](https://github.com/alrayyes/alrayyes.github.io/issues/29)) ([1c9a524](https://github.com/alrayyes/alrayyes.github.io/commit/1c9a5246a19b34153f0f3a46ed8e02f3117268e1))
+
 ## [0.5.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.4.2...alrayyes.github.io-v0.5.0) (2026-09-28)
 
 
