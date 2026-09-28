@@ -17,6 +17,28 @@ test("lists every API with a repo, spec and at least one SDK link", async ({ pag
   await expect(page.getByRole("link", { name: "OpenAPI spec" }).first()).toBeVisible();
 });
 
+test("each API's docs link points at that API's generated docs on apis.ryankes.eu, where published", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  const hushHush = page.getByRole("region", { name: "hush-hush" });
+  await expect(hushHush.getByRole("link", { name: "API docs" })).toHaveAttribute(
+    "href",
+    "https://apis.ryankes.eu/Hush-Hush/docs/api/#description/introduction",
+  );
+
+  const forgeDashboard = page.getByRole("region", { name: "forge-dashboard" });
+  await expect(forgeDashboard.getByRole("link", { name: "API docs" })).toHaveAttribute(
+    "href",
+    "https://apis.ryankes.eu/forge-dashboard/docs/api/#description/introduction",
+  );
+
+  // pipeline-analytics's docs page doesn't resolve yet (alrayyes/pipeline-analytics#322)
+  const pipelineAnalytics = page.getByRole("region", { name: "pipeline-analytics" });
+  await expect(pipelineAnalytics.getByRole("link", { name: "API docs" })).toHaveCount(0);
+});
+
 test("footer links to GitHub, disclaimer, privacy and the licence", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("link", { name: "Disclaimer" })).toHaveAttribute(
@@ -44,7 +66,7 @@ test("changelog and license pages render this repo's own files, not a GitHub lin
 
 test("icon links meet the 24x24 CSS px minimum target size (WCAG 2.5.8)", async ({ page }) => {
   await page.goto("/");
-  for (const name of ["GitHub repo", "OpenAPI spec"]) {
+  for (const name of ["GitHub repo", "OpenAPI spec", "API docs"]) {
     const box = await page.getByRole("link", { name }).first().boundingBox();
     expect(box?.height).toBeGreaterThanOrEqual(24);
   }

@@ -12,6 +12,7 @@ export interface Api {
   description: string;
   repo: string;
   spec: string;
+  docs?: string;
   sdks: Sdk[];
 }
 
@@ -22,6 +23,7 @@ export const apis: Api[] = [
       "Self-hosted secrets object store: age-sealed ciphertext, no plaintext ever stored or returned.",
     repo: "https://github.com/alrayyes/Hush-Hush",
     spec: "https://github.com/alrayyes/Hush-Hush/blob/main/api/openapi.yaml",
+    docs: "https://apis.ryankes.eu/Hush-Hush/docs/api/#description/introduction",
     sdks: [
       {
         language: "PHP",
@@ -51,6 +53,7 @@ export const apis: Api[] = [
       "A single-page dashboard of open pull requests, issues, and CI/CD status across GitHub and Forgejo repositories.",
     repo: "https://github.com/alrayyes/forge-dashboard",
     spec: "https://github.com/alrayyes/forge-dashboard/blob/main/api/openapi.yaml",
+    docs: "https://apis.ryankes.eu/forge-dashboard/docs/api/#description/introduction",
     sdks: [
       {
         language: "PHP",
@@ -79,6 +82,9 @@ export const apis: Api[] = [
     description: "Self-hosted pipeline analytics for GitHub Actions and Forgejo Actions.",
     repo: "https://github.com/alrayyes/pipeline-analytics",
     spec: "https://github.com/alrayyes/pipeline-analytics/blob/main/openapi/openapi.yaml",
+    // No docs link yet -- the repo has a docs/api/index.html but no Pages
+    // deploy workflow, so apis.ryankes.eu/pipeline-analytics/docs/api/
+    // still 404s. Tracked in alrayyes/pipeline-analytics#322.
     sdks: [
       {
         language: "PHP",
