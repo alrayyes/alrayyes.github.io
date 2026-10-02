@@ -65,7 +65,7 @@ test("changelog and license pages render this repo's own files, not a GitHub lin
 
   await page.goto("/license");
   await expect(page.getByRole("heading", { name: "License", level: 1 })).toBeVisible();
-  await expect(page.getByText("GNU GENERAL PUBLIC LICENSE")).toBeVisible();
+  await expect(page.getByText("GNU GENERAL PUBLIC LICENSE").first()).toBeVisible();
 });
 
 test("icon links meet the 24x24 CSS px minimum target size (WCAG 2.5.8)", async ({ page }) => {
