@@ -10,6 +10,17 @@ interface Props {
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 const { api } = Astro.props;
 
+// The three card-level links are bordered chips. Repo and spec share a
+// quiet outline; the API docs chip is filled, as the main action. Colours
+// reuse the accent pair from global.css (white on #0969da is 5.2:1, slate-900
+// on #4493f8 is 5.8:1; both pass AA).
+const chip =
+  "inline-flex min-h-9 items-center gap-1.5 rounded-md border px-3 py-1 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2";
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const quietChip = `${chip} border-slate-300 bg-white text-slate-800 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700`;
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const primaryChip = `${chip} border-accent bg-accent text-white hover:border-accent-hover hover:bg-accent-hover dark:border-accent-dark dark:bg-accent-dark dark:text-slate-900 dark:hover:border-accent-dark-hover dark:hover:bg-accent-dark-hover`;
+
 // Every SDK language here is one of these four -- see src/data/apis.ts.
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 function languageIcon(language: string): BrandIconName {
@@ -30,33 +41,24 @@ function languageIcon(language: string): BrandIconName {
   </h2>
   <p class="mt-1 text-slate-600 dark:text-slate-300">{api.description}</p>
 
-  <ul class="mt-3 flex flex-wrap gap-4 text-sm">
+  <ul class="mt-4 flex flex-wrap gap-3 text-sm">
     {/* py-1 gives each a 24px tall hit area -- WCAG 2.5.8's minimum for a
     standalone target, confirmed via a Playwright boundingBox() check. */}
     <li>
-      <a
-        class="inline-flex items-center gap-1.5 py-1 font-medium text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
-        href={api.repo}
-      >
+      <a class={quietChip} href={api.repo}>
         <BrandIcon name="github" />
         GitHub repo
       </a>
     </li>
     <li>
-      <a
-        class="inline-flex items-center gap-1.5 py-1 font-medium text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
-        href={api.spec}
-      >
+      <a class={quietChip} href={api.spec}>
         <BrandIcon name="openapiinitiative" />
         OpenAPI spec
       </a>
     </li>
     {api.docs && (
       <li>
-        <a
-          class="inline-flex items-center gap-1.5 py-1 font-medium text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
-          href={api.docs}
-        >
+        <a class={primaryChip} href={api.docs}>
           <BrandIcon name="docs" />
           API docs
         </a>
