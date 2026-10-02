@@ -45,3 +45,11 @@ same way commitlint checks a commit.
 Edit `src/data/apis.ts` — one entry per API, with a `sdks` array per
 language. A docs link only belongs there once it's confirmed to actually
 resolve; see the data file's own header comment.
+
+## Releases
+
+Only changes to the shipped site cut a release: `src/`, `public/` and the
+build settings. Commits that touch only `docs/`, `tests/`, `openspec/`,
+`.claude/`, `.github/`, `scripts/` or the top-level Markdown files are
+excluded in `release-please-config.json` (`exclude-paths`), so they never
+open a release pull request, whatever their commit type.

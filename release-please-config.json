@@ -4,7 +4,18 @@
     ".": {
       "release-type": "node",
       "changelog-path": "CHANGELOG.md",
-      "include-v-in-tag": true
+      "include-v-in-tag": true,
+      "exclude-paths": [
+        "docs",
+        "tests",
+        "openspec",
+        ".claude",
+        ".github",
+        "scripts",
+        "README.md",
+        "CONTRIBUTING.md",
+        "SECURITY.md"
+      ]
     }
   }
 }
