@@ -40,6 +40,10 @@ the merged commit's message to the PR title, and release-please reads that
 landed message to decide the next version — `pr-title.yml` checks it the
 same way commitlint checks a commit.
 
+Merge pull requests with **squash merge** only. A merge commit puts two
+commits with the same message on `main`, the branch commit and the merge
+commit, and the changelog and release notes then list the change twice.
+
 ## Adding an API or SDK
 
 Edit `src/data/apis.json` — one entry per API, with a `sdks` array per
