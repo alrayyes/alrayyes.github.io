@@ -130,3 +130,27 @@ test("the header fits a 375px viewport without horizontal scroll", async ({ page
   );
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("each API card has an SDKs heading and a repo and docs link per language", async ({
+  page,
+}) => {
+  await page.goto("/");
+  for (const api of ["hush-hush", "forge-dashboard", "pipeline-analytics"]) {
+    const card = page.getByRole("region", { name: api });
+    await expect(card.getByRole("heading", { name: "SDKs", level: 3 })).toBeVisible();
+    for (const language of ["PHP", "Node.js / TypeScript", "Python", "Go"]) {
+      const row = card.getByRole("listitem").filter({ hasText: language });
+      await expect(row.getByRole("link", { name: "repo" })).toBeVisible();
+      await expect(row.getByRole("link", { name: "docs" })).toBeVisible();
+    }
+  }
+});
+
+test("API cards don't scroll horizontally at 375px", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 800 });
+  await page.goto("/");
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(0);
+});
