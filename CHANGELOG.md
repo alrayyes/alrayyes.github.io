@@ -6,12 +6,9 @@
 ### Features
 
 * add a table of contents and section anchors to the license page ([5706bbb](https://github.com/alrayyes/alrayyes.github.io/commit/5706bbb14de47d8aaddaaf0e48beea5bfb2418f7))
-* add a table of contents and section anchors to the license page ([cc5e731](https://github.com/alrayyes/alrayyes.github.io/commit/cc5e731d15505a5f052cd329527aecd55f08460d))
 * name the current page and link back to the index in subpage headers ([098a33d](https://github.com/alrayyes/alrayyes.github.io/commit/098a33dac4f8c553aa0eef2e148e0aad5e4023dd))
 * show API card links as chips with a filled docs action ([48b92f7](https://github.com/alrayyes/alrayyes.github.io/commit/48b92f73b04bf41f71e6a9766385a80c29a4dcb9))
-* show API card links as chips with a filled docs action ([208ed57](https://github.com/alrayyes/alrayyes.github.io/commit/208ed5703db43571b630f8e0a5388895b4ef14de))
 * split the privacy page into titled sections with a summary ([d69a59c](https://github.com/alrayyes/alrayyes.github.io/commit/d69a59c5aa7bbecb1b3b159446b8ca299ea4f5af))
-* split the privacy page into titled sections with a summary ([f9d26bd](https://github.com/alrayyes/alrayyes.github.io/commit/f9d26bd8c7e1d9e2278dcb1a41551941ae6d86bb))
 
 ## [0.7.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.6.0...alrayyes.github.io-v0.7.0) (2026-10-02)
 
