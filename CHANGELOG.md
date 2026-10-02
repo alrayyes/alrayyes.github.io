@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.6.0...alrayyes.github.io-v0.7.0) (2026-10-02)
+
+
+### Features
+
+* load the API catalogue from a JSON file with a schema ([#40](https://github.com/alrayyes/alrayyes.github.io/issues/40)) ([1f971da](https://github.com/alrayyes/alrayyes.github.io/commit/1f971da2985a766d8094c637753ba881beb711b1))
+
 ## [0.6.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.5.0...alrayyes.github.io-v0.6.0) (2026-09-28)
 
 
