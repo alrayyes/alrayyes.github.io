@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.8.0...alrayyes.github.io-v0.9.0) (2026-10-02)
+
+
+### Features
+
+* split the disclaimer into numbered sections with a source-of-truth list ([#57](https://github.com/alrayyes/alrayyes.github.io/issues/57)) ([3e63745](https://github.com/alrayyes/alrayyes.github.io/commit/3e6374554c21cbdbbd898794ab9db375b5a9504a))
+
 ## [0.8.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.7.0...alrayyes.github.io-v0.8.0) (2026-10-02)
 
 
