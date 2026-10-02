@@ -34,7 +34,9 @@ test("each API's docs link points at that API's generated docs on apis.ryankes.e
     "https://apis.ryankes.eu/forge-dashboard/docs/api/#description/introduction",
   );
 
-  const pipelineAnalytics = page.getByRole("region", { name: "pipeline-analytics" });
+  const pipelineAnalytics = page.getByRole("region", {
+    name: "pipeline-analytics",
+  });
   await expect(pipelineAnalytics.getByRole("link", { name: "API docs" })).toHaveAttribute(
     "href",
     "https://apis.ryankes.eu/pipeline-analytics/docs/api/#description/introduction",
@@ -96,4 +98,35 @@ test("theme toggle overrides the OS preference and persists across reload", asyn
 
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+});
+
+for (const [path, name] of [
+  ["/changelog", "changelog"],
+  ["/license", "license"],
+  ["/privacy", "privacy"],
+  ["/disclaimer", "disclaimer"],
+] as const) {
+  test(`${path} header names the current page and links back to the index`, async ({ page }) => {
+    await page.goto(path);
+    const header = page.locator("header").first();
+    await expect(header.locator('[aria-current="page"]')).toHaveText(name);
+    await expect(header.getByRole("link", { name: "APIs", exact: true })).toHaveAttribute(
+      "href",
+      "/",
+    );
+  });
+}
+
+test("the homepage header shows no current-page marker", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("header").first().locator('[aria-current="page"]')).toHaveCount(0);
+});
+
+test("the header fits a 375px viewport without horizontal scroll", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 800 });
+  await page.goto("/disclaimer");
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(0);
 });
