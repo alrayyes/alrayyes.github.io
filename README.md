@@ -9,7 +9,8 @@ A catalogue of the public HTTP APIs I maintain, deployed at
 service's own GitHub repo, its OpenAPI spec, and every generated SDK
 (repo and, where one is published, its API-reference docs site).
 
-The catalogue itself is `src/data/apis.ts` — adding a new API or SDK is a
+The catalogue itself is `src/data/apis.json`, validated by
+`src/data/apis.schema.json`. Adding a new API or SDK is a
 plain data-file edit, not a template change.
 
 ## Requirements

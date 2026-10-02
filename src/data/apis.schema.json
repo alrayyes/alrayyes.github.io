@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://apis.ryankes.eu/schema/apis.schema.json",
+  "title": "API catalogue",
+  "description": "The public HTTP APIs listed on apis.ryankes.eu, each with its OpenAPI spec and generated SDKs.",
+  "type": "object",
+  "required": ["apis"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "apis": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/api" }
+    }
+  },
+  "$defs": {
+    "url": { "type": "string", "format": "uri", "pattern": "^https://" },
+    "sdk": {
+      "type": "object",
+      "required": ["language", "repo"],
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "description": "Display name; the card picks its icon from this.",
+          "type": "string",
+          "minLength": 1
+        },
+        "repo": { "$ref": "#/$defs/url" },
+        "docs": {
+          "description": "Only set once the URL has been checked to resolve.",
+          "$ref": "#/$defs/url"
+        }
+      }
+    },
+    "api": {
+      "type": "object",
+      "required": ["name", "description", "repo", "spec", "sdks"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "repo": { "$ref": "#/$defs/url" },
+        "spec": { "$ref": "#/$defs/url" },
+        "docs": {
+          "description": "Only set once the URL has been checked to resolve.",
+          "$ref": "#/$defs/url"
+        },
+        "sdks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sdk" }
+        }
+      }
+    }
+  }
+}
