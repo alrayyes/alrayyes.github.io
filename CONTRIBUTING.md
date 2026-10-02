@@ -42,9 +42,10 @@ same way commitlint checks a commit.
 
 ## Adding an API or SDK
 
-Edit `src/data/apis.ts` — one entry per API, with a `sdks` array per
+Edit `src/data/apis.json` — one entry per API, with a `sdks` array per
 language. A docs link only belongs there once it's confirmed to actually
-resolve; see the data file's own header comment.
+resolve. The file is validated against `src/data/apis.schema.json` by
+`bun run test`, and editors that read `$schema` will check it as you type.
 
 ## Releases
 
