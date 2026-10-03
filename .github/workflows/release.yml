@@ -3,9 +3,8 @@
 # version and the changelog entry; merging that pull request bumps
 # package.json, tags the release and writes the notes.
 #
-# No deploy step here: Cloudflare's own GitHub integration watches this repo
-# directly and builds/deploys itself (preview per pull request, production
-# on main) — configured on the Cloudflare dashboard, not in this workflow.
+# No deploy step here: pages.yml builds the site and deploys it to GitHub
+# Pages on every push to main.
 name: release
 
 on:

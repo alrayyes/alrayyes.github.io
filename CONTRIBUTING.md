@@ -12,7 +12,7 @@ for whoever runs it.
   prose lint:
 
   ```sh
-  go install github.com/errata-ai/vale/v3/cmd/vale@latest
+  go install github.com/errata-ai/vale/v3/cmd/vale@v3.17.1
   ```
 
   `ltex-cli-plus` needs nothing installed: the hook fetches and caches it
