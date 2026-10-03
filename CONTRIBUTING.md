@@ -41,7 +41,7 @@ landed message to decide the next version — `pr-title.yml` checks it the
 same way commitlint checks a commit.
 
 Merge pull requests with **squash merge** only. A merge commit puts two
-commits with the same message on `main`, the branch commit and the merge
+commits with the same message on `main`, the branch commit, and the merge
 commit, and the changelog and release notes then list the change twice.
 
 ## Adding an API or SDK
@@ -49,12 +49,12 @@ commit, and the changelog and release notes then list the change twice.
 Edit `src/data/apis.json` — one entry per API, with a `sdks` array per
 language. A docs link only belongs there once it's confirmed to actually
 resolve. The file is validated against `src/data/apis.schema.json` by
-`bun run test`, and editors that read `$schema` will check it as you type.
+`bun run test`, and editors that read `$schema` check it as you type.
 
 ## Releases
 
 Only changes to the shipped site cut a release: `src/`, `public/` and the
-build settings. Commits that touch only `docs/`, `tests/`, `openspec/`,
+build settings. Commits that change only `docs/`, `tests/`, `openspec/`,
 `.claude/`, `.github/`, `scripts/` or the top-level Markdown files are
 excluded in `release-please-config.json` (`exclude-paths`), so they never
 open a release pull request, whatever their commit type.
