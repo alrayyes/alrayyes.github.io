@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.11.0...alrayyes.github.io-v0.12.0) (2026-10-03)
+
+
+### Features
+
+* add humans.txt ([#90](https://github.com/alrayyes/alrayyes.github.io/issues/90)) ([a67fa08](https://github.com/alrayyes/alrayyes.github.io/commit/a67fa08f86a88d1adf200a5cefb2e523c14329db))
+
 ## [0.11.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.10.0...alrayyes.github.io-v0.11.0) (2026-10-03)
 
 
