@@ -46,7 +46,10 @@ jobs:
       - name: bun install
         run: bun install --frozen-lockfile --ignore-scripts
       - name: bun audit
-        run: bun audit || (sleep 5 && bun audit)
+        # No patched release exists for either advisory (first_patched_version
+        # is null). Both packages are build and lint time only; neither ships
+        # in the static site. Drop the ignores once a patch lands. See #67.
+        run: bun audit --ignore=GHSA-vfj7-8cjw-p6xm --ignore=GHSA-ch52-4w7c-c8xp || (sleep 5 && bun audit --ignore=GHSA-vfj7-8cjw-p6xm --ignore=GHSA-ch52-4w7c-c8xp)
 
   # Biome's pattern-based rules (lint, above) can't do cross-file taint
   # tracking; this is the separate security pass that can — the free
