@@ -61,3 +61,13 @@ test("the summary groups stack at 375px", async ({ page }) => {
     .evaluateAll((hs) => hs.map((h) => Math.round(h.getBoundingClientRect().x)));
   expect(new Set(tops).size).toBe(1);
 });
+
+test("the table of contents reads down each column at 900px", async ({ page }) => {
+  await page.setViewportSize({ width: 900, height: 800 });
+  await page.goto("/license");
+  const links = page.getByRole("navigation", { name: "Table of contents" }).getByRole("link");
+  const first = await links.nth(0).boundingBox();
+  const second = await links.nth(1).boundingBox();
+  expect(second?.y).toBeGreaterThan(first?.y ?? 0);
+  expect(second?.x).toBe(first?.x);
+});
