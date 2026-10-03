@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
+import { expectNoAxeViolations } from "./axe";
 
 test("the disclaimer is split into numbered sections, one per topic", async ({ page }) => {
   await page.goto("/disclaimer");
+  await expectNoAxeViolations(page);
   const headings = await page.getByRole("heading", { level: 2 }).allTextContents();
   expect(headings).toEqual([
     "1. Independence and trademarks",
