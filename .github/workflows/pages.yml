@@ -20,6 +20,9 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+env:
+  LEFTHOOK: "0"
+
 jobs:
   build:
     runs-on: ubuntu-24.04
