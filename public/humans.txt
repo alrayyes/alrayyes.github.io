@@ -1,0 +1,16 @@
+/* TEAM */
+Developer: Ryan Kes
+Site: https://apis.ryankes.eu
+Contact: https://apis.ryankes.eu
+
+/* THANKS */
+Astro: https://astro.build
+Tailwind CSS: https://tailwindcss.com
+
+/* SITE */
+Last update: 2026/10/03
+Language: English
+Standards: HTML5, CSS3
+Components: Astro, Tailwind CSS
+Software: Bun, TypeScript
+Hosting: GitHub Pages
