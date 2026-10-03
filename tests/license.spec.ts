@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
+import { expectNoAxeViolations } from "./axe";
 
 test("the license page has a table of contents that jumps to each section", async ({ page }) => {
   await page.goto("/license");
+  await expectNoAxeViolations(page);
   const toc = page.getByRole("navigation", { name: "Table of contents" });
   await expect(toc.getByRole("link")).toHaveCount(20);
 

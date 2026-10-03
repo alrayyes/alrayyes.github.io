@@ -1,9 +1,11 @@
 import { expect, test } from "@playwright/test";
+import { expectNoAxeViolations } from "./axe";
 
 test("the privacy page opens with a summary, then one titled section per topic", async ({
   page,
 }) => {
   await page.goto("/privacy");
+  await expectNoAxeViolations(page);
   const summary = page.getByRole("region", { name: "At a glance" });
   await expect(summary).toContainText("No cookies");
   await expect(summary).toContainText("No tracking scripts");
