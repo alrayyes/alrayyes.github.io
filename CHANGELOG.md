@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.9.0...alrayyes.github.io-v0.9.1) (2026-10-03)
+
+
+### Bug Fixes
+
+* read the license table of contents down each column ([#69](https://github.com/alrayyes/alrayyes.github.io/issues/69)) ([11a0474](https://github.com/alrayyes/alrayyes.github.io/commit/11a04741041892fae5b52cb8beb5b1efe3589d96))
+
 ## [0.9.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.8.0...alrayyes.github.io-v0.9.0) (2026-10-02)
 
 
