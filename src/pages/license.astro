@@ -9,36 +9,10 @@ import licenseText from "../../LICENSE?raw";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import Layout from "../layouts/Layout.astro";
 import { licenseSections } from "../lib/licenseSections";
+import { licenseSummary } from "../lib/licenseSummary";
 
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 const sections = licenseSections(licenseText);
-
-// Wording follows TLDRLegal's GPL-3.0 summary, linked from the page.
-// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
-const summary = [
-  {
-    title: "Permissions",
-    points: [
-      "Commercial use",
-      "Modify",
-      "Distribute",
-      "Place warranty",
-      "Use patent claims",
-    ],
-  },
-  {
-    title: "Conditions",
-    points: [
-      "Include original",
-      "State changes",
-      "Disclose source",
-      "Include license",
-      "Include copyright",
-      "Include install instructions",
-    ],
-  },
-  { title: "Limitations", points: ["No sublicensing", "No liability"] },
-];
 ---
 
 <Layout title="License — APIs">
@@ -59,7 +33,7 @@ const summary = [
       Summary
     </h2>
     <div class="mt-3 grid gap-4 sm:grid-cols-3">
-      {summary.map((group) => (
+      {licenseSummary.map((group) => (
         <div>
           <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-100">
             {group.title}
