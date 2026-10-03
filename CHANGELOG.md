@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.9.1...alrayyes.github.io-v0.10.0) (2026-10-03)
+
+
+### Features
+
+* add a plain-English summary to the license page ([#62](https://github.com/alrayyes/alrayyes.github.io/issues/62)) ([9f8a66a](https://github.com/alrayyes/alrayyes.github.io/commit/9f8a66a7dc35437eff29d37497b163b30cc67452))
+
 ## [0.9.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.9.0...alrayyes.github.io-v0.9.1) (2026-10-03)
 
 
