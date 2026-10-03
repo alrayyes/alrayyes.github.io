@@ -1,0 +1,25 @@
+name: Feature request
+description: Suggest a change or an addition to the site.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: "As a ‹who›, I want ‹what›, so that ‹why›."
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+      description: Three to five testable rules, in Given-When-Then form.
+    validations:
+      required: true
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: Definition of done
+      description: Tests passing, diff reviewed, docs and README true again, QA'd against the criteria.
+    validations:
+      required: true
