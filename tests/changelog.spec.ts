@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
+import { expectNoAxeViolations } from "./axe";
 
 test("each changelog release heading shows its version and date", async ({ page }) => {
   await page.goto("/changelog");
+  await expectNoAxeViolations(page);
   const headings = await page.getByRole("heading", { level: 2 }).allTextContents();
   expect(headings.length).toBeGreaterThan(0);
   for (const heading of headings) {
