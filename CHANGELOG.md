@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.11.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.10.0...alrayyes.github.io-v0.11.0) (2026-10-03)
+
+
+### Features
+
+* warn on CSS outside Baseline with Biome's useBaseline ([#85](https://github.com/alrayyes/alrayyes.github.io/issues/85)) ([9d0ed6e](https://github.com/alrayyes/alrayyes.github.io/commit/9d0ed6e0f94ccdd1fd657c727bccaf61d3c38f3f))
+
+
+### Bug Fixes
+
+* **deps:** bump the bun-dependencies group with 4 updates ([#76](https://github.com/alrayyes/alrayyes.github.io/issues/76)) ([4f30fe1](https://github.com/alrayyes/alrayyes.github.io/commit/4f30fe1682c475123389f6dab007fbab965d9e5a))
+
 ## [0.10.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.9.1...alrayyes.github.io-v0.10.0) (2026-10-03)
 
 
