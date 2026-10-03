@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
+import { expectNoAxeViolations } from "./axe";
 
 test("API card links are bordered chips and the API docs chip stands out", async ({ page }) => {
   await page.goto("/");
+  await expectNoAxeViolations(page);
   const card = page.getByRole("region", { name: "hush-hush" });
   const style = (name: string) =>
     card.getByRole("link", { name, exact: true }).evaluate((el) => {

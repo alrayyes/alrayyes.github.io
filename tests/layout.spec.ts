@@ -1,13 +1,5 @@
-import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-
-for (const path of ["/", "/disclaimer", "/privacy", "/changelog", "/license"]) {
-  test(`${path} has no detectable accessibility violations`, async ({ page }) => {
-    await page.goto(path);
-    const results = await new AxeBuilder({ page }).analyze();
-    expect(results.violations).toEqual([]);
-  });
-}
+import { expectNoAxeViolations } from "./axe";
 
 test("lists every API with a repo, spec and at least one SDK link", async ({ page }) => {
   await page.goto("/");
@@ -95,6 +87,7 @@ test("theme toggle overrides the OS preference and persists across reload", asyn
   await toggle.click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(page.getByRole("button", { name: "Switch to light theme" })).toBeVisible();
+  await expectNoAxeViolations(page);
 
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
