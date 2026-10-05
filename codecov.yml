@@ -1,0 +1,9 @@
+# Coverage is visibility, not a merge gate: the project and patch statuses
+# and the pull request comment stay off. The badge and the report itself are
+# unaffected.
+coverage:
+  status:
+    project: off
+    patch: off
+
+comment: false
