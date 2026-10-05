@@ -13,6 +13,7 @@ Dependabot
 forge-dashboard
 GitHub
 hush-hush
+JUnit
 lefthook
 LTeX
 ltex-cli-plus

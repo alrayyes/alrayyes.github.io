@@ -49,6 +49,12 @@ CI uploads the unit layer's line coverage (`bun run test:coverage`) to
 Codecov. It's there to look at, not a gate: `codecov.yml` turns off the
 status checks and the pull request comment.
 
+CI also uploads the unit and Playwright JUnit results, which Codecov uses for
+failure and flake history, and the build's bundle size, through
+`@codecov/astro-plugin` in `astro.config.mjs`. The plugin needs
+`CODECOV_TOKEN`, which only CI has: without it, a local build runs the plugin
+dry and uploads nothing.
+
 ## What CI runs
 
 A `changes` job in `ci.yml` works out which files a pull request touches
