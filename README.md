@@ -28,7 +28,9 @@ Every one of these is what a hook or CI runs — see `lefthook.yml` and
 bun run dev
 bun run build
 bun run check                 # astro check, type-checks .astro and .ts together
-bun run test                  # playwright, against the built site
+bun run test                  # unit, then playwright
+bun run test:unit             # bun test, for src/lib
+bun run test:e2e              # playwright, against the built site
 
 bun run lint                  # biome check ., the check-only form
 bun run format                # biome check --write ., the fixer
