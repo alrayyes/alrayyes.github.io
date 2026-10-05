@@ -1,6 +1,7 @@
 # alrayyes.github.io
 
 [![CI](https://github.com/alrayyes/alrayyes.github.io/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/alrayyes/alrayyes.github.io/actions/workflows/ci.yml)
+[![Codecov](https://codecov.io/gh/alrayyes/alrayyes.github.io/graph/badge.svg)](https://codecov.io/gh/alrayyes/alrayyes.github.io)
 [![release](https://img.shields.io/github/v/release/alrayyes/alrayyes.github.io?sort=semver)](https://github.com/alrayyes/alrayyes.github.io/releases/latest)
 [![licence](https://img.shields.io/badge/licence-GPL--3.0--or--later-blue.svg)](LICENSE)
 
@@ -30,6 +31,7 @@ bun run build
 bun run check                 # astro check, type-checks .astro and .ts together
 bun run test                  # unit, then playwright
 bun run test:unit             # bun test, for src/lib
+bun run test:coverage         # the same, writing coverage/lcov.info for Codecov
 bun run test:e2e              # playwright, against the built site
 
 bun run lint                  # biome check ., the check-only form

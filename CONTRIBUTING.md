@@ -45,6 +45,9 @@ Two layers, each there because the other can't cover it:
 
 Logic goes in `src/lib` with a unit test beside it. A behaviour a visitor
 can see gets a Playwright journey. `bun run test` runs both.
+CI uploads the unit layer's line coverage (`bun run test:coverage`) to
+Codecov. It's there to look at, not a gate: `codecov.yml` turns off the
+status checks and the pull request comment.
 
 ## What CI runs
 

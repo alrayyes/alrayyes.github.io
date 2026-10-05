@@ -119,8 +119,18 @@ jobs:
         run: |
           bunx playwright install --with-deps chromium ||
             (sleep 5 && bunx playwright install --with-deps chromium)
-      - name: unit tests
-        run: bun run test:unit
+      - name: unit tests with coverage
+        run: bun run test:coverage
+      - name: upload coverage to Codecov
+        # Dependabot runs get Dependabot's own secret store, which has no
+        # CODECOV_TOKEN, so the upload would fail a pull request that changed
+        # nothing about coverage.
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage/lcov.info
+          fail_ci_if_error: true
       - name: playwright test
         run: bun run test:e2e
       - name: upload the report on failure
