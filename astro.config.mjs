@@ -1,4 +1,5 @@
 // @ts-check
+import codecovAstroPlugin from "@codecov/astro-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
@@ -11,6 +12,18 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://apis.ryankes.eu",
   output: "static",
+  integrations: [
+    // Bundle size analysis, uploaded to Codecov during the CI build. Last in
+    // the list, as the plugin asks. With no CODECOV_TOKEN (a local build, a
+    // Dependabot run) it runs dry instead of failing the build.
+    codecovAstroPlugin({
+      enableBundleAnalysis: true,
+      bundleName: "alrayyes.github.io",
+      uploadToken: process.env.CODECOV_TOKEN,
+      gitService: "github",
+      dryRun: !process.env.CODECOV_TOKEN,
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

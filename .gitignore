@@ -11,6 +11,9 @@ dist/
 # bun test --coverage's lcov report, uploaded to Codecov by CI.
 coverage/
 
+# bun test's JUnit report, uploaded to Codecov by CI.
+junit/
+
 # Playwright's own run output.
 test-results/
 playwright-report/

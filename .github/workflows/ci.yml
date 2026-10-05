@@ -120,7 +120,9 @@ jobs:
           bunx playwright install --with-deps chromium ||
             (sleep 5 && bunx playwright install --with-deps chromium)
       - name: unit tests with coverage
-        run: bun run test:coverage
+        run: |
+          mkdir -p junit
+          bun run test:coverage --reporter=junit --reporter-outfile=junit/unit.xml
       - name: upload coverage to Codecov
         # Dependabot runs get Dependabot's own secret store, which has no
         # CODECOV_TOKEN, so the upload would fail a pull request that changed
@@ -133,6 +135,19 @@ jobs:
           fail_ci_if_error: true
       - name: playwright test
         run: bun run test:e2e
+        # The build Playwright serves is the one Codecov measures on a pull
+        # request, so the bundle report appears there too.
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - name: upload test results to Codecov
+        # Even when a test failed: a red run is what test analytics is for.
+        if: ${{ !cancelled() && github.actor != 'dependabot[bot]' }}
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          report_type: test_results
+          files: junit/unit.xml,playwright-report/junit.xml
+          fail_ci_if_error: true
       - name: upload the report on failure
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -211,6 +226,10 @@ jobs:
         run: bun install --frozen-lockfile
       - name: build
         run: bun run build
+        # Uploads the bundle report for main, the baseline pull requests are
+        # compared against.
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
