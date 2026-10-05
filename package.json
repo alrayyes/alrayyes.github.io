@@ -20,6 +20,7 @@
     "sort-package-json": "sort-package-json",
     "sort-package-json:check": "sort-package-json --check",
     "test": "bun run test:unit && bun run test:e2e",
+    "test:coverage": "bun run test:unit --coverage --coverage-reporter=lcov",
     "test:e2e": "playwright test",
     "test:unit": "bun test src"
   },
