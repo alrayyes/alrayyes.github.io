@@ -81,8 +81,10 @@ jobs:
         run: |
           bunx playwright install --with-deps chromium ||
             (sleep 5 && bunx playwright install --with-deps chromium)
+      - name: unit tests
+        run: bun run test:unit
       - name: playwright test
-        run: bun run test
+        run: bun run test:e2e
       - name: upload the report on failure
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
