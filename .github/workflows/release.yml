@@ -3,8 +3,8 @@
 # version and the changelog entry; merging that pull request bumps
 # package.json, tags the release and writes the notes.
 #
-# No deploy step here: pages.yml builds the site and deploys it to GitHub
-# Pages on every push to main.
+# No deploy step here: ci.yml builds the site and deploys it to GitHub
+# Pages on every push to main, once its gates are green.
 name: release
 
 on:
