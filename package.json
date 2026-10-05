@@ -19,8 +19,9 @@
     "preview": "astro preview",
     "sort-package-json": "sort-package-json",
     "sort-package-json:check": "sort-package-json --check",
-    "test": "bun run test:e2e",
-    "test:e2e": "playwright test"
+    "test": "bun run test:unit && bun run test:e2e",
+    "test:e2e": "playwright test",
+    "test:unit": "bun test src"
   },
   "overrides": {
     "smol-toml": "1.7.1"
