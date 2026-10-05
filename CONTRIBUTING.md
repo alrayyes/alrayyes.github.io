@@ -46,6 +46,19 @@ Two layers, each there because the other can't cover it:
 Logic goes in `src/lib` with a unit test beside it. A behaviour a visitor
 can see gets a Playwright journey. `bun run test` runs both.
 
+## What CI runs
+
+A `changes` job in `ci.yml` works out which files a pull request touches
+(`scripts/changed-groups.sh`), and `lint`, `audit`, `security`, `test` and
+`prose` run only when something they read changed. A docs-only pull request
+skips `test`, for example. GitHub counts a job skipped this way as passing,
+so every required check still reports. `commits`, the secret scan, and the
+title check always run. Touching `ci.yml` itself runs everything.
+
+When a job starts reading a new kind of file, add it to the script and a
+case to `scripts/changed-groups.test.ts`. The pre-push globs in
+`lefthook.yml` mirror the same groups.
+
 ## Commit messages
 
 [Conventional Commits](https://www.conventionalcommits.org/), enforced by
