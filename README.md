@@ -51,4 +51,6 @@ and deploy it to GitHub Pages on every push to `main`, served at the custom
 domain `apis.ryankes.eu` (`public/CNAME`, with a DNS `CNAME` record pointed
 at `alrayyes.github.io`). They need the `lint`, `audit`, `security`, `test`
 and `prose` jobs, so a red run on `main` deploys nothing. The Actions tab's
-"Run workflow" button redeploys by hand, through the same gates.
+"Run workflow" button redeploys by hand, through the same gates. The
+reason for GitHub Pages over Cloudflare is in
+[the deployment decision record](docs/adr/0001-deploy-to-github-pages.md).
