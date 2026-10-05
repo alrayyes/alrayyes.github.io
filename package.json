@@ -22,7 +22,7 @@
     "test": "bun run test:unit && bun run test:e2e",
     "test:coverage": "bun run test:unit --coverage --coverage-reporter=lcov",
     "test:e2e": "playwright test",
-    "test:unit": "bun test src"
+    "test:unit": "bun test src scripts"
   },
   "overrides": {
     "smol-toml": "1.7.1"

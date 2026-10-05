@@ -20,7 +20,38 @@ env:
   LEFTHOOK: "0"
 
 jobs:
+  # Works out which files this run touches, so each job below runs only when
+  # something it reads changed. A job skipped by `if:` reports success, which
+  # keeps the required checks green on a docs-only pull request; a workflow
+  # skipped by `paths:` would stay pending and block it. `commits` and the
+  # secret scan are never filtered, and `workflow_dispatch` runs everything.
+  changes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      site: ${{ steps.groups.outputs.site }}
+      deps: ${{ steps.groups.outputs.deps }}
+      security: ${{ steps.groups.outputs.security }}
+      prose: ${{ steps.groups.outputs.prose }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - id: groups
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          # No usable base (a manual run, a first push, a base that's no longer
+          # in history): run everything rather than guess.
+          if [ "$EVENT" = workflow_dispatch ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            printf 'site=true\ndeps=true\nsecurity=true\nprose=true\n' | tee -a "$GITHUB_OUTPUT"
+          else
+            git diff --name-only "$BASE...HEAD" | ./scripts/changed-groups.sh | tee -a "$GITHUB_OUTPUT"
+          fi
   lint:
+    needs: changes
+    if: needs.changes.outputs.site == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -40,6 +71,8 @@ jobs:
         run: bun run check
 
   audit:
+    needs: changes
+    if: needs.changes.outputs.deps == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -59,6 +92,8 @@ jobs:
   # tracking; this is the separate security pass that can — the free
   # Semgrep Registry ruleset, no paid tier or account needed.
   security:
+    needs: changes
+    if: needs.changes.outputs.security == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     container:
@@ -69,6 +104,8 @@ jobs:
         run: semgrep scan --config auto --error
 
   test:
+    needs: changes
+    if: needs.changes.outputs.site == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -107,6 +144,8 @@ jobs:
   # Layout and structure. Style and mechanics are prose.yml — see its header
   # comment for why they're split out.
   prose:
+    needs: changes
+    if: needs.changes.outputs.prose == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -150,9 +189,17 @@ jobs:
   # Lives in this workflow, not its own, so `needs` can hold the deploy back
   # until every gate above is green. A red lint, test, audit or semgrep run
   # on main ships nothing.
+  #
+  # A job that needs a skipped job is skipped too, so the gates can't simply
+  # be `needs`: a docs-only push would skip the build. `always()` lets a
+  # skipped gate through, and the two `contains` checks still stop a failed
+  # or cancelled one.
   build:
-    if: github.event_name != 'pull_request'
     needs: [lint, audit, security, test, prose]
+    if: >-
+      always() && github.event_name != 'pull_request'
+      && !contains(needs.*.result, 'failure')
+      && !contains(needs.*.result, 'cancelled')
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:

@@ -36,35 +36,121 @@ commit-msg:
     - name: commitlint
       run: bunx commitlint --edit {1}
 
+# The globs below mirror scripts/changed-groups.sh, so the hook skips what the
+# pipeline skips: a docs-only push doesn't run Playwright locally either.
 pre-push:
   parallel: true
   jobs:
     - name: unit
       run: bun run test:unit
+      glob:
+        - "src/**"
+        - "public/**"
+        - "tests/**"
+        - "scripts/changed-groups.*"
+        - "astro.config.mjs"
+        - "tsconfig.json"
+        - "package.json"
+        - "bun.lock"
+        - "biome.json"
+        - ".oxlintrc.json"
+        - "playwright.config.ts"
+        - "CHANGELOG.md"
+        - "LICENSE"
 
     - name: e2e
       run: bun run test:e2e
+      glob:
+        - "src/**"
+        - "public/**"
+        - "tests/**"
+        - "scripts/changed-groups.*"
+        - "astro.config.mjs"
+        - "tsconfig.json"
+        - "package.json"
+        - "bun.lock"
+        - "biome.json"
+        - ".oxlintrc.json"
+        - "playwright.config.ts"
+        - "CHANGELOG.md"
+        - "LICENSE"
 
     - name: check
       run: bun run check
+      glob:
+        - "src/**"
+        - "public/**"
+        - "tests/**"
+        - "scripts/changed-groups.*"
+        - "astro.config.mjs"
+        - "tsconfig.json"
+        - "package.json"
+        - "bun.lock"
+        - "biome.json"
+        - ".oxlintrc.json"
+        - "playwright.config.ts"
+        - "CHANGELOG.md"
+        - "LICENSE"
 
     - name: biome
       run: bun run lint
+      glob:
+        - "src/**"
+        - "public/**"
+        - "tests/**"
+        - "scripts/changed-groups.*"
+        - "astro.config.mjs"
+        - "tsconfig.json"
+        - "package.json"
+        - "bun.lock"
+        - "biome.json"
+        - ".oxlintrc.json"
+        - "playwright.config.ts"
+        - "CHANGELOG.md"
+        - "LICENSE"
 
     - name: tailwind
       run: bun run lint:tailwind
+      glob:
+        - "src/**"
+        - "public/**"
+        - "tests/**"
+        - "scripts/changed-groups.*"
+        - "astro.config.mjs"
+        - "tsconfig.json"
+        - "package.json"
+        - "bun.lock"
+        - "biome.json"
+        - ".oxlintrc.json"
+        - "playwright.config.ts"
+        - "CHANGELOG.md"
+        - "LICENSE"
 
     - name: prettier
       run: bun run format:check
+      glob:
+        - "**/*.{md,yml,yaml,astro}"
+        - ".prettierrc.json"
+        - ".prettierignore"
+        - ".markdownlint-cli2.yaml"
 
     - name: markdownlint
       run: bun run lint:md
+      glob:
+        - "**/*.{md,yml,yaml,astro}"
+        - ".prettierrc.json"
+        - ".prettierignore"
+        - ".markdownlint-cli2.yaml"
 
     - name: sort-package-json
       run: bun run sort-package-json:check
+      glob:
+        - "package.json"
 
     - name: vale
       run: bun run lint:prose
+      glob: "**/*.md"
 
     - name: mechanics
       run: bun run lint:mechanics
+      glob: "**/*.md"

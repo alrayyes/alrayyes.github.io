@@ -49,6 +49,19 @@ CI uploads the unit layer's line coverage (`bun run test:coverage`) to
 Codecov. It's there to look at, not a gate: `codecov.yml` turns off the
 status checks and the pull request comment.
 
+## What CI runs
+
+A `changes` job in `ci.yml` works out which files a pull request touches
+(`scripts/changed-groups.sh`), and `lint`, `audit`, `security`, `test` and
+`prose` run only when something they read changed. A docs-only pull request
+skips `test`, for example. GitHub counts a job skipped this way as passing,
+so every required check still reports. `commits`, the secret scan, and the
+title check always run. Touching `ci.yml` itself runs everything.
+
+When a job starts reading a new kind of file, add it to the script and a
+case to `scripts/changed-groups.test.ts`. The pre-push globs in
+`lefthook.yml` mirror the same groups.
+
 ## Commit messages
 
 [Conventional Commits](https://www.conventionalcommits.org/), enforced by
