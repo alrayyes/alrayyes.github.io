@@ -75,6 +75,14 @@ format, and a filter to find a repo by name. The page is built from this site's
 own reports and the two data files, so adding a repo's `reports` entry
 updates it with the next deploy.
 
+Each repo's section links to its own page, at `/reports/<repo>/`. The page opens
+the repo's Lighthouse and test directories in the browser, reads the file names
+from the index page its pipeline wrote there (GitHub Pages can't list a
+directory), and shows one row per audited page with its four scores, and one row
+per test file with its tests, failures, errors, skipped and time. Where a
+directory has no index page, or JavaScript is off, it shows the links the
+catalogue holds.
+
 Every deploy also publishes this repo's own test and coverage reports under
 that path:
 

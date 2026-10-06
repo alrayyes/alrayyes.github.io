@@ -40,8 +40,16 @@ const pill =
         {section.name}
       </a>
     </h2>
-    <span class="rounded border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-xs font-medium text-slate-700 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-300">
-      {section.kind}
+    <span class="flex items-center gap-3">
+      <a
+        href={`/reports/${section.name}/`}
+        class="inline-flex min-h-8 items-center text-sm font-medium text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
+      >
+        Details<span class="sr-only"> for {section.name}</span>
+      </a>
+      <span class="rounded border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-xs font-medium text-slate-700 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-300">
+        {section.kind}
+      </span>
     </span>
   </div>
 
