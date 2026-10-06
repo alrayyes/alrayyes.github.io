@@ -104,7 +104,12 @@
         {
           "language": "PHP",
           "repo": "https://github.com/alrayyes/pipeline-analytics-sdk-php",
-          "docs": "https://alrayyes.github.io/pipeline-analytics-sdk-php/"
+          "docs": "https://alrayyes.github.io/pipeline-analytics-sdk-php/",
+          "reports": {
+            "tests": "https://apis.ryankes.eu/pipeline-analytics-sdk-php/reports/tests/unit.xml",
+            "coverage": "https://apis.ryankes.eu/pipeline-analytics-sdk-php/reports/coverage/",
+            "coverageXml": "https://apis.ryankes.eu/pipeline-analytics-sdk-php/reports/coverage/coverage.xml"
+          }
         },
         {
           "language": "Node.js / TypeScript",
