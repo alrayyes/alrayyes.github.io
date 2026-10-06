@@ -100,6 +100,12 @@
       "repo": "https://github.com/alrayyes/pipeline-analytics",
       "spec": "https://github.com/alrayyes/pipeline-analytics/blob/main/openapi/openapi.yaml",
       "docs": "https://apis.ryankes.eu/pipeline-analytics/docs/api/#description/introduction",
+      "reports": {
+        "lighthouse": "https://apis.ryankes.eu/pipeline-analytics/reports/lighthouse/",
+        "tests": "https://apis.ryankes.eu/pipeline-analytics/reports/tests/",
+        "coverage": "https://apis.ryankes.eu/pipeline-analytics/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/pipeline-analytics/reports/coverage/coverage.xml"
+      },
       "sdks": [
         {
           "language": "PHP",
