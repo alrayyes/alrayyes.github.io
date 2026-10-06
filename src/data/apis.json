@@ -85,7 +85,12 @@
         {
           "language": "Go",
           "repo": "https://github.com/alrayyes/forge-dashboard-sdk-go",
-          "docs": "https://pkg.go.dev/github.com/alrayyes/forge-dashboard-sdk-go"
+          "docs": "https://pkg.go.dev/github.com/alrayyes/forge-dashboard-sdk-go",
+          "reports": {
+            "tests": "https://apis.ryankes.eu/forge-dashboard-sdk-go/reports/tests/",
+            "coverage": "https://apis.ryankes.eu/forge-dashboard-sdk-go/reports/coverage/",
+            "coverageXml": "https://apis.ryankes.eu/forge-dashboard-sdk-go/reports/coverage/coverage.xml"
+          }
         }
       ]
     },
