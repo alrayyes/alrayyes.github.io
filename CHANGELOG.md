@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.23.0...alrayyes.github.io-v0.23.1) (2026-10-06)
+
+
+### Bug Fixes
+
+* **catalogue:** point the hush-hush Lighthouse link at its index ([#151](https://github.com/alrayyes/alrayyes.github.io/issues/151)) ([e019325](https://github.com/alrayyes/alrayyes.github.io/commit/e0193253fb1d3ef6f12dbf27e6316f6f0a76225f))
+
 ## [0.23.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.22.0...alrayyes.github.io-v0.23.0) (2026-10-06)
 
 
