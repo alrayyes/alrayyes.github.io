@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.13.0...alrayyes.github.io-v0.13.1) (2026-10-06)
+
+
+### Bug Fixes
+
+* publish the reports at /reports/, not under the repo name ([#115](https://github.com/alrayyes/alrayyes.github.io/issues/115)) ([c44e243](https://github.com/alrayyes/alrayyes.github.io/commit/c44e243ca865d98a88969eed8a0b7e7263a87731))
+
 ## [0.13.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.12.0...alrayyes.github.io-v0.13.0) (2026-10-06)
 
 
