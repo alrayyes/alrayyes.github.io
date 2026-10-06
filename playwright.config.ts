@@ -14,7 +14,13 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI
-    ? [["list"], ["junit", { outputFile: "playwright-report/junit.xml" }]]
+    ? [
+        ["list"],
+        ["junit", { outputFile: "playwright-report/junit.xml" }],
+        // Published with the other reports; a subfolder, so it doesn't clear
+        // junit.xml when it starts.
+        ["html", { open: "never", outputFolder: "playwright-report/html" }],
+      ]
     : "list",
   use: {
     baseURL: `http://localhost:${PORT}`,

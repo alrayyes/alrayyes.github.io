@@ -60,3 +60,19 @@ and `prose` jobs, so a red run on `main` deploys nothing. The Actions tab's
 "Run workflow" button redeploys by hand, through the same gates. The
 reason for GitHub Pages over Cloudflare is in
 [the deployment decision record](docs/adr/0001-deploy-to-github-pages.md).
+
+## Reports
+
+Every deploy also publishes this repo's own test and coverage reports, at
+[apis.ryankes.eu/alrayyes.github.io/reports](https://apis.ryankes.eu/alrayyes.github.io/reports/):
+
+- `tests/`: the JUnit XML of the unit and end-to-end runs, and Playwright's
+  HTML report.
+- `coverage/`: an HTML view, `coverage.xml` (Cobertura) and
+  `lcov.info`.
+
+The `test` job writes them and `scripts/assemble-reports.ts` lays them out; the
+`build` job adds the result to the site. The job installs `lcov` (for
+`genhtml`) and `lcov_cobertura` itself, so neither is a local requirement. A
+push to `main` always runs every job, because a deploy replaces the whole site
+and would otherwise drop the reports.

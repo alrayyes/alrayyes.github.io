@@ -34,3 +34,4 @@ Semgrep
 Tailwind
 toolchain
 wrangler
+Cobertura

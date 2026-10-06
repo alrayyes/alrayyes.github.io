@@ -25,6 +25,9 @@ jobs:
   # keeps the required checks green on a docs-only pull request; a workflow
   # skipped by `paths:` would stay pending and block it. `commits` and the
   # secret scan are never filtered, and `workflow_dispatch` runs everything.
+  # So does a push: a deploy replaces the whole site, and the test and
+  # coverage reports come from the test job, so a deploy that skipped it
+  # would delete them.
   changes:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -44,7 +47,7 @@ jobs:
         run: |
           # No usable base (a manual run, a first push, a base that's no longer
           # in history): run everything rather than guess.
-          if [ "$EVENT" = workflow_dispatch ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+          if [ "$EVENT" != pull_request ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
             printf 'site=true\ndeps=true\nsecurity=true\nprose=true\n' | tee -a "$GITHUB_OUTPUT"
           else
             git diff --name-only "$BASE...HEAD" | ./scripts/changed-groups.sh | tee -a "$GITHUB_OUTPUT"
@@ -123,6 +126,15 @@ jobs:
         run: |
           mkdir -p junit
           bun run test:coverage --reporter=junit --reporter-outfile=junit/unit.xml
+      - name: coverage as Cobertura XML and an HTML view
+        # lcov.info is what bun writes; the reports we publish are the
+        # Cobertura XML and genhtml's browsable view of it. Runs on pull
+        # requests too, so a broken step shows up before a merge, not on main.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends lcov
+          pipx run --spec lcov_cobertura==2.1.1 lcov_cobertura coverage/lcov.info --output coverage/coverage.xml
+          genhtml coverage/lcov.info --output-directory coverage/html
       - name: upload coverage to Codecov
         # Dependabot runs get Dependabot's own secret store, which has no
         # CODECOV_TOKEN, so the upload would fail a pull request that changed
@@ -155,6 +167,17 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 7
+
+      - name: assemble the test and coverage reports
+        run: bun scripts/assemble-reports.ts site-reports
+      - name: keep the reports for the deploy
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: reports
+          path: site-reports/
+          if-no-files-found: error
+          retention-days: 1
 
   # Layout and structure. Style and mechanics are prose.yml — see its header
   # comment for why they're split out.
@@ -230,6 +253,14 @@ jobs:
         # compared against.
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - name: add the test and coverage reports
+        # After the build, which empties dist/. Served at
+        # apis.ryankes.eu/alrayyes.github.io/reports/, where the catalogue
+        # expects every repo's reports.
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: reports
+          path: dist/alrayyes.github.io/reports
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
