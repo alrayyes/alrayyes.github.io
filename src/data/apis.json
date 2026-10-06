@@ -26,7 +26,12 @@
         {
           "language": "Node.js / TypeScript",
           "repo": "https://github.com/alrayyes/hush-hush-node",
-          "docs": "https://alrayyes.github.io/hush-hush-node/"
+          "docs": "https://alrayyes.github.io/hush-hush-node/",
+          "reports": {
+            "tests": "https://apis.ryankes.eu/hush-hush-node/reports/tests/unit.xml",
+            "coverage": "https://apis.ryankes.eu/hush-hush-node/reports/coverage/",
+            "coverageXml": "https://apis.ryankes.eu/hush-hush-node/reports/coverage/coverage.xml"
+          }
         },
         {
           "language": "Python",
