@@ -126,6 +126,22 @@ describe("lighthouseRowsFromFiles", () => {
       "localhost-index_html-2026_10_06_13_50_25.report.html",
       "lhr-1791294384581.html",
     ]);
-    expect(rows.map((r) => r.page)).toEqual(["index_html"]);
+    expect(rows.map((r) => r.page)).toEqual(["index.html"]);
+  });
+
+  test("makes one row of a page's several runs, the newest first and the older ones behind it", () => {
+    const rows = lighthouseRowsFromFiles([
+      "localhost-login-2026_10_06_13_46_15.report.html",
+      "localhost-login-2026_10_06_13_46_39.report.html",
+      "localhost-login-2026_10_06_13_46_28.report.html",
+      "localhost-home-2026_10_06_13_46_15.report.html",
+    ]);
+    expect(rows.map((r) => r.page)).toEqual(["home", "login"]);
+    const login = rows.find((r) => r.page === "login");
+    expect(login?.representative.html).toBe("localhost-login-2026_10_06_13_46_39.report.html");
+    expect(login?.others.map((o) => o.html)).toEqual([
+      "localhost-login-2026_10_06_13_46_28.report.html",
+      "localhost-login-2026_10_06_13_46_15.report.html",
+    ]);
   });
 });

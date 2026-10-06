@@ -88,20 +88,28 @@ export function lighthouseRowsFromManifest(manifest: ManifestRun[]): LighthouseR
 
 // Without a manifest there are no scores, only the reports a directory lists.
 // Lighthouse CI also writes lhr-*.html copies of the same runs, which are left
-// out, and names its files <host>-<page>-<timestamp>.report.html.
+// out, and names its files <host>-<page>-<timestamp>.report.html. The runs of
+// one page become one row, the newest first: the timestamp sorts as text.
 export function lighthouseRowsFromFiles(files: string[]): LighthouseRow[] {
-  return files
+  const byPage = new Map<string, LighthouseRun[]>();
+  for (const html of files
     .filter((file) => file.endsWith(".report.html"))
-    .map((html) => {
-      const stem = html.slice(0, -".report.html".length);
-      const json = `${stem}.report.json`;
-      const page = stem
-        .replace(/^localhost-/, "")
-        .replace(/-\d{4}_\d{2}_\d{2}_\d{2}_\d{2}_\d{2}$/, "");
-      return {
-        page,
-        representative: { html, json: files.includes(json) ? json : undefined, scores: null },
-        others: [],
-      };
-    });
+    .sort()
+    .reverse()) {
+    const stem = html.slice(0, -".report.html".length);
+    const json = `${stem}.report.json`;
+    const page = stem
+      .replace(/^localhost-/, "")
+      .replace(/-\d{4}_\d{2}_\d{2}_\d{2}_\d{2}_\d{2}$/, "")
+      .replace(/_html$/, ".html");
+    const run = { html, json: files.includes(json) ? json : undefined, scores: null };
+    byPage.set(page, [...(byPage.get(page) ?? []), run]);
+  }
+  return [...byPage.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([page, [representative, ...others]]) => ({
+      page,
+      representative: representative as LighthouseRun,
+      others,
+    }));
 }
