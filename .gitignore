@@ -14,8 +14,10 @@ coverage/
 # bun test's JUnit report, uploaded to Codecov by CI.
 junit/
 
-# The reports CI assembles for the deploy, see scripts/assemble-reports.ts.
+# The reports CI assembles for the deploy, see scripts/assemble-reports.ts,
+# and the Lighthouse run that feeds them, see scripts/lighthouse.sh.
 site-reports/
+lighthouse/
 
 # Playwright's own run output.
 test-results/

@@ -7,7 +7,7 @@
 // It refuses to run when a required file is missing: a half-populated
 // reports directory would deploy, replace the last good one, and 404 the
 // links the catalogue points at.
-import { access, cp, mkdir, writeFile } from "node:fs/promises";
+import { access, cp, mkdir, readdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 export interface IndexLink {
@@ -66,6 +66,26 @@ const exists = (path: string) =>
     () => false,
   );
 
+// One HTML and one JSON report per audited page, named <page>.report.html and
+// <page>.report.json, which is what the lighthouse CLI writes for
+// --output-path <dir>/<page>. At least one page, and no HTML without its JSON.
+async function lighthousePages(root: string): Promise<string[]> {
+  const files = await readdir(join(root, "lighthouse")).catch((): string[] => []);
+  const pages = files
+    .filter((file) => file.endsWith(".report.html"))
+    .map((file) => file.slice(0, -".report.html".length))
+    .sort();
+  if (pages.length === 0) {
+    throw new Error("missing report input: lighthouse/*.report.html");
+  }
+  for (const page of pages) {
+    if (!files.includes(`${page}.report.json`)) {
+      throw new Error(`missing report input: lighthouse/${page}.report.json`);
+    }
+  }
+  return pages;
+}
+
 export async function assembleReports({ root, out }: { root: string; out: string }) {
   for (const path of REQUIRED) {
     if (!(await exists(join(root, path)))) {
@@ -85,6 +105,28 @@ export async function assembleReports({ root, out }: { root: string; out: string
   await cp(join(root, "coverage/lcov.info"), join(out, "coverage/lcov.info"));
   await cp(join(root, "coverage/coverage.xml"), join(out, "coverage/coverage.xml"));
 
+  const pages = await lighthousePages(root);
+  await mkdir(join(out, "lighthouse"), { recursive: true });
+  const lighthouseLinks: IndexLink[] = [];
+  for (const page of pages) {
+    await cp(
+      join(root, `lighthouse/${page}.report.html`),
+      join(out, `lighthouse/${page}.report.html`),
+    );
+    await cp(
+      join(root, `lighthouse/${page}.report.json`),
+      join(out, `lighthouse/${page}.report.json`),
+    );
+    lighthouseLinks.push(
+      { label: `${page} (HTML report)`, href: `${page}.report.html` },
+      { label: `${page} (JSON)`, href: `${page}.report.json` },
+    );
+  }
+  await writeFile(
+    join(out, "lighthouse/index.html"),
+    renderIndex("Lighthouse reports", lighthouseLinks),
+  );
+
   const testLinks: IndexLink[] = [
     { label: "Unit tests (JUnit XML)", href: "unit.xml" },
     { label: "End-to-end tests (JUnit XML)", href: "playwright.xml" },
@@ -99,6 +141,7 @@ export async function assembleReports({ root, out }: { root: string; out: string
       { label: "Test results", href: "tests/" },
       { label: "Coverage", href: "coverage/" },
       { label: "Coverage (Cobertura XML)", href: "coverage/coverage.xml" },
+      { label: "Lighthouse", href: "lighthouse/" },
     ]),
   );
 }

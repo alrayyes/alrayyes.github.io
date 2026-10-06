@@ -71,9 +71,12 @@ Every deploy also publishes this repo's own test and coverage reports, at
   HTML report.
 - `coverage/`: an HTML view, `coverage.xml` (Cobertura) and
   `lcov.info`.
+- `lighthouse/`: an HTML and a JSON Lighthouse report for each page,
+  from `scripts/lighthouse.sh` (`bun run lighthouse` runs it locally).
 
 The `test` job writes them and `scripts/assemble-reports.ts` lays them out; the
 `build` job adds the result to the site. The job installs `lcov` (for
-`genhtml`) and `lcov_cobertura` itself, so neither is a local requirement. A
+`genhtml`) and `lcov_cobertura` itself, so neither is a local requirement.
+Lighthouse needs Node 22.19 or newer and the Chromium Playwright installs. A
 push to `main` always runs every job, because a deploy replaces the whole site
 and would otherwise drop the reports.
