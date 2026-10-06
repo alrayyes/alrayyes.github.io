@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.16.0...alrayyes.github.io-v0.17.0) (2026-10-06)
+
+
+### Features
+
+* **catalogue:** link the pipeline-analytics PHP SDK reports ([#130](https://github.com/alrayyes/alrayyes.github.io/issues/130)) ([77743b1](https://github.com/alrayyes/alrayyes.github.io/commit/77743b1b20ed467d005cd2100d39cdb91008e618))
+
 ## [0.16.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.15.0...alrayyes.github.io-v0.16.0) (2026-10-06)
 
 
