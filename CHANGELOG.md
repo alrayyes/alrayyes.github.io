@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.21.0...alrayyes.github.io-v0.22.0) (2026-10-06)
+
+
+### Features
+
+* a page per repo that shows what its Lighthouse and test reports found ([#145](https://github.com/alrayyes/alrayyes.github.io/issues/145)) ([fdfa332](https://github.com/alrayyes/alrayyes.github.io/commit/fdfa332e7987014f9973ec1d3f6c2dd9c46fec81))
+
 ## [0.21.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.20.0...alrayyes.github.io-v0.21.0) (2026-10-06)
 
 
