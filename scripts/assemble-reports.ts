@@ -1,8 +1,10 @@
 // Gathers the reports CI produced into the directory the site serves at
 // /reports/, in the layout every repo in the catalogue publishes. (Other repos
 // serve it at /<repo>/reports/; this one is the user site, which has no
-// repo-name prefix.) Run it as `bun scripts/assemble-reports.ts <out-dir>`
-// from the repo root, after the test job has written its files.
+// repo-name prefix.) It writes no /reports/index.html: that is the site's own
+// Reports page, src/pages/reports/index.astro. Run it as
+// `bun scripts/assemble-reports.ts <out-dir>` from the repo root, after the
+// test job has written its files.
 //
 // It refuses to run when a required file is missing: a half-populated
 // reports directory would deploy, replace the last good one, and 404 the
@@ -135,15 +137,6 @@ export async function assembleReports({ root, out }: { root: string; out: string
     testLinks.push({ label: "End-to-end tests (HTML report)", href: "playwright/" });
   }
   await writeFile(join(out, "tests/index.html"), renderIndex("Test results", testLinks));
-  await writeFile(
-    join(out, "index.html"),
-    renderIndex("alrayyes.github.io reports", [
-      { label: "Test results", href: "tests/" },
-      { label: "Coverage", href: "coverage/" },
-      { label: "Coverage (Cobertura XML)", href: "coverage/coverage.xml" },
-      { label: "Lighthouse", href: "lighthouse/" },
-    ]),
-  );
 }
 
 if (import.meta.main) {
