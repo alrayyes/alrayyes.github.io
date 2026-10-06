@@ -40,17 +40,32 @@
         {
           "language": "PHP",
           "repo": "https://github.com/alrayyes/forge-dashboard-sdk-php",
-          "docs": "https://alrayyes.github.io/forge-dashboard-sdk-php/"
+          "docs": "https://alrayyes.github.io/forge-dashboard-sdk-php/",
+          "reports": {
+            "tests": "https://apis.ryankes.eu/forge-dashboard-sdk-php/reports/tests/",
+            "coverage": "https://apis.ryankes.eu/forge-dashboard-sdk-php/reports/coverage/",
+            "coverageXml": "https://apis.ryankes.eu/forge-dashboard-sdk-php/reports/coverage/coverage.xml"
+          }
         },
         {
           "language": "Node.js / TypeScript",
           "repo": "https://github.com/alrayyes/forge-dashboard-sdk-node",
-          "docs": "https://alrayyes.github.io/forge-dashboard-sdk-node/"
+          "docs": "https://alrayyes.github.io/forge-dashboard-sdk-node/",
+          "reports": {
+            "tests": "https://apis.ryankes.eu/forge-dashboard-sdk-node/reports/tests/junit.xml",
+            "coverage": "https://apis.ryankes.eu/forge-dashboard-sdk-node/reports/coverage/",
+            "coverageXml": "https://apis.ryankes.eu/forge-dashboard-sdk-node/reports/coverage/coverage.xml"
+          }
         },
         {
           "language": "Python",
           "repo": "https://github.com/alrayyes/forge-dashboard-sdk-python",
-          "docs": "https://alrayyes.github.io/forge-dashboard-sdk-python/"
+          "docs": "https://alrayyes.github.io/forge-dashboard-sdk-python/",
+          "reports": {
+            "tests": "https://apis.ryankes.eu/forge-dashboard-sdk-python/reports/tests/",
+            "coverage": "https://apis.ryankes.eu/forge-dashboard-sdk-python/reports/coverage/",
+            "coverageXml": "https://apis.ryankes.eu/forge-dashboard-sdk-python/reports/coverage/coverage.xml"
+          }
         },
         {
           "language": "Go",
