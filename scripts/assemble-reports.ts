@@ -1,7 +1,8 @@
 // Gathers the reports CI produced into the directory the site serves at
-// /alrayyes.github.io/reports/, the same layout every repo in the catalogue
-// publishes. Run it as `bun scripts/assemble-reports.ts <out-dir>` from the
-// repo root, after the test job has written its files.
+// /reports/, in the layout every repo in the catalogue publishes. (Other repos
+// serve it at /<repo>/reports/; this one is the user site, which has no
+// repo-name prefix.) Run it as `bun scripts/assemble-reports.ts <out-dir>`
+// from the repo root, after the test job has written its files.
 //
 // It refuses to run when a required file is missing: a half-populated
 // reports directory would deploy, replace the last good one, and 404 the
