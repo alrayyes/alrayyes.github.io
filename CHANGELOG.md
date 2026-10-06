@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.13.1...alrayyes.github.io-v0.14.0) (2026-10-06)
+
+
+### Features
+
+* put each SDK's report links on their own line ([#119](https://github.com/alrayyes/alrayyes.github.io/issues/119)) ([c9ecc40](https://github.com/alrayyes/alrayyes.github.io/commit/c9ecc40d63076db547247925ed4e590f390a2271))
+
 ## [0.13.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.13.0...alrayyes.github.io-v0.13.1) (2026-10-06)
 
 
