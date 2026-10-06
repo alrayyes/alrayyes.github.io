@@ -1,5 +1,6 @@
 ---
 import type { Api } from "../data/apis";
+import { reportLinks } from "../lib/reportLinks";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import BrandIcon, { type BrandIconName } from "./icons/BrandIcon.astro";
 
@@ -9,6 +10,8 @@ interface Props {
 
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 const { api } = Astro.props;
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const apiReports = reportLinks(api.reports);
 
 // The three card-level links are bordered chips. Repo and spec share a
 // quiet outline; the API docs chip is filled, as the main action. Colours
@@ -66,6 +69,27 @@ function languageIcon(language: string): BrandIconName {
     )}
   </ul>
 
+  {apiReports.length > 0 && (
+    <>
+      <h3 class="mt-5 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">
+        Reports
+      </h3>
+      <ul class="mt-2 flex flex-wrap gap-3 text-sm">
+        {apiReports.map((report) => (
+          <li>
+            <a
+              class="inline-flex items-center gap-1 py-1 text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
+              href={report.href}
+            >
+              <BrandIcon name="docs" class="size-3.5" />
+              {report.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
+
   <h3 class="mt-5 text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">
     SDKs
   </h3>
@@ -96,6 +120,15 @@ function languageIcon(language: string): BrandIconName {
               docs
             </a>
           )}
+          {reportLinks(sdk.reports).map((report) => (
+            <a
+              class="inline-flex items-center gap-1 py-1 text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
+              href={report.href}
+            >
+              <BrandIcon name="docs" class="size-3.5" />
+              {report.label}
+            </a>
+          ))}
         </div>
       </li>
     ))}

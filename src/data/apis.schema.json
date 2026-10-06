@@ -7,14 +7,41 @@
   "required": ["apis"],
   "additionalProperties": false,
   "properties": {
-    "$schema": { "type": "string" },
+    "$schema": {
+      "type": "string"
+    },
     "apis": {
       "type": "array",
-      "items": { "$ref": "#/$defs/api" }
+      "items": {
+        "$ref": "#/$defs/api"
+      }
     }
   },
   "$defs": {
-    "url": { "type": "string", "format": "uri", "pattern": "^https://" },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://"
+    },
+    "reports": {
+      "description": "Links to the reports the repo publishes at apis.ryankes.eu/<repo>/reports/. Only set a key once its URL has been checked to resolve.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lighthouse": {
+          "$ref": "#/$defs/url"
+        },
+        "tests": {
+          "$ref": "#/$defs/url"
+        },
+        "coverage": {
+          "$ref": "#/$defs/url"
+        },
+        "coverageXml": {
+          "$ref": "#/$defs/url"
+        }
+      }
+    },
     "sdk": {
       "type": "object",
       "required": ["language", "repo"],
@@ -25,10 +52,15 @@
           "type": "string",
           "minLength": 1
         },
-        "repo": { "$ref": "#/$defs/url" },
+        "repo": {
+          "$ref": "#/$defs/url"
+        },
         "docs": {
           "description": "Only set once the URL has been checked to resolve.",
           "$ref": "#/$defs/url"
+        },
+        "reports": {
+          "$ref": "#/$defs/reports"
         }
       }
     },
@@ -37,17 +69,32 @@
       "required": ["name", "description", "repo", "spec", "sdks"],
       "additionalProperties": false,
       "properties": {
-        "name": { "type": "string", "minLength": 1 },
-        "description": { "type": "string", "minLength": 1 },
-        "repo": { "$ref": "#/$defs/url" },
-        "spec": { "$ref": "#/$defs/url" },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repo": {
+          "$ref": "#/$defs/url"
+        },
+        "spec": {
+          "$ref": "#/$defs/url"
+        },
         "docs": {
           "description": "Only set once the URL has been checked to resolve.",
           "$ref": "#/$defs/url"
         },
         "sdks": {
           "type": "array",
-          "items": { "$ref": "#/$defs/sdk" }
+          "items": {
+            "$ref": "#/$defs/sdk"
+          }
+        },
+        "reports": {
+          "$ref": "#/$defs/reports"
         }
       }
     }

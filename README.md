@@ -14,6 +14,12 @@ The catalogue itself is `src/data/apis.json`, validated by
 `src/data/apis.schema.json`. Adding a new API or SDK is a
 plain data-file edit, not a template change.
 
+An API or SDK entry can also carry `reports`: links to the Lighthouse,
+test-result and coverage reports (`lighthouse`, `tests`, `coverage`,
+`coverageXml`) that its repo publishes at
+`apis.ryankes.eu/<repo>/reports/`. The card shows a link for each key
+present. Add a key only once its URL returns 200.
+
 ## Requirements
 
 - **[bun](https://bun.sh) 1.3 or newer.** It's the package manager, the

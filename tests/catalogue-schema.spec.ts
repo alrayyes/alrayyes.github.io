@@ -38,3 +38,37 @@ test("the schema rejects a docs link that isn't a URL", () => {
   expect(validate(broken)).toBe(false);
   expect(validate.errors?.map((e) => e.instancePath)).toContain("/apis/0/sdks/0/docs");
 });
+
+const withReports = (reports: unknown) => ({
+  apis: [
+    {
+      name: "x",
+      description: "y",
+      repo: "https://example.com/r",
+      spec: "https://example.com/s",
+      reports,
+      sdks: [{ language: "Go", repo: "https://example.com/g", reports }],
+    },
+  ],
+});
+
+test("the schema accepts the four report links on an API and an SDK", () => {
+  const ok = validate(
+    withReports({
+      lighthouse: "https://apis.ryankes.eu/x/reports/lighthouse/",
+      tests: "https://apis.ryankes.eu/x/reports/tests/unit.xml",
+      coverage: "https://apis.ryankes.eu/x/reports/coverage/",
+      coverageXml: "https://apis.ryankes.eu/x/reports/coverage/coverage.xml",
+    }),
+  );
+  expect(validate.errors ?? []).toEqual([]);
+  expect(ok).toBe(true);
+});
+
+test("the schema rejects a report link that isn't https", () => {
+  expect(validate(withReports({ coverageXml: "http://apis.ryankes.eu/c.xml" }))).toBe(false);
+});
+
+test("the schema rejects an unknown report key", () => {
+  expect(validate(withReports({ mutation: "https://apis.ryankes.eu/m/" }))).toBe(false);
+});
