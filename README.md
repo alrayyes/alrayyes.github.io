@@ -17,7 +17,8 @@ plain data-file edit, not a template change.
 An API or SDK entry can also carry `reports`: links to the Lighthouse,
 test-result and coverage reports (`lighthouse`, `tests`, `coverage`,
 `coverageXml`) that its repo publishes at
-`apis.ryankes.eu/<repo>/reports/`. The card shows a link for each key
+`apis.ryankes.eu/<repo>/reports/` (this repo, being the user site, has no
+prefix: see Reports below). The card shows a link for each key
 present. Add a key only once its URL returns 200.
 
 ## Requirements
@@ -64,7 +65,7 @@ reason for GitHub Pages over Cloudflare is in
 ## Reports
 
 Every deploy also publishes this repo's own test and coverage reports, at
-[apis.ryankes.eu/alrayyes.github.io/reports](https://apis.ryankes.eu/alrayyes.github.io/reports/):
+[apis.ryankes.eu/reports](https://apis.ryankes.eu/reports/):
 
 - `tests/`: the JUnit XML of the unit and end-to-end runs, and Playwright's
   HTML report.
