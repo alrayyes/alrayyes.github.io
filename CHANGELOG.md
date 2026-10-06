@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.19.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.18.0...alrayyes.github.io-v0.19.0) (2026-10-06)
+
+
+### Features
+
+* **catalogue:** link the hush-hush Go SDK reports ([#136](https://github.com/alrayyes/alrayyes.github.io/issues/136)) ([59f312d](https://github.com/alrayyes/alrayyes.github.io/commit/59f312d56b848e41921407bafe15daaebdc2e59c))
+
 ## [0.18.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.17.0...alrayyes.github.io-v0.18.0) (2026-10-06)
 
 
