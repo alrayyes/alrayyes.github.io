@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.16.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.15.0...alrayyes.github.io-v0.16.0) (2026-10-06)
+
+
+### Features
+
+* **catalogue:** link the hush-hush API's published reports ([#126](https://github.com/alrayyes/alrayyes.github.io/issues/126)) ([8b93f43](https://github.com/alrayyes/alrayyes.github.io/commit/8b93f430dc2e12b3948a8b54699edb1b63a6546e))
+* **catalogue:** link the pipeline-analytics Node and Python SDK reports ([#128](https://github.com/alrayyes/alrayyes.github.io/issues/128)) ([431e05b](https://github.com/alrayyes/alrayyes.github.io/commit/431e05b9ee65e2f3cd8bbbe10df86f8859f987af))
+
 ## [0.15.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.14.0...alrayyes.github.io-v0.15.0) (2026-10-06)
 
 
