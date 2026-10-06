@@ -169,7 +169,17 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
-      - name: assemble the test and coverage reports
+      - name: install Node for Lighthouse
+        # Lighthouse 13 needs Node 22.19 or newer, and it spawns Chrome, so it
+        # gets a real Node rather than bun's compatibility layer.
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.21.0
+      - name: Lighthouse, one report per page
+        # Uses the Chromium Playwright installed above. A failure fails the job,
+        # so a deploy never ships without the reports.
+        run: ./scripts/lighthouse.sh
+      - name: assemble the test, coverage and Lighthouse reports
         run: bun scripts/assemble-reports.ts site-reports
       - name: keep the reports for the deploy
         if: github.event_name != 'pull_request'
@@ -297,3 +307,7 @@ jobs:
             --retry 6 --retry-delay 10 --retry-all-errors \
             --output coverage.xml "${PAGE_URL%/}/reports/coverage/coverage.xml"
           grep -q '<coverage ' coverage.xml
+          curl --fail --silent --show-error --location \
+            --retry 6 --retry-delay 10 --retry-all-errors \
+            --output lighthouse.json "${PAGE_URL%/}/reports/lighthouse/home.report.json"
+          jq -e .categories lighthouse.json > /dev/null

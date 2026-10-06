@@ -22,6 +22,10 @@ async function seed({ without }: { without?: string } = {}) {
     "coverage/coverage.xml",
     "coverage/html/index.html",
     "coverage/html/src/index.html",
+    "lighthouse/home.report.html",
+    "lighthouse/home.report.json",
+    "lighthouse/privacy.report.html",
+    "lighthouse/privacy.report.json",
   ];
   for (const file of files) if (file !== without) await put(file, file);
 }
@@ -55,6 +59,34 @@ describe("assembleReports", () => {
     expect(await read("coverage/src/index.html")).toBe("coverage/html/src/index.html");
   });
 
+  test("puts each page's Lighthouse HTML and JSON under lighthouse/", async () => {
+    await seed();
+    await assembleReports({ root, out });
+    expect(await read("lighthouse/home.report.html")).toBe("lighthouse/home.report.html");
+    expect(await read("lighthouse/privacy.report.json")).toBe("lighthouse/privacy.report.json");
+  });
+
+  test("lists every page's Lighthouse reports in lighthouse/index.html", async () => {
+    await seed();
+    await assembleReports({ root, out });
+    const html = await read("lighthouse/index.html");
+    expect(html).toContain('href="home.report.html"');
+    expect(html).toContain('href="home.report.json"');
+    expect(html).toContain('href="privacy.report.html"');
+    expect(html).toContain('href="privacy.report.json"');
+  });
+
+  test("refuses to publish when Lighthouse produced no reports", async () => {
+    await seed();
+    await rm(join(root, "lighthouse"), { recursive: true });
+    await expect(assembleReports({ root, out })).rejects.toThrow("lighthouse");
+  });
+
+  test("refuses to publish a Lighthouse HTML report that has no JSON beside it", async () => {
+    await seed({ without: "lighthouse/privacy.report.json" });
+    await expect(assembleReports({ root, out })).rejects.toThrow("lighthouse/privacy.report.json");
+  });
+
   test("keeps the Playwright HTML report under tests/playwright/", async () => {
     await seed();
     await assembleReports({ root, out });
@@ -68,6 +100,7 @@ describe("assembleReports", () => {
     expect(top).toContain('href="tests/"');
     expect(top).toContain('href="coverage/"');
     expect(top).toContain('href="coverage/coverage.xml"');
+    expect(top).toContain('href="lighthouse/"');
     const tests = await read("tests/index.html");
     expect(tests).toContain('href="unit.xml"');
     expect(tests).toContain('href="playwright.xml"');
