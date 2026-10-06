@@ -1,6 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import type { Api } from "../data/apis";
-import { catalogueRepos, lighthousePages, repoName, reportFiles } from "./reportsIndex";
+import {
+  catalogueRepos,
+  lighthousePages,
+  repoName,
+  reportFiles,
+  reportSections,
+  siteSection,
+} from "./reportsIndex";
 
 const base = "https://apis.ryankes.eu/x/reports";
 
@@ -16,14 +23,14 @@ describe("reportFiles", () => {
     ).toEqual([
       {
         group: "Tests",
-        label: "Test results",
+        label: "junit.xml",
         format: "JUnit XML",
         href: `${base}/tests/junit.xml`,
       },
-      { group: "Coverage", label: "Coverage", format: "HTML", href: `${base}/coverage/` },
+      { group: "Coverage", label: "HTML view", format: "HTML", href: `${base}/coverage/` },
       {
         group: "Coverage",
-        label: "Coverage (Cobertura XML)",
+        label: "coverage.xml",
         format: "XML",
         href: `${base}/coverage/coverage.xml`,
       },
@@ -31,9 +38,9 @@ describe("reportFiles", () => {
     ]);
   });
 
-  test("calls a tests link that is a directory an HTML view, not JUnit XML", () => {
+  test("calls a tests link that is a directory the test results, an HTML view, not JUnit XML", () => {
     const [tests] = reportFiles({ tests: `${base}/tests/` });
-    expect(tests?.format).toBe("HTML");
+    expect(tests).toMatchObject({ label: "Test results", format: "HTML" });
   });
 
   test("leaves out a report that isn't there, and returns nothing for none", () => {
@@ -112,5 +119,77 @@ describe("lighthousePages", () => {
         "../pages/reports/index.astro",
       ]),
     ).toEqual(["home", "changelog", "privacy", "reports"]);
+  });
+});
+
+describe("siteSection", () => {
+  const section = siteSection([
+    "../pages/index.astro",
+    "../pages/privacy.astro",
+    "../pages/reports/index.astro",
+  ]);
+
+  test("is this site's own section, linked to its repo", () => {
+    expect(section).toMatchObject({
+      name: "alrayyes.github.io",
+      kind: "This site",
+      repo: "https://github.com/alrayyes/alrayyes.github.io",
+    });
+  });
+
+  test("lists each test, coverage and Lighthouse file individually, on this site's own paths", () => {
+    const hrefs = Object.fromEntries(section.files.map((f) => [f.label, f.href]));
+    expect(hrefs["unit.xml"]).toBe("/reports/tests/unit.xml");
+    expect(hrefs["playwright.xml"]).toBe("/reports/tests/playwright.xml");
+    expect(hrefs["Playwright report"]).toBe("/reports/tests/playwright/");
+    expect(hrefs["HTML view"]).toBe("/reports/coverage/");
+    expect(hrefs["coverage.xml"]).toBe("/reports/coverage/coverage.xml");
+    expect(hrefs["lcov.info"]).toBe("/reports/coverage/lcov.info");
+  });
+
+  test("tags lcov.info as LCOV and the Playwright report as HTML", () => {
+    const format = (label: string) => section.files.find((f) => f.label === label)?.format;
+    expect(format("lcov.info")).toBe("LCOV");
+    expect(format("Playwright report")).toBe("HTML");
+  });
+
+  test("has one Lighthouse report per page, named for the page", () => {
+    const lighthouse = section.files.filter((f) => f.group === "Lighthouse");
+    expect(lighthouse.map((f) => [f.label, f.href])).toEqual([
+      ["Home", "/reports/lighthouse/home.report.html"],
+      ["Privacy", "/reports/lighthouse/privacy.report.html"],
+      ["Reports", "/reports/lighthouse/reports.report.html"],
+    ]);
+  });
+});
+
+describe("reportSections", () => {
+  const pages = ["../pages/index.astro"];
+  const catalogue = [
+    api({ reports: { coverage: `${base}/coverage/` }, repo: "https://github.com/alrayyes/svc" }),
+  ];
+  const other = {
+    name: "scaffold-x",
+    kind: "Scaffold",
+    repo: "https://github.com/alrayyes/scaffold-x",
+    reports: { coverage: `${base}/coverage/` },
+  };
+
+  test("puts this site first, then the catalogue's repos, then the others", () => {
+    const sections = reportSections({ pages, apis: catalogue, others: [other] });
+    expect(sections.map((s) => [s.name, s.kind])).toEqual([
+      ["alrayyes.github.io", "This site"],
+      ["svc", "API"],
+      ["scaffold-x", "Scaffold"],
+    ]);
+  });
+
+  test("lists a repo once, even when two sources name it", () => {
+    const sections = reportSections({
+      pages,
+      apis: catalogue,
+      others: [{ ...other, name: "svc", repo: "https://github.com/alrayyes/svc" }],
+    });
+    expect(sections.filter((s) => s.name === "svc")).toHaveLength(1);
   });
 });
