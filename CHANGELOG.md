@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.21.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.20.0...alrayyes.github.io-v0.21.0) (2026-10-06)
+
+
+### Features
+
+* **catalogue:** link the forge-dashboard API's published reports ([#142](https://github.com/alrayyes/alrayyes.github.io/issues/142)) ([2c43b39](https://github.com/alrayyes/alrayyes.github.io/commit/2c43b39ca77d0e2c9bf157cb743e53fc921ffa68))
+* **catalogue:** link the hush-hush Node SDK reports ([#141](https://github.com/alrayyes/alrayyes.github.io/issues/141)) ([d79323d](https://github.com/alrayyes/alrayyes.github.io/commit/d79323d752eeab2ba5553cbeed2b52fe761a5605))
+
 ## [0.20.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.19.0...alrayyes.github.io-v0.20.0) (2026-10-06)
 
 
