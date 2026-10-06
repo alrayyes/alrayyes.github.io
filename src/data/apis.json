@@ -41,7 +41,12 @@
         {
           "language": "Go",
           "repo": "https://github.com/alrayyes/hush-hush-go",
-          "docs": "https://pkg.go.dev/github.com/alrayyes/hush-hush-go"
+          "docs": "https://pkg.go.dev/github.com/alrayyes/hush-hush-go",
+          "reports": {
+            "tests": "https://apis.ryankes.eu/hush-hush-go/reports/tests/junit.xml",
+            "coverage": "https://apis.ryankes.eu/hush-hush-go/reports/coverage/",
+            "coverageXml": "https://apis.ryankes.eu/hush-hush-go/reports/coverage/coverage.xml"
+          }
         }
       ]
     },
