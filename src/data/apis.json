@@ -8,7 +8,7 @@
       "spec": "https://github.com/alrayyes/Hush-Hush/blob/main/api/openapi.yaml",
       "docs": "https://apis.ryankes.eu/Hush-Hush/docs/api/#description/introduction",
       "reports": {
-        "lighthouse": "https://apis.ryankes.eu/Hush-Hush/reports/lighthouse/login.html",
+        "lighthouse": "https://apis.ryankes.eu/Hush-Hush/reports/lighthouse/",
         "tests": "https://apis.ryankes.eu/Hush-Hush/reports/tests/junit.xml",
         "coverage": "https://apis.ryankes.eu/Hush-Hush/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/Hush-Hush/reports/coverage/coverage.xml"
