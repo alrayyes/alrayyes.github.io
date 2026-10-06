@@ -11,7 +11,12 @@
         {
           "language": "PHP",
           "repo": "https://github.com/alrayyes/hush-hush-php",
-          "docs": "https://alrayyes.github.io/hush-hush-php/"
+          "docs": "https://alrayyes.github.io/hush-hush-php/",
+          "reports": {
+            "tests": "https://apis.ryankes.eu/hush-hush-php/reports/tests/junit.xml",
+            "coverage": "https://apis.ryankes.eu/hush-hush-php/reports/coverage/",
+            "coverageXml": "https://apis.ryankes.eu/hush-hush-php/reports/coverage/coverage.xml"
+          }
         },
         {
           "language": "Node.js / TypeScript",
@@ -21,7 +26,12 @@
         {
           "language": "Python",
           "repo": "https://github.com/alrayyes/hush-hush-python",
-          "docs": "https://alrayyes.github.io/hush-hush-python/"
+          "docs": "https://alrayyes.github.io/hush-hush-python/",
+          "reports": {
+            "tests": "https://apis.ryankes.eu/hush-hush-python/reports/tests/junit.xml",
+            "coverage": "https://apis.ryankes.eu/hush-hush-python/reports/coverage/",
+            "coverageXml": "https://apis.ryankes.eu/hush-hush-python/reports/coverage/coverage.xml"
+          }
         },
         {
           "language": "Go",
