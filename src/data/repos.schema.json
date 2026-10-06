@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://apis.ryankes.eu/schema/repos.schema.json",
+  "title": "Other repos that publish reports",
+  "description": "Repos that publish test, coverage or Lighthouse reports but aren't APIs, so they have no card in the catalogue. Listed on the Reports page.",
+  "type": "object",
+  "required": ["repos"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "repos": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/repo"
+      }
+    }
+  },
+  "$defs": {
+    "repo": {
+      "type": "object",
+      "required": ["name", "kind", "repo", "reports"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "description": "The repo's name, as it appears in its URL.",
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "description": "What sort of repo it is, shown beside its name.",
+          "type": "string",
+          "minLength": 1
+        },
+        "repo": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "reports": {
+          "$ref": "apis.schema.json#/$defs/reports"
+        }
+      }
+    }
+  }
+}
