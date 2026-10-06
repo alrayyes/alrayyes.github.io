@@ -1,0 +1,92 @@
+---
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import RepoReports from "../../components/RepoReports.astro";
+import { apis } from "../../data/apis";
+import { otherRepos } from "../../data/repos";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import Layout from "../../layouts/Layout.astro";
+import { reportSections } from "../../lib/reportsIndex";
+
+// This site's Lighthouse pages are its own routes, so a new page gets a link
+// here without anyone listing it.
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const sections = reportSections({
+  pages: Object.keys(import.meta.glob("/src/pages/**/*.astro")),
+  apis,
+  others: otherRepos,
+});
+---
+
+<Layout title="Reports — APIs">
+  <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+    Reports
+  </h1>
+  <p class="mt-2 max-w-prose text-slate-600 dark:text-slate-300">
+    The test, coverage and Lighthouse reports each repo publishes, one section
+    per repo, with a link to every file.
+  </p>
+
+  {/* Only shown once the script below has run, so there is no search box that
+  does nothing without JavaScript. */}
+  <div id="reports-filter" hidden class="mt-6 max-w-md">
+    <label
+      for="reports-filter-input"
+      class="block text-sm font-medium text-slate-800 dark:text-slate-200"
+    >
+      Filter repositories by name
+    </label>
+    <input
+      id="reports-filter-input"
+      type="search"
+      autocomplete="off"
+      class="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+    />
+    <p
+      id="reports-count"
+      role="status"
+      class="mt-1 text-sm text-slate-600 dark:text-slate-400"
+    ></p>
+  </div>
+
+  <div id="reports-list" class="mt-6 flex flex-col gap-5">
+    {sections.map((section) => (
+      <RepoReports section={section} />
+    ))}
+  </div>
+
+  <p
+    id="reports-empty"
+    hidden
+    class="mt-6 rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-700 dark:border-slate-600 dark:text-slate-300"
+  >
+    No matching repositories. Clear the filter to see all of them.
+  </p>
+</Layout>
+
+<script>
+  const wrapper = document.getElementById("reports-filter") as HTMLElement;
+  const input = document.getElementById(
+    "reports-filter-input",
+  ) as HTMLInputElement;
+  const count = document.getElementById("reports-count") as HTMLElement;
+  const empty = document.getElementById("reports-empty") as HTMLElement;
+  const sections = [
+    ...document.querySelectorAll<HTMLElement>("#reports-list [data-repo]"),
+  ];
+
+  function update() {
+    const needle = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const section of sections) {
+      const match = (section.dataset.repo ?? "").toLowerCase().includes(needle);
+      section.hidden = !match;
+      if (match) shown += 1;
+    }
+    count.textContent = `Showing ${shown} of ${sections.length} repositories`;
+    empty.hidden = shown !== 0;
+  }
+
+  input.addEventListener("input", update);
+  wrapper.hidden = false;
+  update();
+</script>

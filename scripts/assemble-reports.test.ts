@@ -93,14 +93,10 @@ describe("assembleReports", () => {
     expect(await read("tests/playwright/index.html")).toBe("playwright-report/html/index.html");
   });
 
-  test("writes an index at the top and one in tests/, since Pages has no directory listing", async () => {
+  test("writes an index in tests/ and none at the top, since the site's Reports page is the top", async () => {
     await seed();
     await assembleReports({ root, out });
-    const top = await read("index.html");
-    expect(top).toContain('href="tests/"');
-    expect(top).toContain('href="coverage/"');
-    expect(top).toContain('href="coverage/coverage.xml"');
-    expect(top).toContain('href="lighthouse/"');
+    await expect(readFile(join(out, "index.html"), "utf8")).rejects.toThrow();
     const tests = await read("tests/index.html");
     expect(tests).toContain('href="unit.xml"');
     expect(tests).toContain('href="playwright.xml"');

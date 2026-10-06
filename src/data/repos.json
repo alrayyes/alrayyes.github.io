@@ -1,0 +1,46 @@
+{
+  "$schema": "./repos.schema.json",
+  "repos": [
+    {
+      "name": "scaffold-astro-site",
+      "kind": "Scaffold",
+      "repo": "https://github.com/alrayyes/scaffold-astro-site",
+      "reports": {
+        "lighthouse": "https://apis.ryankes.eu/scaffold-astro-site/reports/lighthouse/",
+        "tests": "https://apis.ryankes.eu/scaffold-astro-site/reports/tests/",
+        "coverage": "https://apis.ryankes.eu/scaffold-astro-site/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/scaffold-astro-site/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "scaffold-typescript-cli",
+      "kind": "Scaffold",
+      "repo": "https://github.com/alrayyes/scaffold-typescript-cli",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/scaffold-typescript-cli/reports/tests/",
+        "coverage": "https://apis.ryankes.eu/scaffold-typescript-cli/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/scaffold-typescript-cli/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "scaffold-python-cli",
+      "kind": "Scaffold",
+      "repo": "https://github.com/alrayyes/scaffold-python-cli",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/scaffold-python-cli/reports/tests/junit.xml",
+        "coverage": "https://apis.ryankes.eu/scaffold-python-cli/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/scaffold-python-cli/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "scaffold-go-api",
+      "kind": "Scaffold",
+      "repo": "https://github.com/alrayyes/scaffold-go-api",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/scaffold-go-api/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/scaffold-go-api/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/scaffold-go-api/reports/coverage/coverage.xml"
+      }
+    }
+  ]
+}

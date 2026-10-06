@@ -51,6 +51,14 @@ const current = Astro.url.pathname.replace(/^\/+|\/+$/g, "");
       </a>
     )}
 
+    <a
+      href="/reports/"
+      aria-current={current === "reports" ? "page" : undefined}
+      class="inline-flex min-h-9 items-center text-sm font-medium text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
+    >
+      Reports
+    </a>
+
     <button
       type="button"
       id="theme-toggle"

@@ -19,7 +19,12 @@ test-result and coverage reports (`lighthouse`, `tests`, `coverage`,
 `coverageXml`) that its repo publishes at
 `apis.ryankes.eu/<repo>/reports/` (this repo, being the user site, has no
 prefix: see Reports below). The card shows a link for each key
-present. Add a key only once its URL returns 200.
+present, and the Reports page lists the same files. Add a key only once its
+URL returns 200.
+
+A repo that publishes reports but isn't an API, such as a scaffold, has no card.
+It goes in `src/data/repos.json`, validated by `src/data/repos.schema.json`, in
+the same `reports` shape, and appears only on the Reports page.
 
 ## Requirements
 
@@ -64,8 +69,14 @@ reason for GitHub Pages over Cloudflare is in
 
 ## Reports
 
-Every deploy also publishes this repo's own test and coverage reports, at
-[apis.ryankes.eu/reports](https://apis.ryankes.eu/reports/):
+[apis.ryankes.eu/reports](https://apis.ryankes.eu/reports/) lists every repo's
+published reports, one section per repo with a link to each file and its
+format, and a filter to find a repo by name. The page is built from this site's
+own reports and the two data files, so adding a repo's `reports` entry
+updates it with the next deploy.
+
+Every deploy also publishes this repo's own test and coverage reports under
+that path:
 
 - `tests/`: the JUnit XML of the unit and end-to-end runs, and Playwright's
   HTML report.
