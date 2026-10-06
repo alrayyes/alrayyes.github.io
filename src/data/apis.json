@@ -97,7 +97,13 @@
             "coverageXml": "https://apis.ryankes.eu/forge-dashboard-sdk-go/reports/coverage/coverage.xml"
           }
         }
-      ]
+      ],
+      "reports": {
+        "lighthouse": "https://apis.ryankes.eu/forge-dashboard/reports/lighthouse/report.html",
+        "tests": "https://apis.ryankes.eu/forge-dashboard/reports/tests/",
+        "coverage": "https://apis.ryankes.eu/forge-dashboard/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/forge-dashboard/reports/coverage/coverage.xml"
+      }
     },
     {
       "name": "pipeline-analytics",
