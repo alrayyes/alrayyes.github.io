@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.23.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.22.0...alrayyes.github.io-v0.23.0) (2026-10-06)
+
+
+### Features
+
+* **catalogue:** link the hush-hush Lighthouse report ([#146](https://github.com/alrayyes/alrayyes.github.io/issues/146)) ([ea2ef21](https://github.com/alrayyes/alrayyes.github.io/commit/ea2ef215959057ce4f0f3c63723f1d20a8265d9d))
+
+
+### Bug Fixes
+
+* pin sharp to the release that patches its librsvg advisory ([#150](https://github.com/alrayyes/alrayyes.github.io/issues/150)) ([491e3a7](https://github.com/alrayyes/alrayyes.github.io/commit/491e3a78e613f2b2d97517d5fab9db90e6c70887))
+
 ## [0.22.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.21.0...alrayyes.github.io-v0.22.0) (2026-10-06)
 
 
