@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.13.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.12.0...alrayyes.github.io-v0.13.0) (2026-10-06)
+
+
+### Features
+
+* link each repo's published reports from the catalogue ([#104](https://github.com/alrayyes/alrayyes.github.io/issues/104)) ([c22d57c](https://github.com/alrayyes/alrayyes.github.io/commit/c22d57c9d13c99b013681461ba2ddf4b7741ed8e))
+
+
+### Bug Fixes
+
+* pin patched source-map-js, smol-toml, katex and http-cache-semantics ([#110](https://github.com/alrayyes/alrayyes.github.io/issues/110)) ([e2f73df](https://github.com/alrayyes/alrayyes.github.io/commit/e2f73df4567b1cfaada675ad9fcb06bb764f146e))
+
 ## [0.12.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.11.0...alrayyes.github.io-v0.12.0) (2026-10-03)
 
 
