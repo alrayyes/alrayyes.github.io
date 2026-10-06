@@ -99,12 +99,22 @@
         {
           "language": "Node.js / TypeScript",
           "repo": "https://github.com/alrayyes/pipeline-analytics-sdk-node",
-          "docs": "https://alrayyes.github.io/pipeline-analytics-sdk-node/"
+          "docs": "https://alrayyes.github.io/pipeline-analytics-sdk-node/",
+          "reports": {
+            "tests": "https://apis.ryankes.eu/pipeline-analytics-sdk-node/reports/tests/junit.xml",
+            "coverage": "https://apis.ryankes.eu/pipeline-analytics-sdk-node/reports/coverage/",
+            "coverageXml": "https://apis.ryankes.eu/pipeline-analytics-sdk-node/reports/coverage/coverage.xml"
+          }
         },
         {
           "language": "Python",
           "repo": "https://github.com/alrayyes/pipeline-analytics-sdk-python",
-          "docs": "https://alrayyes.github.io/pipeline-analytics-sdk-python/"
+          "docs": "https://alrayyes.github.io/pipeline-analytics-sdk-python/",
+          "reports": {
+            "tests": "https://apis.ryankes.eu/pipeline-analytics-sdk-python/reports/tests/junit.xml",
+            "coverage": "https://apis.ryankes.eu/pipeline-analytics-sdk-python/reports/coverage/",
+            "coverageXml": "https://apis.ryankes.eu/pipeline-analytics-sdk-python/reports/coverage/coverage.xml"
+          }
         },
         {
           "language": "Go",
