@@ -311,3 +311,9 @@ jobs:
             --retry 6 --retry-delay 10 --retry-all-errors \
             --output lighthouse.json "${PAGE_URL%/}/reports/lighthouse/home.report.json"
           jq -e .categories lighthouse.json > /dev/null
+          # The Reports page is part of the site's own build, so check it is
+          # there and lists this repo's section, not just that the files exist.
+          curl --fail --silent --show-error --location \
+            --retry 6 --retry-delay 10 --retry-all-errors \
+            --output reports.html "${PAGE_URL%/}/reports/"
+          grep -q 'data-repo="alrayyes.github.io"' reports.html
