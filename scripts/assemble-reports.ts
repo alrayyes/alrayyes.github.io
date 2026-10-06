@@ -24,12 +24,7 @@ const REQUIRED = [
 
 const PLAYWRIGHT_HTML = "playwright-report/html";
 
-const escapeHtml = (text: string) =>
-  text
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
+const escapeHtml = (text: string) => Bun.escapeHTML(text);
 
 // GitHub Pages has no directory listing, so every directory a link points at
 // needs a page of its own. No colours of its own: `color-scheme` lets the
