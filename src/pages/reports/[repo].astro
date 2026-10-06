@@ -1,0 +1,284 @@
+---
+// One page per repo that publishes reports, at /reports/<repo>/. The server
+// renders the links the catalogue holds, which is all a visitor without
+// JavaScript gets. The script below then reads the repo's own Lighthouse and
+// test directories from the same origin and replaces those links with rows
+// that say what each report found.
+import { apis } from "../../data/apis";
+import { otherRepos } from "../../data/repos";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import Layout from "../../layouts/Layout.astro";
+import { directoryOf } from "../../lib/reportDirectory";
+import type { ReportFile, RepoSection } from "../../lib/reportsIndex";
+import { reportSections } from "../../lib/reportsIndex";
+
+export function getStaticPaths() {
+  // getStaticPaths runs outside this file's scope, so it can only use what it imports.
+  const pages = Object.keys(import.meta.glob("/src/pages/**/*.astro"));
+  return reportSections({ pages, apis, others: otherRepos }).map((section) => ({
+    params: { repo: section.name },
+    props: { section },
+  }));
+}
+
+interface Props {
+  section: RepoSection;
+}
+
+const { section } = Astro.props;
+
+const filesOf = (group: ReportFile["group"]) =>
+  section.files.filter((file) => file.group === group);
+// The directory a group's reports live in, taken from its first file, which
+// is a file or a directory link depending on the repo.
+const directory = (group: ReportFile["group"]) => {
+  const first = filesOf(group)[0];
+  return first ? directoryOf(first.href) : undefined;
+};
+
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const groups = (["Lighthouse", "Tests", "Coverage"] as const)
+  .map((group) => ({ group, files: filesOf(group), dir: directory(group) }))
+  .filter(({ files }) => files.length > 0);
+
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const pill =
+  "inline-flex min-h-8 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2 py-1 font-mono text-sm text-slate-800 hover:border-accent hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-accent-dark dark:hover:bg-slate-800";
+---
+
+<Layout title={`${section.name} — Reports`}>
+  <p class="text-sm">
+    <a
+      href="/reports/"
+      class="inline-flex min-h-8 items-center text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
+    >
+      <span aria-hidden="true">←</span>&nbsp;All reports
+    </a>
+  </p>
+
+  <h1 class="mt-2 font-mono text-2xl font-bold tracking-tight break-all text-slate-900 dark:text-slate-100">
+    {section.name}
+  </h1>
+  <p class="mt-2 flex flex-wrap items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+    <span class="rounded border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-xs font-medium text-slate-700 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-300">
+      {section.kind}
+    </span>
+    <a
+      href={section.repo}
+      class="inline-flex min-h-8 items-center text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
+    >
+      Repository on GitHub
+    </a>
+  </p>
+
+  <div class="mt-8 flex flex-col gap-8">
+    {groups.map(({ group, files, dir }) => {
+      const headingId = `repo-reports-${group.toLowerCase()}`;
+      return (
+        <section
+          aria-labelledby={headingId}
+          data-kind={group.toLowerCase()}
+          data-dir={dir}
+        >
+          <h2
+            id={headingId}
+            class="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-100"
+          >
+            {group}
+          </h2>
+          {/* What the catalogue holds: all a visitor without JavaScript sees,
+          and what stays when a directory has no index page to read. */}
+          <ul data-fallback class="mt-3 flex flex-wrap gap-2">
+            {files.map((file) => (
+              <li>
+                <a href={file.href} class={pill}>
+                  {file.label}
+                  <span class="rounded border border-slate-200 bg-slate-100 px-1 font-sans text-xs font-medium text-slate-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                    {file.format}
+                  </span>
+                  <span class="sr-only"> for {section.name}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <ul data-rows hidden class="mt-3 flex flex-col gap-3" />
+        </section>
+      );
+    })}
+  </div>
+</Layout>
+
+<script>
+  import { describeSummary, junitSummary } from "../../lib/junit";
+  import {
+    directoryLinks,
+    lighthouseRowsFromFiles,
+    lighthouseRowsFromManifest,
+    sameOriginPath,
+  } from "../../lib/reportDirectory";
+  import type { LighthouseRow, LighthouseRun } from "../../lib/reportDirectory";
+
+  const linkClass =
+    "inline-flex min-h-8 items-center text-sm font-medium text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover";
+  const rowClass =
+    "rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800";
+  const SCORE_NAMES: Record<string, string> = {
+    performance: "Performance",
+    accessibility: "Accessibility",
+    "best-practices": "Best practices",
+    seo: "SEO",
+  };
+
+  function el<K extends keyof HTMLElementTagNameMap>(
+    tag: K,
+    options: {
+      class?: string;
+      text?: string;
+      attrs?: Record<string, string>;
+    } = {},
+  ) {
+    const node = document.createElement(tag);
+    if (options.class) node.className = options.class;
+    if (options.text !== undefined) node.textContent = options.text;
+    for (const [name, value] of Object.entries(options.attrs ?? {}))
+      node.setAttribute(name, value);
+    return node;
+  }
+
+  // A link to a file in a directory, only ever to http(s), whatever the
+  // directory's page claimed the file was called.
+  function fileLink(dir: string, name: string, text: string, hidden: string) {
+    const url = new URL(name, new URL(dir, location.href));
+    const link = el("a", { class: linkClass, text });
+    if (url.protocol === "https:" || url.protocol === "http:")
+      link.href = url.href;
+    link.append(el("span", { class: "sr-only", text: ` ${hidden}` }));
+    return link;
+  }
+
+  async function fetchText(url: string) {
+    const response = await fetch(sameOriginPath(url));
+    if (!response.ok) throw new Error(String(response.status));
+    return response.text();
+  }
+
+  function lighthouseRun(dir: string, row: LighthouseRow, run: LighthouseRun) {
+    const item = el("div", { class: "flex flex-col gap-1" });
+    if (run.scores) {
+      item.append(
+        el("p", {
+          class: "text-sm text-slate-700 dark:text-slate-300",
+          text: Object.entries(run.scores)
+            .map(([name, score]) => `${SCORE_NAMES[name] ?? name} ${score}`)
+            .join(" · "),
+        }),
+      );
+    }
+    const links = el("p", { class: "flex flex-wrap gap-x-4" });
+    links.append(
+      fileLink(dir, run.html, "Open HTML report", `for ${row.page}`),
+    );
+    if (run.json)
+      links.append(fileLink(dir, run.json, "JSON", `for ${row.page}`));
+    item.append(links);
+    return item;
+  }
+
+  function renderLighthouse(
+    dir: string,
+    rows: LighthouseRow[],
+    list: HTMLElement,
+  ) {
+    for (const row of rows) {
+      const li = el("li", { class: rowClass });
+      li.append(
+        el("p", {
+          class:
+            "font-mono text-sm font-semibold break-all text-slate-900 dark:text-slate-100",
+          text: row.page,
+        }),
+      );
+      li.append(lighthouseRun(dir, row, row.representative));
+      if (row.others.length > 0) {
+        const details = el("details", { class: "mt-2" });
+        const count = row.others.length;
+        details.append(
+          el("summary", {
+            class:
+              "min-h-8 cursor-pointer text-sm text-slate-600 dark:text-slate-400",
+            text: `${count} other run${count === 1 ? "" : "s"}`,
+          }),
+        );
+        for (const run of row.others)
+          details.append(lighthouseRun(dir, row, run));
+        li.append(details);
+      }
+      list.append(li);
+    }
+  }
+
+  function testRow(dir: string, name: string, list: HTMLElement) {
+    const li = el("li", { class: rowClass });
+    li.append(
+      el("p", {
+        class:
+          "font-mono text-sm font-semibold break-all text-slate-900 dark:text-slate-100",
+        text: name,
+      }),
+    );
+    const status = el("p", {
+      class: "mt-1 text-sm text-slate-700 dark:text-slate-300",
+      text: "Reading…",
+    });
+    li.append(status);
+    li.append(fileLink(dir, name, "Open XML", `for ${name}`));
+    list.append(li);
+    fetchText(new URL(name, new URL(dir, location.href)).href)
+      .then((xml) => {
+        const summary = junitSummary(
+          new DOMParser().parseFromString(xml, "application/xml"),
+        );
+        const failing = summary.failed + summary.errors > 0;
+        status.textContent = `${failing ? "Failed: " : ""}${describeSummary(summary)}, ${summary.seconds.toFixed(1)} s`;
+      })
+      .catch(() => {
+        status.textContent = "Could not read this file";
+      });
+  }
+
+  async function enhance(section: HTMLElement) {
+    const dir = section.dataset.dir;
+    const rows = section.querySelector<HTMLElement>("[data-rows]");
+    const fallback = section.querySelector<HTMLElement>("[data-fallback]");
+    if (!dir || !rows || !fallback) return;
+    try {
+      const files = directoryLinks(await fetchText(dir));
+      if (section.dataset.kind === "lighthouse") {
+        const lighthouseRows = files.includes("manifest.json")
+          ? lighthouseRowsFromManifest(
+              JSON.parse(
+                await fetchText(
+                  new URL("manifest.json", new URL(dir, location.href)).href,
+                ),
+              ),
+            )
+          : lighthouseRowsFromFiles(files);
+        if (lighthouseRows.length === 0) return;
+        renderLighthouse(dir, lighthouseRows, rows);
+      } else if (section.dataset.kind === "tests") {
+        const xml = files.filter((file) => file.endsWith(".xml"));
+        if (xml.length === 0) return;
+        for (const name of xml) testRow(dir, name, rows);
+      } else {
+        return;
+      }
+      rows.hidden = false;
+      fallback.hidden = true;
+    } catch {
+      // No index page to read: the catalogue's links stay.
+    }
+  }
+
+  for (const section of document.querySelectorAll<HTMLElement>("[data-kind]"))
+    void enhance(section);
+</script>
