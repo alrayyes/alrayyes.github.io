@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.17.0...alrayyes.github.io-v0.18.0) (2026-10-06)
+
+
+### Features
+
+* **catalogue:** link the pipeline-analytics API's published reports ([#133](https://github.com/alrayyes/alrayyes.github.io/issues/133)) ([1629e0e](https://github.com/alrayyes/alrayyes.github.io/commit/1629e0eac6d6431be4486e3fed3069adfbe63a48))
+
 ## [0.17.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.16.0...alrayyes.github.io-v0.17.0) (2026-10-06)
 
 
