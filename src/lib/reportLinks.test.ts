@@ -18,13 +18,13 @@ describe("reportLinks", () => {
       "Lighthouse",
       "Test results",
       "Coverage",
-      "coverage.xml",
+      "Coverage (XML)",
     ]);
     expect(links[3]?.href).toBe("https://apis.ryankes.eu/x/reports/coverage/coverage.xml");
   });
 
   test("skips a key that is absent", () => {
     const links = reportLinks({ coverageXml: "https://apis.ryankes.eu/x/c.xml" });
-    expect(links).toEqual([{ label: "coverage.xml", href: "https://apis.ryankes.eu/x/c.xml" }]);
+    expect(links).toEqual([{ label: "Coverage (XML)", href: "https://apis.ryankes.eu/x/c.xml" }]);
   });
 });

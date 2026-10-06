@@ -16,7 +16,7 @@ const LABELS: ReadonlyArray<readonly [keyof Reports, string]> = [
   ["lighthouse", "Lighthouse"],
   ["tests", "Test results"],
   ["coverage", "Coverage"],
-  ["coverageXml", "coverage.xml"],
+  ["coverageXml", "Coverage (XML)"],
 ];
 
 export function reportLinks(reports: Reports | undefined): ReportLink[] {
