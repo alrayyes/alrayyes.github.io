@@ -133,6 +133,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends lcov
+          # Pinned here; no bot reads a pipx pin, so bump it by hand.
           pipx run --spec lcov_cobertura==2.1.1 lcov_cobertura coverage/lcov.info --output coverage/coverage.xml
           genhtml coverage/lcov.info --output-directory coverage/html
       - name: upload coverage to Codecov
@@ -285,3 +286,14 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+      - name: check the reports are served
+        # The reports ship in the same deploy as the site, so a wrong path or a
+        # missing directory would otherwise pass: the deploy itself succeeds
+        # either way. Retries cover the CDN catching up to the new version.
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          curl --fail --silent --show-error --location \
+            --retry 6 --retry-delay 10 --retry-all-errors \
+            --output coverage.xml "${PAGE_URL%/}/reports/coverage/coverage.xml"
+          grep -q '<coverage ' coverage.xml
