@@ -90,37 +90,47 @@ function languageIcon(language: string): BrandIconName {
     SDKs
   </h3>
   <ul class="mt-2 grid gap-2 sm:grid-cols-2">
-    {api.sdks.map((sdk) => (
-      <li class="rounded-md border border-slate-200 px-3 py-2 dark:border-slate-700">
-        <div class="flex items-center gap-1.5 font-medium">
-          <BrandIcon name={languageIcon(sdk.language)} />
-          {sdk.language}
-        </div>
-        <div class="mt-1 flex flex-wrap gap-3 text-sm">
-          {/* py-1 on top of the 20px line-height text-sm gives these a
+    {api.sdks.map((sdk) => {
+      const sdkReports = reportLinks(sdk.reports);
+      return (
+        <li class="rounded-md border border-slate-200 px-3 py-2 dark:border-slate-700">
+          <div class="flex items-center gap-1.5 font-medium">
+            <BrandIcon name={languageIcon(sdk.language)} />
+            {sdk.language}
+          </div>
+          <div class="mt-1 flex flex-wrap gap-3 text-sm">
+            {/* py-1 on top of the 20px line-height text-sm gives these a
           24px tall hit area -- WCAG 2.5.8's minimum for a standalone
           target, confirmed via a Playwright boundingBox() check. */}
-          <a
-            class="inline-flex items-center gap-1 py-1 text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
-            href={sdk.repo}
-          >
-            <BrandIcon name="github" class="size-3.5" />
-            repo
-          </a>
-          {sdk.docs && (
             <a
               class="inline-flex items-center gap-1 py-1 text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
-              href={sdk.docs}
+              href={sdk.repo}
             >
-              <BrandIcon name="docs" class="size-3.5" />
-              docs
+              <BrandIcon name="github" class="size-3.5" />
+              repo
             </a>
+            {sdk.docs && (
+              <a
+                class="inline-flex items-center gap-1 py-1 text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
+                href={sdk.docs}
+              >
+                <BrandIcon name="docs" class="size-3.5" />
+                docs
+              </a>
+            )}
+          </div>
+          {/* Reports get a line of their own, so up to four extra links don't
+        wrap into the repo and docs links on a narrow screen. */}
+          {sdkReports.length > 0 && (
+            <div class="flex flex-wrap items-center gap-x-3 text-sm">
+              <span class="text-slate-500 dark:text-slate-400">Reports</span>
+              {sdkReports.map((report) => (
+                <ReportLink href={report.href} label={report.label} />
+              ))}
+            </div>
           )}
-          {reportLinks(sdk.reports).map((report) => (
-            <ReportLink href={report.href} label={report.label} />
-          ))}
-        </div>
-      </li>
-    ))}
+        </li>
+      );
+    })}
   </ul>
 </section>
