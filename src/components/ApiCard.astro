@@ -3,6 +3,8 @@ import type { Api } from "../data/apis";
 import { reportLinks } from "../lib/reportLinks";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import BrandIcon, { type BrandIconName } from "./icons/BrandIcon.astro";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import ReportLink from "./ReportLink.astro";
 
 interface Props {
   api: Api;
@@ -77,13 +79,7 @@ function languageIcon(language: string): BrandIconName {
       <ul class="mt-2 flex flex-wrap gap-3 text-sm">
         {apiReports.map((report) => (
           <li>
-            <a
-              class="inline-flex items-center gap-1 py-1 text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
-              href={report.href}
-            >
-              <BrandIcon name="docs" class="size-3.5" />
-              {report.label}
-            </a>
+            <ReportLink href={report.href} label={report.label} />
           </li>
         ))}
       </ul>
@@ -121,13 +117,7 @@ function languageIcon(language: string): BrandIconName {
             </a>
           )}
           {reportLinks(sdk.reports).map((report) => (
-            <a
-              class="inline-flex items-center gap-1 py-1 text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
-              href={report.href}
-            >
-              <BrandIcon name="docs" class="size-3.5" />
-              {report.label}
-            </a>
+            <ReportLink href={report.href} label={report.label} />
           ))}
         </div>
       </li>
