@@ -1,38 +1,30 @@
 import { expect, test } from "@playwright/test";
 import { expectNoAxeViolations } from "./axe";
 
-test("lists every API with a repo, spec and at least one SDK link", async ({ page }) => {
+test("lists every API with a repo, spec and docs link", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: "hush-hush" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "forge-dashboard" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "pipeline-analytics" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "OpenAPI spec" }).first()).toBeVisible();
+  for (const name of ["Hush-Hush", "forge-dashboard", "pipeline-analytics"]) {
+    const row = page.locator(`[data-repo-row][data-name="${name}"]`);
+    await expect(row).toHaveAttribute("data-kind", "API");
+    await expect(row.getByRole("link", { name: /^OpenAPI spec/ })).toBeVisible();
+  }
 });
 
 test("each API's docs link points at that API's generated docs on apis.ryankes.eu, where published", async ({
   page,
 }) => {
   await page.goto("/");
-
-  const hushHush = page.getByRole("region", { name: "hush-hush" });
-  await expect(hushHush.getByRole("link", { name: "API docs" })).toHaveAttribute(
-    "href",
-    "https://apis.ryankes.eu/Hush-Hush/docs/api/#description/introduction",
-  );
-
-  const forgeDashboard = page.getByRole("region", { name: "forge-dashboard" });
-  await expect(forgeDashboard.getByRole("link", { name: "API docs" })).toHaveAttribute(
-    "href",
-    "https://apis.ryankes.eu/forge-dashboard/docs/api/#description/introduction",
-  );
-
-  const pipelineAnalytics = page.getByRole("region", {
-    name: "pipeline-analytics",
-  });
-  await expect(pipelineAnalytics.getByRole("link", { name: "API docs" })).toHaveAttribute(
-    "href",
-    "https://apis.ryankes.eu/pipeline-analytics/docs/api/#description/introduction",
-  );
+  for (const [name, path] of [
+    ["Hush-Hush", "Hush-Hush"],
+    ["forge-dashboard", "forge-dashboard"],
+    ["pipeline-analytics", "pipeline-analytics"],
+  ]) {
+    const row = page.locator(`[data-repo-row][data-name="${name}"]`);
+    await expect(row.getByRole("link", { name: /^Docs/ })).toHaveAttribute(
+      "href",
+      `https://apis.ryankes.eu/${path}/docs/api/#description/introduction`,
+    );
+  }
 });
 
 test("footer links to GitHub, disclaimer, privacy and the licence", async ({ page }) => {
@@ -60,14 +52,12 @@ test("changelog and license pages render this repo's own files, not a GitHub lin
   await expect(page.getByText("GNU GENERAL PUBLIC LICENSE").first()).toBeVisible();
 });
 
-test("icon links meet the 24x24 CSS px minimum target size (WCAG 2.5.8)", async ({ page }) => {
+test("report and API links meet the 24x24 CSS px minimum target size (WCAG 2.5.8)", async ({
+  page,
+}) => {
   await page.goto("/");
-  for (const name of ["GitHub repo", "OpenAPI spec", "API docs"]) {
+  for (const name of [/^Lighthouse/, /^Test results/, /^OpenAPI spec/, /^Docs/, /^Coverage/]) {
     const box = await page.getByRole("link", { name }).first().boundingBox();
-    expect(box?.height).toBeGreaterThanOrEqual(24);
-  }
-  for (const name of ["repo", "docs"]) {
-    const box = await page.getByRole("link", { name, exact: true }).first().boundingBox();
     expect(box?.height).toBeGreaterThanOrEqual(24);
   }
 });
@@ -103,7 +93,7 @@ for (const [path, name] of [
     await page.goto(path);
     const header = page.locator("header").first();
     await expect(header.locator('[aria-current="page"]')).toHaveText(name);
-    await expect(header.getByRole("link", { name: "APIs", exact: true })).toHaveAttribute(
+    await expect(header.getByRole("link", { name: "Repositories", exact: true })).toHaveAttribute(
       "href",
       "/",
     );
@@ -124,22 +114,7 @@ test("the header fits a 375px viewport without horizontal scroll", async ({ page
   expect(overflow).toBeLessThanOrEqual(0);
 });
 
-test("each API card has an SDKs heading and a repo and docs link per language", async ({
-  page,
-}) => {
-  await page.goto("/");
-  for (const api of ["hush-hush", "forge-dashboard", "pipeline-analytics"]) {
-    const card = page.getByRole("region", { name: api });
-    await expect(card.getByRole("heading", { name: "SDKs", level: 3 })).toBeVisible();
-    for (const language of ["PHP", "Node.js / TypeScript", "Python", "Go"]) {
-      const row = card.getByRole("listitem").filter({ hasText: language });
-      await expect(row.getByRole("link", { name: "repo" })).toBeVisible();
-      await expect(row.getByRole("link", { name: "docs" })).toBeVisible();
-    }
-  }
-});
-
-test("API cards don't scroll horizontally at 375px", async ({ page }) => {
+test("the front page doesn't scroll horizontally at 375px", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 800 });
   await page.goto("/");
   const overflow = await page.evaluate(
