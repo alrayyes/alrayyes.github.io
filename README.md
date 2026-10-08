@@ -9,8 +9,9 @@ A directory of the public repos that publish test, coverage, or Lighthouse
 reports, deployed at [apis.ryankes.eu](https://apis.ryankes.eu). The front page
 lists every one A to Z with a filter. Lighthouse and test results are the
 primary links on each row and go to the repo's own page at `/reports/<repo>/`;
-coverage and the raw XML and LCOV files are secondary. For an API it also links
-the OpenAPI spec and the generated docs, and each SDK is its own row.
+coverage and the raw XML and `lcov.info` files are secondary. For an API it
+also links the OpenAPI spec and the generated docs, and each SDK is its own
+row.
 
 The APIs and the SDK repos are in `src/data/apis.json`, validated by
 `src/data/apis.schema.json`. Adding a new API or SDK is a plain data-file edit,
