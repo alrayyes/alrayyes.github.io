@@ -1,18 +1,30 @@
 ---
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
-import ApiCard from "../components/ApiCard.astro";
-// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import RepoRow from "../components/RepoRow.astro";
 import { apis } from "../data/apis";
+import { otherRepos } from "../data/repos";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import Layout from "../layouts/Layout.astro";
+import { directoryRows, KINDS, letterGroups } from "../lib/repoDirectory";
+
+// This site's Lighthouse pages are its own routes, so a new page gets a link
+// without anyone listing it.
+const rows = directoryRows({
+  pages: Object.keys(import.meta.glob("/src/pages/**/*.astro")),
+  apis,
+  others: otherRepos,
+});
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const groups = letterGroups(rows);
 ---
 
-<Layout title="APIs — alrayyes">
-  <header class="mb-10">
-    <h1 class="text-3xl font-bold">APIs</h1>
-    <p class="mt-2 text-slate-600 dark:text-slate-300">
-      Every public HTTP API I maintain, its OpenAPI spec, and every generated
-      SDK —{" "}
+<Layout title="Repositories — alrayyes">
+  <header>
+    <h1 class="text-3xl font-bold">Repositories</h1>
+    <p class="mt-2 max-w-prose text-slate-600 dark:text-slate-300">
+      Every public repo of mine that publishes test, coverage or Lighthouse
+      reports, A to Z. The APIs and their SDKs link their OpenAPI spec and docs
+      too —{" "}
       <a
         class="underline underline-offset-2"
         href="https://github.com/alrayyes"
@@ -23,9 +35,115 @@ import Layout from "../layouts/Layout.astro";
     </p>
   </header>
 
-  <div class="grid gap-6">
-    {apis.map((api) => (
-      <ApiCard api={api} />
+  {/* Only shown once the script below has run, so there is no search box that
+  does nothing without JavaScript. */}
+  <div id="directory-filter" hidden class="mt-6">
+    <label
+      for="directory-filter-input"
+      class="block text-sm font-medium text-slate-800 dark:text-slate-200"
+    >
+      Filter repositories by name
+    </label>
+    <input
+      id="directory-filter-input"
+      type="search"
+      autocomplete="off"
+      class="mt-1 w-full max-w-md rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+    />
+    <div role="group" aria-label="Kind" class="mt-3 flex flex-wrap gap-2">
+      {KINDS.map((kind) => (
+        <button
+          type="button"
+          data-kind-filter={kind}
+          aria-pressed={kind === "All" ? "true" : "false"}
+          class="inline-flex min-h-8 items-center rounded-full border border-slate-300 bg-white px-3 text-sm text-slate-800 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent aria-pressed:border-accent aria-pressed:bg-accent aria-pressed:text-white dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800 dark:aria-pressed:border-accent-dark dark:aria-pressed:bg-accent-dark dark:aria-pressed:text-slate-900"
+        >
+          {kind}
+        </button>
+      ))}
+    </div>
+    <p
+      id="directory-count"
+      role="status"
+      class="mt-2 text-sm text-slate-600 dark:text-slate-400"
+    ></p>
+  </div>
+
+  <div id="directory-list" class="mt-6">
+    {groups.map(({ letter, rows: group }) => (
+      <section
+        data-letter-group
+        aria-labelledby={`letter-${letter}`}
+        class="mt-6 first:mt-0"
+      >
+        <h2
+          id={`letter-${letter}`}
+          class="border-b border-slate-300 pb-1 font-mono text-sm font-semibold text-slate-600 dark:border-slate-600 dark:text-slate-400"
+        >
+          {letter}
+        </h2>
+        <ul>
+          {group.map((row) => (
+            <RepoRow row={row} />
+          ))}
+        </ul>
+      </section>
     ))}
   </div>
+
+  <p
+    id="directory-empty"
+    hidden
+    class="mt-6 rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-700 dark:border-slate-600 dark:text-slate-300"
+  >
+    No matching repositories. Clear the filter to see all of them.
+  </p>
 </Layout>
+
+<script>
+  import { filterRows, type KindFilter } from "../lib/repoDirectory";
+
+  const wrapper = document.getElementById("directory-filter") as HTMLElement;
+  const input = document.getElementById(
+    "directory-filter-input",
+  ) as HTMLInputElement;
+  const count = document.getElementById("directory-count") as HTMLElement;
+  const empty = document.getElementById("directory-empty") as HTMLElement;
+  const chips = [
+    ...document.querySelectorAll<HTMLButtonElement>("[data-kind-filter]"),
+  ];
+  const items = [
+    ...document.querySelectorAll<HTMLElement>("[data-repo-row]"),
+  ].map((element) => ({
+    element,
+    name: element.dataset.name ?? "",
+    kind: element.dataset.kind ?? "",
+  }));
+  const groups = [
+    ...document.querySelectorAll<HTMLElement>("[data-letter-group]"),
+  ];
+  let kind: KindFilter = "All";
+
+  function update() {
+    const shown = new Set(filterRows(items, input.value, kind));
+    for (const item of items) item.element.hidden = !shown.has(item);
+    for (const group of groups) {
+      group.hidden = !group.querySelector("[data-repo-row]:not([hidden])");
+    }
+    count.textContent = `Showing ${shown.size} of ${items.length} repositories`;
+    empty.hidden = shown.size !== 0;
+  }
+
+  for (const chip of chips) {
+    chip.addEventListener("click", () => {
+      kind = chip.dataset.kindFilter as KindFilter;
+      for (const other of chips) {
+        other.setAttribute("aria-pressed", String(other === chip));
+      }
+      update();
+    });
+  }
+  input.addEventListener("input", update);
+  wrapper.hidden = false;
+  update();
+</script>

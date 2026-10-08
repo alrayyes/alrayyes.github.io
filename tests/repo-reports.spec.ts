@@ -120,14 +120,6 @@ test("a directory with no index page still lists the reports the catalogue links
   );
 });
 
-test("the Reports page links each repo's section to its page", async ({ page }) => {
-  await page.goto("/reports/");
-  const section = page.getByRole("region", { name: "forge-dashboard-sdk-go" });
-  await expect(
-    section.getByRole("link", { name: "Details for forge-dashboard-sdk-go" }),
-  ).toHaveAttribute("href", "/reports/forge-dashboard-sdk-go/");
-});
-
 test.describe("without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
 

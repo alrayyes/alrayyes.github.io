@@ -5,26 +5,27 @@
 [![release](https://img.shields.io/github/v/release/alrayyes/alrayyes.github.io?sort=semver)](https://github.com/alrayyes/alrayyes.github.io/releases/latest)
 [![licence](https://img.shields.io/badge/licence-GPL--3.0--or--later-blue.svg)](LICENSE)
 
-A catalogue of the public HTTP APIs I maintain, deployed at
-[apis.ryankes.eu](https://apis.ryankes.eu). For each API it links the
-service's own GitHub repo, its OpenAPI spec, and every generated SDK
-(repo and, where one is published, its API-reference docs site).
+A directory of the public repos that publish test, coverage, or Lighthouse
+reports, deployed at [apis.ryankes.eu](https://apis.ryankes.eu). The front page
+lists every one A to Z with a filter. Lighthouse and test results are the
+primary links on each row and go to the repo's own page at `/reports/<repo>/`;
+coverage and the raw XML and LCOV files are secondary. For an API it also links
+the OpenAPI spec and the generated docs, and each SDK is its own row.
 
-The catalogue itself is `src/data/apis.json`, validated by
-`src/data/apis.schema.json`. Adding a new API or SDK is a
-plain data-file edit, not a template change.
+The APIs and the SDK repos are in `src/data/apis.json`, validated by
+`src/data/apis.schema.json`. Adding a new API or SDK is a plain data-file edit,
+not a template change.
 
 An API or SDK entry can also carry `reports`: links to the Lighthouse,
 test-result and coverage reports (`lighthouse`, `tests`, `coverage`,
 `coverageXml`) that its repo publishes at
 `apis.ryankes.eu/<repo>/reports/` (this repo, being the user site, has no
-prefix: see Reports below). The card shows a link for each key
-present, and the Reports page lists the same files. Add a key only once its
-URL returns 200.
+prefix: see Reports below). Add a key only once its URL returns 200.
 
-A repo that publishes reports but isn't an API, such as a scaffold, has no card.
-It goes in `src/data/repos.json`, validated by `src/data/repos.schema.json`, in
-the same `reports` shape, and appears only on the Reports page.
+A repo that publishes reports but isn't an API, such as a scaffold, goes in
+`src/data/repos.json`, validated by `src/data/repos.schema.json`, in the same
+`reports` shape. The list and its sort, filter and kind chips are built from
+both files by `src/lib/repoDirectory.ts`.
 
 ## Requirements
 

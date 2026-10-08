@@ -76,7 +76,11 @@ export function directoryRows({
     .sort(byName);
 }
 
-export function filterRows(rows: DirectoryRow[], text: string, kind: KindFilter): DirectoryRow[] {
+export function filterRows<T extends { name: string; kind: string }>(
+  rows: T[],
+  text: string,
+  kind: KindFilter,
+): T[] {
   const needle = text.trim().toLowerCase();
   return rows.filter(
     (row) => row.name.toLowerCase().includes(needle) && (kind === "All" || row.kind === kind),
