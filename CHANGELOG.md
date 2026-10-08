@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.24.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.23.2...alrayyes.github.io-v0.24.0) (2026-10-08)
+
+
+### Features
+
+* **ui:** list every repo A to Z on the front page, with a filter and report icons ([#160](https://github.com/alrayyes/alrayyes.github.io/issues/160)) ([2f41c38](https://github.com/alrayyes/alrayyes.github.io/commit/2f41c38c751f7e7ed6e8d3659a72e3af8338ce8f))
+
 ## [0.23.2](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.23.1...alrayyes.github.io-v0.23.2) (2026-10-08)
 
 
