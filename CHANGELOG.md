@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.2](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.23.1...alrayyes.github.io-v0.23.2) (2026-10-08)
+
+
+### Bug Fixes
+
+* **ci:** run Lighthouse as sharded jobs, outside the test job ([#155](https://github.com/alrayyes/alrayyes.github.io/issues/155)) ([29204ef](https://github.com/alrayyes/alrayyes.github.io/commit/29204ef6254ddfd82aabc676bc8da1d4a3d79a9b))
+
 ## [0.23.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.23.0...alrayyes.github.io-v0.23.1) (2026-10-06)
 
 
