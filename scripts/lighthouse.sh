@@ -3,9 +3,14 @@
 # one JSON report per page to lighthouse/, named <page>.report.html and
 # <page>.report.json. scripts/assemble-reports.ts publishes that directory.
 #
-# The test job runs this after the end-to-end tests. It builds the site
-# itself, so it also works from a clean checkout, and it uses the Chromium
-# Playwright already installed rather than a second browser.
+# The lighthouse CI job runs this, one shard per matrix entry. It builds the
+# site itself, so it also works from a clean checkout, and it uses the
+# Chromium Playwright installed rather than a second browser.
+#
+# LIGHTHOUSE_SHARD=<n>/<total> audits only the n-th of <total> slices of the
+# pages (see lighthouse-shard.sh). Unset, it audits every page. Pages are
+# audited one at a time, about 10s each, so the shard count is what keeps the
+# job short as the catalogue grows a page per report.
 #
 # Lighthouse 13 needs Node 22.19 or newer. The CI job installs one; bun's
 # node compatibility isn't a substitute for a tool that spawns Chrome.
@@ -48,8 +53,10 @@ until curl --fail --silent --output /dev/null "http://localhost:$CDP_PORT/json/v
   sleep 1
 done
 
+IFS=/ read -r shard shards <<<"${LIGHTHOUSE_SHARD:-1/1}"
+
 # dist/index.html is the home page; dist/privacy/index.html is "privacy".
-find dist -name index.html | sort | while read -r file; do
+find dist -name index.html | sort | scripts/lighthouse-shard.sh "$shard" "$shards" | while read -r file; do
   dir=$(dirname "${file#dist}")
   path=${dir#/}
   page=${path:-home}
