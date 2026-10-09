@@ -35,6 +35,11 @@ export function sameOriginPath(url: string): string {
   }
 }
 
+// Lighthouse's own bands: 90 and up is good, 50 to 89 needs work, below is poor.
+export type ScoreBand = "green" | "amber" | "red";
+export const scoreBand = (score: number): ScoreBand =>
+  score >= 90 ? "green" : score >= 50 ? "amber" : "red";
+
 export type Scores = Record<string, number>;
 
 export interface LighthouseRun {
