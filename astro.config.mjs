@@ -12,6 +12,11 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://apis.ryankes.eu",
   output: "static",
+  // The one stylesheet is about 5 KB, so it is inlined rather than fetched: a
+  // linked file blocks first paint for a round trip (Lighthouse's
+  // render-blocking insight) and GitHub Pages sets no cache headers to make
+  // that round trip cheap on a repeat visit.
+  build: { inlineStylesheets: "always" },
   integrations: [
     // Bundle size analysis, uploaded to Codecov during the CI build. Last in
     // the list, as the plugin asks. With no CODECOV_TOKEN (a local build, a
