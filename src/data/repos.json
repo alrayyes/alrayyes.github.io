@@ -219,6 +219,7 @@
       "kind": "Site",
       "repo": "https://github.com/alrayyes/movie-planner-web",
       "reports": {
+        "lighthouse": "https://apis.ryankes.eu/movie-planner-web/reports/lighthouse/",
         "tests": "https://apis.ryankes.eu/movie-planner-web/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/movie-planner-web/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/movie-planner-web/reports/coverage/coverage.xml"
