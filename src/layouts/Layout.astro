@@ -1,4 +1,5 @@
 ---
+import interLatin from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import SiteFooter from "../components/SiteFooter.astro";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
@@ -30,6 +31,15 @@ const { title } = Astro.props;
     />
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {/* The Latin subset is what every page uses, so it starts downloading with
+    the document instead of after the stylesheet names it. */}
+    <link
+      rel="preload"
+      href={interLatin}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
   </head>
   <body>
     <main class="mx-auto max-w-3xl px-4 py-12">
