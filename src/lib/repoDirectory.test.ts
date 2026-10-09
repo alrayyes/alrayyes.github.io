@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import type { Api } from "../data/apis";
 import type { OtherRepo } from "../data/repos";
-import { directoryRows, filterRows, letterGroups } from "./repoDirectory";
+import { directoryGroups, directoryRows, filterRows, flatten } from "./repoDirectory";
 
 const reports = (name: string) => ({
   lighthouse: `https://apis.ryankes.eu/${name}/reports/lighthouse/`,
@@ -39,16 +39,29 @@ const others: OtherRepo[] = [
 ];
 
 const rows = directoryRows({ pages: ["/src/pages/index.astro"], apis, others });
-const byName = (name: string) => rows.find((row) => row.name === name);
+const byName = (name: string) => flatten(rows).find((row) => row.name === name);
 
 describe("directoryRows", () => {
   test("sorts every repo A to Z, ignoring case", () => {
     expect(rows.map((row) => row.name)).toEqual([
       "alrayyes.github.io",
       "Hush-Hush",
-      "hush-hush-go",
       "scaffold-go-api",
     ]);
+  });
+
+  test("nests an API's SDKs under it", () => {
+    expect(byName("Hush-Hush")?.sdks.map((sdk) => sdk.name)).toEqual(["hush-hush-go"]);
+    expect(rows.map((row) => row.name)).not.toContain("hush-hush-go");
+  });
+
+  test("keeps an SDK whose API has no row in the list", () => {
+    const orphan = directoryRows({
+      pages: [],
+      apis: [{ ...apis[0], reports: undefined }],
+      others: [],
+    });
+    expect(orphan.map((row) => row.name)).toContain("hush-hush-go");
   });
 
   test("lists each repo once", () => {
@@ -56,7 +69,7 @@ describe("directoryRows", () => {
   });
 
   test("maps kinds onto API, SDK, Scaffold and Other", () => {
-    expect(rows.map((row) => row.kind)).toEqual(["Other", "API", "SDK", "Scaffold"]);
+    expect(flatten(rows).map((row) => row.kind)).toEqual(["Other", "API", "SDK", "Scaffold"]);
   });
 
   test("sends the human-readable reports to the repo's own report page", () => {
@@ -107,28 +120,28 @@ describe("directoryRows", () => {
 
 describe("filterRows", () => {
   test("matches the name as a case-insensitive substring", () => {
-    expect(filterRows(rows, "HUSH", "All").map((row) => row.name)).toEqual([
+    expect(filterRows(flatten(rows), "HUSH", "All").map((row) => row.name)).toEqual([
       "Hush-Hush",
       "hush-hush-go",
     ]);
   });
 
   test("narrows by kind, and combines with the text", () => {
-    expect(filterRows(rows, "", "SDK").map((row) => row.name)).toEqual(["hush-hush-go"]);
-    expect(filterRows(rows, "scaffold", "SDK")).toEqual([]);
+    expect(filterRows(flatten(rows), "", "SDK").map((row) => row.name)).toEqual(["hush-hush-go"]);
+    expect(filterRows(flatten(rows), "scaffold", "SDK")).toEqual([]);
   });
 
   test("ignores surrounding whitespace and returns everything for an empty filter", () => {
-    expect(filterRows(rows, "  ", "All")).toEqual(rows);
+    expect(filterRows(flatten(rows), "  ", "All")).toEqual(flatten(rows));
   });
 });
 
-describe("letterGroups", () => {
-  test("groups sorted rows under the first letter of their name, upper-cased", () => {
-    expect(letterGroups(rows).map((group) => [group.letter, group.rows.length])).toEqual([
+describe("directoryGroups", () => {
+  test("groups by first letter, then puts every scaffold in one Scaffolding group", () => {
+    expect(directoryGroups(rows).map((group) => [group.label, group.rows.length])).toEqual([
       ["A", 1],
-      ["H", 2],
-      ["S", 1],
+      ["H", 1],
+      ["Scaffolding", 1],
     ]);
   });
 });

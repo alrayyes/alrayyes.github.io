@@ -5,7 +5,7 @@ import { apis } from "../data/apis";
 import { otherRepos } from "../data/repos";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import Layout from "../layouts/Layout.astro";
-import { directoryRows, KINDS, letterGroups } from "../lib/repoDirectory";
+import { directoryGroups, directoryRows, KINDS } from "../lib/repoDirectory";
 
 // This site's Lighthouse pages are its own routes, so a new page gets a link
 // without anyone listing it.
@@ -15,7 +15,7 @@ const rows = directoryRows({
   others: otherRepos,
 });
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
-const groups = letterGroups(rows);
+const groups = directoryGroups(rows);
 ---
 
 <Layout title="Repositories — alrayyes">
@@ -70,17 +70,17 @@ const groups = letterGroups(rows);
   </div>
 
   <div id="directory-list" class="mt-6">
-    {groups.map(({ letter, rows: group }) => (
+    {groups.map(({ label, rows: group }) => (
       <section
         data-letter-group
-        aria-labelledby={`letter-${letter}`}
+        aria-labelledby={`group-${label}`}
         class="mt-6 first:mt-0"
       >
         <h2
-          id={`letter-${letter}`}
+          id={`group-${label}`}
           class="border-b border-slate-300 pb-1 font-mono text-sm font-semibold text-slate-600 dark:border-slate-600 dark:text-slate-400"
         >
-          {letter}
+          {label}
         </h2>
         <ul>
           {group.map((row) => (
@@ -127,6 +127,17 @@ const groups = letterGroups(rows);
   function update() {
     const shown = new Set(filterRows(items, input.value, kind));
     for (const item of items) item.element.hidden = !shown.has(item);
+    // An API stays visible while one of its SDKs matches.
+    for (const item of items) {
+      const nested = item.element.parentElement?.querySelector(
+        "ul [data-repo-row]:not([hidden])",
+      );
+      if (nested) item.element.hidden = false;
+    }
+    for (const item of items) {
+      const holder = item.element.parentElement as HTMLElement;
+      holder.hidden = !holder.querySelector("[data-repo-row]:not([hidden])");
+    }
     for (const group of groups) {
       group.hidden = !group.querySelector("[data-repo-row]:not([hidden])");
     }

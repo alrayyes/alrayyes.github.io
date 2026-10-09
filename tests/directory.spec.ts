@@ -4,7 +4,9 @@ import { expectNoAxeViolations } from "./axe";
 const row = (page: import("@playwright/test").Page, name: string) =>
   page.locator(`[data-repo-row][data-name="${name}"]`);
 
-test("the front page lists every repo once, A to Z", async ({ page }) => {
+test("the front page lists every repo once, A to Z, with SDKs under their API and scaffolds together", async ({
+  page,
+}) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1, name: "Repositories" })).toBeVisible();
 
@@ -15,8 +17,32 @@ test("the front page lists every repo once, A to Z", async ({ page }) => {
   expect(names).toContain("Hush-Hush");
   expect(names).toContain("scaffold-go-api");
   expect(new Set(names).size).toBe(names.length);
-  const sorted = [...names].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
-  expect(names).toEqual(sorted);
+  const topLevel = await page
+    .locator("[data-repo-row]:not(ul ul [data-repo-row])")
+    .evaluateAll((rows) =>
+      rows
+        .map((el) => (el as HTMLElement).dataset)
+        .filter((data) => data.kind !== "Scaffold")
+        .map((data) => data.name ?? ""),
+    );
+  const sorted = [...topLevel].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
+  expect(topLevel).toEqual(sorted);
+});
+
+test("an API lists its SDKs under it", async ({ page }) => {
+  await page.goto("/");
+  const sdks = page.getByRole("list", { name: "SDKs for forge-dashboard" });
+  await expect(sdks.locator('[data-repo-row][data-kind="SDK"]').first()).toBeVisible();
+  await expect(page.locator('[data-letter-group] > ul > li > div[data-kind="SDK"]')).toHaveCount(0);
+});
+
+test("every scaffold sits in one Scaffolding group", async ({ page }) => {
+  await page.goto("/");
+  const group = page.getByRole("region", { name: "Scaffolding", exact: true });
+  await expect(group.locator('[data-repo-row][data-name="scaffold-go-api"]')).toHaveCount(1);
+  await expect(page.locator('[data-repo-row][data-kind="Scaffold"]')).toHaveCount(
+    await group.locator('[data-repo-row][data-kind="Scaffold"]').count(),
+  );
 });
 
 test("letter headings divide the list, and every repo sits under its own letter", async ({

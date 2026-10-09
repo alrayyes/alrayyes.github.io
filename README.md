@@ -7,7 +7,8 @@
 
 A directory of the public repos that publish test, coverage, or Lighthouse
 reports, deployed at [apis.ryankes.eu](https://apis.ryankes.eu). The front page
-lists every one A to Z with a filter. Lighthouse and test results are the
+lists every one A to Z with a filter, each API with its SDK repos under it and the
+scaffolds together in one group. Lighthouse and test results are the
 primary links on each row and go to the repo's own page at `/reports/<repo>/`;
 coverage and the raw XML and `lcov.info` files are secondary. For an API it
 also links the OpenAPI spec and the generated docs, and each SDK is its own
