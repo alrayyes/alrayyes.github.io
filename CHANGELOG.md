@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.26.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.25.3...alrayyes.github.io-v0.26.0) (2026-10-09)
+
+
+### Features
+
+* **ui:** icon buttons and a calmer layout on the report pages ([#179](https://github.com/alrayyes/alrayyes.github.io/issues/179)) ([f246df7](https://github.com/alrayyes/alrayyes.github.io/commit/f246df703585f8c7d06346371e6ab17fa33072aa))
+
+
+### Performance Improvements
+
+* inline the stylesheet, preload the font and assert the insights ([#182](https://github.com/alrayyes/alrayyes.github.io/issues/182)) ([b8246b9](https://github.com/alrayyes/alrayyes.github.io/commit/b8246b9ce1e60f5e9a5006f6ba12ae39f420c565))
+
 ## [0.25.3](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.25.2...alrayyes.github.io-v0.25.3) (2026-10-09)
 
 
