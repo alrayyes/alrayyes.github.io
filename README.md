@@ -106,9 +106,6 @@ to its timeout.
 
 The `test` job installs `lcov` (for `genhtml`) and `lcov_cobertura` itself, so
 neither is a local requirement.
-The `test` and `lighthouse` jobs run in the official Playwright image, which
-carries Chromium and its system packages. Its tag has to match the
-`@playwright/test` version, and `bun run test:unit` fails when it doesn't, so
-bump both together. Lighthouse needs Node 22.19 or newer and that Chromium. A
+Lighthouse needs Node 22.19 or newer and the Chromium Playwright installs. A
 push to `main` always runs every job, because a deploy replaces the whole site
 and would otherwise drop the reports.

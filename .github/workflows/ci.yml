@@ -111,21 +111,17 @@ jobs:
     if: needs.changes.outputs.site == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
-    # The browser and its system packages come with the image, so the job
-    # doesn't download them. The tag has to name the @playwright/test version
-    # in package.json (scripts/playwright-image.test.ts fails when it doesn't).
-    container:
-      image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27
-      options: --ipc=host
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: unzip, which setup-bun needs and the image lacks
-        run: apt-get update && apt-get install -y --no-install-recommends unzip
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version-file: package.json
       - name: bun install
         run: bun install --frozen-lockfile --ignore-scripts
+      - name: install playwright's browser
+        run: |
+          bunx playwright install --with-deps chromium ||
+            (sleep 5 && bunx playwright install --with-deps chromium)
       - name: unit tests with coverage
         run: |
           mkdir -p junit
@@ -135,8 +131,8 @@ jobs:
         # Cobertura XML and genhtml's browsable view of it. Runs on pull
         # requests too, so a broken step shows up before a merge, not on main.
         run: |
-          # The container runs as root, so there is no sudo.
-          apt-get install -y --no-install-recommends lcov pipx
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends lcov
           # Pinned here; no bot reads a pipx pin, so bump it by hand.
           pipx run --spec lcov_cobertura==2.1.1 lcov_cobertura coverage/lcov.info --output coverage/coverage.xml
           genhtml coverage/lcov.info --output-directory coverage/html
@@ -198,25 +194,21 @@ jobs:
     if: needs.changes.outputs.site == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
-    # The browser and its system packages come with the image, so the job
-    # doesn't download them. The tag has to name the @playwright/test version
-    # in package.json (scripts/playwright-image.test.ts fails when it doesn't).
-    container:
-      image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27
-      options: --ipc=host
     strategy:
       fail-fast: false
       matrix:
         shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: unzip, which setup-bun needs and the image lacks
-        run: apt-get update && apt-get install -y --no-install-recommends unzip
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version-file: package.json
       - name: bun install
         run: bun install --frozen-lockfile --ignore-scripts
+      - name: install playwright's browser
+        run: |
+          bunx playwright install --with-deps chromium ||
+            (sleep 5 && bunx playwright install --with-deps chromium)
       - name: install Node for Lighthouse
         # Lighthouse 13 needs Node 22.19 or newer, and it spawns Chrome, so it
         # gets a real Node rather than bun's compatibility layer.
