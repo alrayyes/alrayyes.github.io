@@ -74,8 +74,8 @@ describe("directoryRows", () => {
 
   test("sends the human-readable reports to the repo's own report page", () => {
     const row = byName("Hush-Hush");
-    expect(row?.lighthouse).toBe("/reports/Hush-Hush/");
-    expect(row?.tests).toBe("/reports/Hush-Hush/");
+    expect(row?.lighthouse).toBe("/reports/Hush-Hush/#repo-reports-lighthouse");
+    expect(row?.tests).toBe("/reports/Hush-Hush/#repo-reports-tests");
   });
 
   test("leaves out the human-readable link for a report a repo doesn't publish", () => {
@@ -112,8 +112,8 @@ describe("directoryRows", () => {
 
   test("links this site's own Lighthouse and test reports to its report page too", () => {
     expect(byName("alrayyes.github.io")).toMatchObject({
-      lighthouse: "/reports/alrayyes.github.io/",
-      tests: "/reports/alrayyes.github.io/",
+      lighthouse: "/reports/alrayyes.github.io/#repo-reports-lighthouse",
+      tests: "/reports/alrayyes.github.io/#repo-reports-tests",
     });
   });
 });

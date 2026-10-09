@@ -77,8 +77,9 @@ export function directoryRows({
         kind: kindOf(section.kind),
         repo: section.repo,
         ...links.get(section.name),
-        lighthouse: inGroup("Lighthouse").length > 0 ? detail : undefined,
-        tests: inGroup("Tests").length > 0 ? detail : undefined,
+        lighthouse:
+          inGroup("Lighthouse").length > 0 ? `${detail}#repo-reports-lighthouse` : undefined,
+        tests: inGroup("Tests").length > 0 ? `${detail}#repo-reports-tests` : undefined,
         coverage: inGroup("Coverage").find((file) => file.format === "HTML")?.href,
         raw: section.files
           .filter((file) => file.format !== "HTML")
