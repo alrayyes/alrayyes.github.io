@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.25.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.24.0...alrayyes.github.io-v0.25.0) (2026-10-09)
+
+
+### Features
+
+* **ui:** group SDKs under their API and scaffolds under Scaffolding ([#163](https://github.com/alrayyes/alrayyes.github.io/issues/163)) ([e97b56c](https://github.com/alrayyes/alrayyes.github.io/commit/e97b56c1c327574130899a9caac767f912aee9f7))
+
+
+### Bug Fixes
+
+* **ci:** stop auditing the report pages with Lighthouse ([#166](https://github.com/alrayyes/alrayyes.github.io/issues/166)) ([e4c1e20](https://github.com/alrayyes/alrayyes.github.io/commit/e4c1e20ddba0331badff1d890dd984e0a57405e8))
+
 ## [0.24.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.23.2...alrayyes.github.io-v0.24.0) (2026-10-08)
 
 
