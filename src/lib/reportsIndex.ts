@@ -86,9 +86,11 @@ export function catalogueRepos(apis: Api[]): RepoSection[] {
 
 // The pages Lighthouse audits are the site's own routes: src/pages/index.astro
 // is "home", src/pages/privacy.astro is "privacy", and so on. Sorted, the
-// home page first.
+// home page first. The report pages under /reports/ are left out: they only
+// display other reports, and scripts/lighthouse.sh skips them too.
 export function lighthousePages(pageFiles: string[]): string[] {
-  const names = pageFiles.map((file) => {
+  const own = pageFiles.filter((file) => !/\/pages\/reports\//.test(file));
+  const names = own.map((file) => {
     const route = file.replace(/^.*\/pages\//, "").replace(/\.astro$/, "");
     const name = route.replace(/\/?index$/, "").replaceAll("/", "-");
     return name === "" ? "home" : name;

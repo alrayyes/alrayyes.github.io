@@ -110,15 +110,16 @@ describe("catalogueRepos", () => {
 });
 
 describe("lighthousePages", () => {
-  test("names each page Lighthouse audits, the home page first", () => {
+  test("names each page Lighthouse audits, the home page first, and skips the report pages", () => {
     expect(
       lighthousePages([
         "../pages/privacy.astro",
         "../pages/index.astro",
         "../pages/changelog.astro",
         "../pages/reports/index.astro",
+        "../pages/reports/[repo].astro",
       ]),
-    ).toEqual(["home", "changelog", "privacy", "reports"]);
+    ).toEqual(["home", "changelog", "privacy"]);
   });
 });
 
@@ -158,7 +159,6 @@ describe("siteSection", () => {
     expect(lighthouse.map((f) => [f.label, f.href])).toEqual([
       ["Home", "/reports/lighthouse/home.report.html"],
       ["Privacy", "/reports/lighthouse/privacy.report.html"],
-      ["Reports", "/reports/lighthouse/reports.report.html"],
     ]);
   });
 });
