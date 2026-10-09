@@ -1,0 +1,80 @@
+---
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import BrandIcon from "../../../components/icons/BrandIcon.astro";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import RepoReportHeader from "../../../components/RepoReportHeader.astro";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import ReportSection from "../../../components/ReportSection.astro";
+import { apis } from "../../../data/apis";
+import { otherRepos } from "../../../data/repos";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import Layout from "../../../layouts/Layout.astro";
+import { filesOf } from "../../../lib/repoReportPage";
+import type { RepoSection } from "../../../lib/reportsIndex";
+import { reportSections } from "../../../lib/reportsIndex";
+// The overview of one repo's reports, at /reports/<repo>/: its coverage links, and
+// a link to the page for each report it publishes.
+
+export function getStaticPaths() {
+  // getStaticPaths runs outside this file's scope, so it can only use what it imports.
+  const pages = Object.keys(import.meta.glob("/src/pages/**/*.astro"));
+  return reportSections({ pages, apis, others: otherRepos }).map((section) => ({
+    params: { repo: section.name },
+    props: { section },
+  }));
+}
+
+interface Props {
+  section: RepoSection;
+}
+
+const { section } = Astro.props;
+
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const pages = [
+  {
+    group: "Lighthouse",
+    href: "lighthouse/",
+    label: "Lighthouse",
+    icon: "lighthouse",
+  },
+  { group: "Tests", href: "tests/", label: "Test results", icon: "tests" },
+] as const;
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+function publishes(group: string) {
+  return filesOf(section, group as "Lighthouse" | "Tests").length > 0;
+}
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const available = pages.filter((page) => publishes(page.group));
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const hasCoverage = filesOf(section, "Coverage").length > 0;
+---
+
+<Layout title={`${section.name} — Reports`}>
+  <RepoReportHeader section={section} />
+
+  {available.length > 0 && (
+    <nav aria-label="Reports" class="mt-8">
+      <ul class="flex flex-wrap gap-2">
+        {available.map((page) => (
+          <li>
+            <a
+              href={`/reports/${section.name}/${page.href}`}
+              class="inline-flex min-h-9 items-center gap-1.5 rounded-md border border-accent px-3 py-1 text-sm font-medium text-accent hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 dark:border-accent-dark dark:text-accent-dark dark:hover:bg-slate-700"
+            >
+              <BrandIcon name={page.icon} />
+              {page.label}
+              <span class="sr-only"> for {section.name}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )}
+
+  {hasCoverage && (
+    <div class="mt-8">
+      <ReportSection section={section} group="Coverage" />
+    </div>
+  )}
+</Layout>

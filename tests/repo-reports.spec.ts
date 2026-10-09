@@ -57,21 +57,38 @@ async function serveReports(page: Page, { index = true }: { index?: boolean } = 
   });
 }
 
-test("the front page's Lighthouse and Test results links land on their own section", async ({
-  page,
-}) => {
+test("the front page's Lighthouse and Test results links open their own page", async ({ page }) => {
   await serveReports(page);
   await page.goto("/");
   const row = page.locator('[data-repo-row][data-name="pipeline-analytics"]');
   await row.getByRole("link", { name: /^Test results/ }).click();
-  await expect(page).toHaveURL(/\/reports\/pipeline-analytics\/#repo-reports-tests$/);
-  await expect(page.locator("#repo-reports-tests")).toBeInViewport();
-  await expect(page.locator("#repo-reports-lighthouse")).toHaveCount(1);
+  await expect(page).toHaveURL(/\/reports\/pipeline-analytics\/tests\/$/);
+  await expect(page.getByRole("heading", { level: 2, name: "Tests" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: "Lighthouse" })).toHaveCount(0);
+  await page.goBack();
+  await row.getByRole("link", { name: /^Lighthouse/ }).click();
+  await expect(page).toHaveURL(/\/reports\/pipeline-analytics\/lighthouse\/$/);
+  await expect(page.getByRole("heading", { level: 2, name: "Lighthouse" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: "Tests" })).toHaveCount(0);
+});
+
+test("a repo with no Lighthouse report has no Lighthouse page, and its overview links only what exists", async ({
+  page,
+}) => {
+  const missing = await page.goto("/reports/forge-dashboard-sdk-go/lighthouse/");
+  expect(missing?.status()).toBe(404);
+  await page.goto("/reports/forge-dashboard-sdk-go/");
+  await expect(page.getByRole("link", { name: /^Test results/ })).toHaveAttribute(
+    "href",
+    "/reports/forge-dashboard-sdk-go/tests/",
+  );
+  await expect(page.getByRole("link", { name: /^Lighthouse/ })).toHaveCount(0);
+  await expect(page.getByRole("heading", { level: 2, name: "Coverage" })).toBeVisible();
 });
 
 test("a repo's page lists its Lighthouse pages with their scores as text", async ({ page }) => {
   await serveReports(page);
-  await page.goto("/reports/pipeline-analytics/");
+  await page.goto("/reports/pipeline-analytics/lighthouse/");
   await expect(page.getByRole("heading", { level: 1, name: "pipeline-analytics" })).toBeVisible();
 
   const lighthouse = page.getByRole("region", { name: "Lighthouse" });
@@ -95,24 +112,27 @@ test("a repo's page lists its Lighthouse pages with their scores as text", async
   await expect(row.getByText("2 other runs")).toBeVisible();
 });
 
-test("the header has the repo's GitHub mark as an icon button, and each section heading has an icon", async ({
-  page,
-}) => {
-  await serveReports(page);
-  await page.goto("/reports/pipeline-analytics/");
-  const repo = page.getByRole("link", { name: "Repository" });
-  await expect(repo).toHaveAttribute("href", /github\.com\/alrayyes\/pipeline-analytics$/);
-  await expect(repo.locator("svg[aria-hidden='true']")).toHaveCount(1);
-  for (const name of ["Lighthouse", "Tests"]) {
+for (const [kind, heading] of [
+  ["lighthouse", "Lighthouse"],
+  ["tests", "Tests"],
+] as const) {
+  test(`the ${kind} page has the repo's GitHub mark as an icon button and a heading with an icon`, async ({
+    page,
+  }) => {
+    await serveReports(page);
+    await page.goto(`/reports/pipeline-analytics/${kind}/`);
+    const repo = page.getByRole("link", { name: "Repository" });
+    await expect(repo).toHaveAttribute("href", /github\.com\/alrayyes\/pipeline-analytics$/);
+    await expect(repo.locator("svg[aria-hidden='true']")).toHaveCount(1);
     await expect(
-      page.getByRole("heading", { level: 2, name }).locator("svg[aria-hidden='true']"),
+      page.getByRole("heading", { level: 2, name: heading }).locator("svg[aria-hidden='true']"),
     ).toHaveCount(1);
-  }
-});
+  });
+}
 
 test("a Lighthouse score is a chip that says its category and number as text", async ({ page }) => {
   await serveReports(page);
-  await page.goto("/reports/pipeline-analytics/");
+  await page.goto("/reports/pipeline-analytics/lighthouse/");
   const row = page
     .getByRole("region", { name: "Lighthouse" })
     .getByRole("listitem")
@@ -133,7 +153,7 @@ test("a repo's page lists its test files with what each one found, counting case
   page,
 }) => {
   await serveReports(page);
-  await page.goto("/reports/pipeline-analytics/");
+  await page.goto("/reports/pipeline-analytics/tests/");
   const tests = page.getByRole("region", { name: "Tests" });
 
   const e2eRow = tests.getByRole("listitem").filter({ hasText: "e2e.xml" });
@@ -149,7 +169,7 @@ test("a file that can't be read says so, still links, and leaves the other rows 
   page,
 }) => {
   await serveReports(page);
-  await page.goto("/reports/pipeline-analytics/");
+  await page.goto("/reports/pipeline-analytics/tests/");
   const tests = page.getByRole("region", { name: "Tests" });
   const goRow = tests.getByRole("listitem").filter({ hasText: "go.xml" });
   await expect(goRow).toContainText("Could not read this file");
@@ -166,7 +186,7 @@ test("a directory with no index page still lists the reports the catalogue links
   page,
 }) => {
   await serveReports(page, { index: false });
-  await page.goto("/reports/pipeline-analytics/");
+  await page.goto("/reports/pipeline-analytics/tests/");
   const tests = page.getByRole("region", { name: "Tests" });
   await expect(tests.getByRole("link", { name: /Test results/ })).toHaveAttribute(
     "href",
@@ -178,7 +198,7 @@ test.describe("without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
 
   test("the page still lists the links the catalogue holds", async ({ page }) => {
-    await page.goto("/reports/pipeline-analytics/");
+    await page.goto("/reports/pipeline-analytics/lighthouse/");
     const lighthouse = page.getByRole("region", { name: "Lighthouse" });
     await expect(lighthouse.getByRole("link", { name: /Lighthouse/ }).first()).toHaveAttribute(
       "href",
@@ -188,22 +208,32 @@ test.describe("without JavaScript", () => {
 });
 
 for (const scheme of ["light", "dark"] as const) {
-  test(`a repo's page has no axe violations in ${scheme} mode`, async ({ page }) => {
-    await serveReports(page);
-    await page.emulateMedia({ colorScheme: scheme });
-    await page.goto("/reports/pipeline-analytics/");
-    await expect(page.getByText("51 tests, 0 failed")).toBeVisible();
-    await expectNoAxeViolations(page);
-  });
+  for (const kind of ["", "lighthouse/", "tests/"]) {
+    test(`/reports/<repo>/${kind} has no axe violations in ${scheme} mode`, async ({ page }) => {
+      await serveReports(page);
+      await page.emulateMedia({ colorScheme: scheme });
+      await page.goto(`/reports/pipeline-analytics/${kind}`);
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      if (kind === "tests/") await expect(page.getByText("51 tests, 0 failed")).toBeVisible();
+      if (kind === "lighthouse/")
+        await expect(page.getByText("2 other runs").first()).toBeVisible();
+      await expectNoAxeViolations(page);
+    });
+  }
 }
 
-test("a repo's page fits a 360px screen without scrolling sideways", async ({ page }) => {
-  await serveReports(page);
-  await page.setViewportSize({ width: 360, height: 800 });
-  await page.goto("/reports/pipeline-analytics/");
-  await expect(page.getByText("51 tests, 0 failed")).toBeVisible();
-  const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - window.innerWidth,
-  );
-  expect(overflow).toBeLessThanOrEqual(0);
-});
+for (const kind of ["", "lighthouse/", "tests/"]) {
+  test(`/reports/<repo>/${kind} fits a 360px screen without scrolling sideways`, async ({
+    page,
+  }) => {
+    await serveReports(page);
+    await page.setViewportSize({ width: 360, height: 800 });
+    await page.goto(`/reports/pipeline-analytics/${kind}`);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    if (kind === "tests/") await expect(page.getByText("51 tests, 0 failed")).toBeVisible();
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+  });
+}

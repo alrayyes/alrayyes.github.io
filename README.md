@@ -9,10 +9,10 @@ A directory of the public repos that publish test, coverage, or Lighthouse
 reports, deployed at [apis.ryankes.eu](https://apis.ryankes.eu). The front page
 lists every one A to Z with a filter, each API with its SDK repos under it and
 the scaffolds together in one group. Lighthouse and test results are the
-primary links on each row and go to the repo's own page at `/reports/<repo>/`,
-each to its own section; coverage and the raw XML and `lcov.info` files are
-secondary. For an API it also links the OpenAPI spec and the generated docs, and
-each SDK is its own row.
+primary links on each row. Lighthouse opens `/reports/<repo>/lighthouse/` and
+Test results opens `/reports/<repo>/tests/`; coverage and the raw XML and
+`lcov.info` files are secondary. For an API it also links the OpenAPI spec and
+the generated docs, and each SDK is its own row.
 
 The APIs and the SDK repos are in `src/data/apis.json`, validated by
 `src/data/apis.schema.json`. Adding a new API or SDK is a plain data-file edit,
@@ -78,8 +78,11 @@ format, and a filter to find a repo by name. The page is built from this site's
 own reports and the two data files, so adding a repo's `reports` entry
 updates it with the next deploy.
 
-Each repo's section links to its own page, at `/reports/<repo>/`. The page opens
-the repo's Lighthouse and test directories in the browser, reads the file names
+Each repo has a page for its Lighthouse reports, at `/reports/<repo>/lighthouse/`,
+and one for its test results, at `/reports/<repo>/tests/`, and only for a report
+it publishes. `/reports/<repo>/` is an overview with the coverage links and a
+link to each of those pages. A report page opens the repo's directory in the
+browser, reads the file names
 from the index page its pipeline wrote there (GitHub Pages can't list a
 directory), and shows one row per audited page with its four scores, and one row
 per test file with its tests, failures, errors, skipped and time. Where a
