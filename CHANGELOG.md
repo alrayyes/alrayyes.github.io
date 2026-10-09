@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.30.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.29.0...alrayyes.github.io-v0.30.0) (2026-10-09)
+
+
+### Features
+
+* **catalogue:** list movie-planner-web's reports ([#191](https://github.com/alrayyes/alrayyes.github.io/issues/191)) ([e70db3c](https://github.com/alrayyes/alrayyes.github.io/commit/e70db3ceff08fbbf86f6dc7a2fe4c644e7056374))
+
 ## [0.29.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.28.0...alrayyes.github.io-v0.29.0) (2026-10-09)
 
 
