@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.30.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.30.0...alrayyes.github.io-v0.30.1) (2026-10-09)
+
+
+### Bug Fixes
+
+* **hooks:** lint only staged files with markdownlint ([#194](https://github.com/alrayyes/alrayyes.github.io/issues/194)) ([96e1f84](https://github.com/alrayyes/alrayyes.github.io/commit/96e1f84088c0e4658dbdaa7b8e233b703807b3c1))
+
 ## [0.30.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.29.0...alrayyes.github.io-v0.30.0) (2026-10-09)
 
 
