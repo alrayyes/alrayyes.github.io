@@ -70,4 +70,7 @@ find dist -name index.html -not -path 'dist/reports/*' | sort | scripts/lighthou
     --quiet
 done
 
+# Fails when a page regresses on an insight this site has fixed.
+bun scripts/lighthouse-insights.ts "$OUT"
+
 ls "$OUT"
