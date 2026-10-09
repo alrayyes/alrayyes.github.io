@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.25.2](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.25.1...alrayyes.github.io-v0.25.2) (2026-10-09)
+
+
+### Bug Fixes
+
+* **ui:** link Lighthouse and Test results to their own section ([#176](https://github.com/alrayyes/alrayyes.github.io/issues/176)) ([d192cab](https://github.com/alrayyes/alrayyes.github.io/commit/d192cab25024ae7ebfdf86db7c312bd02a7a77c2))
+
 ## [0.25.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.25.0...alrayyes.github.io-v0.25.1) (2026-10-09)
 
 
