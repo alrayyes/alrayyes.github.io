@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.25.3](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.25.2...alrayyes.github.io-v0.25.3) (2026-10-09)
+
+
+### Reverts
+
+* **ci:** go back to installing Playwright's browser ([#173](https://github.com/alrayyes/alrayyes.github.io/issues/173)) ([8c879d0](https://github.com/alrayyes/alrayyes.github.io/commit/8c879d0854344c8999fd64ca35d84c95dd5434ed))
+
 ## [0.25.2](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.25.1...alrayyes.github.io-v0.25.2) (2026-10-09)
 
 
