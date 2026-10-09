@@ -55,8 +55,9 @@ done
 
 IFS=/ read -r shard shards <<<"${LIGHTHOUSE_SHARD:-1/1}"
 
-# dist/index.html is the home page; dist/privacy/index.html is "privacy".
-find dist -name index.html | sort | scripts/lighthouse-shard.sh "$shard" "$shards" | while read -r file; do
+# dist/index.html is the home page; dist/privacy/index.html is "privacy". The
+# pages under dist/reports/ only display other reports, so they aren't audited.
+find dist -name index.html -not -path 'dist/reports/*' | sort | scripts/lighthouse-shard.sh "$shard" "$shards" | while read -r file; do
   dir=$(dirname "${file#dist}")
   path=${dir#/}
   page=${path:-home}

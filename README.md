@@ -99,9 +99,10 @@ that path:
 The `test` job writes the test and coverage reports, a `lighthouse` job writes
 the Lighthouse ones, and the `reports` job runs `scripts/assemble-reports.ts` to
 lay them out; the `build` job adds the result to the site. Lighthouse audits
-each page in turn and the catalogue gains a page per report, so the job is a
-matrix of shards (`LIGHTHOUSE_SHARD=<n>/<total>` runs one slice locally). Add a
-shard to the matrix in `ci.yml` when a shard gets close to its timeout.
+each page in turn, except the `/reports/` pages, which only display other
+reports. The job is a matrix of shards (`LIGHTHOUSE_SHARD=<n>/<total>` runs one
+slice locally). Add a shard to the matrix in `ci.yml` when a shard gets close
+to its timeout.
 
 The `test` job installs `lcov` (for `genhtml`) and `lcov_cobertura` itself, so
 neither is a local requirement.
