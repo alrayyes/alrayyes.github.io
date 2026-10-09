@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.27.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.26.0...alrayyes.github.io-v0.27.0) (2026-10-09)
+
+
+### Features
+
+* **catalogue:** list the repos that now publish reports ([#184](https://github.com/alrayyes/alrayyes.github.io/issues/184)) ([05ce6e0](https://github.com/alrayyes/alrayyes.github.io/commit/05ce6e0d0a1abe1d7ffa14e0108825ad44071dc4))
+
 ## [0.26.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.25.3...alrayyes.github.io-v0.26.0) (2026-10-09)
 
 
