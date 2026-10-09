@@ -5,6 +5,7 @@ import {
   lighthouseRowsFromFiles,
   lighthouseRowsFromManifest,
   sameOriginPath,
+  scoreBand,
 } from "./reportDirectory";
 
 describe("directoryLinks", () => {
@@ -142,6 +143,19 @@ describe("lighthouseRowsFromFiles", () => {
     expect(login?.others.map((o) => o.html)).toEqual([
       "localhost-login-2026_10_06_13_46_28.report.html",
       "localhost-login-2026_10_06_13_46_15.report.html",
+    ]);
+  });
+});
+
+describe("scoreBand", () => {
+  test("green from 90, amber from 50, red below", () => {
+    expect([100, 90, 89, 50, 49, 0].map(scoreBand)).toEqual([
+      "green",
+      "green",
+      "amber",
+      "amber",
+      "red",
+      "red",
     ]);
   });
 });

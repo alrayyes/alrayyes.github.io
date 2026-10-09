@@ -80,11 +80,53 @@ test("a repo's page lists its Lighthouse pages with their scores as text", async
   await expect(row).toContainText("Accessibility 100");
   await expect(row).toContainText("Best practices 100");
   await expect(row).toContainText("SEO 100");
-  await expect(row.getByRole("link", { name: /Open HTML report/ })).toHaveAttribute(
+  const html = row.getByRole("link", { name: "HTML report for /login" });
+  await expect(html).toHaveAttribute(
     "href",
     /\/pipeline-analytics\/reports\/lighthouse\/login-2\.report\.html$/,
   );
+  await expect(row.getByRole("link", { name: "JSON report for /login" })).toHaveAttribute(
+    "href",
+    /login-2\.report\.json$/,
+  );
+  // Icon buttons: an icon and a name, no visible text, and a hit area over 36px.
+  await expect(html.locator("svg[aria-hidden='true']")).toHaveCount(1);
+  expect((await html.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(36);
   await expect(row.getByText("2 other runs")).toBeVisible();
+});
+
+test("the header has the repo's GitHub mark as an icon button, and each section heading has an icon", async ({
+  page,
+}) => {
+  await serveReports(page);
+  await page.goto("/reports/pipeline-analytics/");
+  const repo = page.getByRole("link", { name: "Repository" });
+  await expect(repo).toHaveAttribute("href", /github\.com\/alrayyes\/pipeline-analytics$/);
+  await expect(repo.locator("svg[aria-hidden='true']")).toHaveCount(1);
+  for (const name of ["Lighthouse", "Tests"]) {
+    await expect(
+      page.getByRole("heading", { level: 2, name }).locator("svg[aria-hidden='true']"),
+    ).toHaveCount(1);
+  }
+});
+
+test("a Lighthouse score is a chip that says its category and number as text", async ({ page }) => {
+  await serveReports(page);
+  await page.goto("/reports/pipeline-analytics/");
+  const row = page
+    .getByRole("region", { name: "Lighthouse" })
+    .getByRole("listitem")
+    .filter({ hasText: "/login" })
+    .first();
+  await expect(row.locator('[data-score="performance"]').first()).toHaveText("Performance 83");
+  await expect(row.locator('[data-score="performance"]').first()).toHaveAttribute(
+    "data-band",
+    "amber",
+  );
+  await expect(row.locator('[data-score="accessibility"]').first()).toHaveAttribute(
+    "data-band",
+    "green",
+  );
 });
 
 test("a repo's page lists its test files with what each one found, counting cases when the root has no totals", async ({
@@ -111,7 +153,7 @@ test("a file that can't be read says so, still links, and leaves the other rows 
   const tests = page.getByRole("region", { name: "Tests" });
   const goRow = tests.getByRole("listitem").filter({ hasText: "go.xml" });
   await expect(goRow).toContainText("Could not read this file");
-  await expect(goRow.getByRole("link", { name: /Open XML/ })).toHaveAttribute(
+  await expect(goRow.getByRole("link", { name: "Raw XML for go.xml" })).toHaveAttribute(
     "href",
     /\/tests\/go\.xml$/,
   );
