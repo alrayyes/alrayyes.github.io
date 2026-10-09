@@ -213,6 +213,16 @@
         "coverage": "https://apis.ryankes.eu/washy-washy-core/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/washy-washy-core/reports/coverage/coverage.xml"
       }
+    },
+    {
+      "name": "movie-planner-web",
+      "kind": "Site",
+      "repo": "https://github.com/alrayyes/movie-planner-web",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/movie-planner-web/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/movie-planner-web/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/movie-planner-web/reports/coverage/coverage.xml"
+      }
     }
   ]
 }
