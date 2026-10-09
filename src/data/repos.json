@@ -153,6 +153,66 @@
         "coverage": "https://apis.ryankes.eu/hush-hush-cli/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/hush-hush-cli/reports/coverage/coverage.xml"
       }
+    },
+    {
+      "name": "backup-git-repos",
+      "kind": "CLI",
+      "repo": "https://github.com/alrayyes/backup-git-repos",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/backup-git-repos/reports/tests/junit.xml",
+        "coverage": "https://apis.ryankes.eu/backup-git-repos/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/backup-git-repos/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "gwttr",
+      "kind": "CLI",
+      "repo": "https://github.com/alrayyes/gwttr",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/gwttr/reports/tests/junit.xml",
+        "coverage": "https://apis.ryankes.eu/gwttr/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/gwttr/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "forgejo-caldav-sync",
+      "kind": "Service",
+      "repo": "https://github.com/alrayyes/forgejo-caldav-sync",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/forgejo-caldav-sync/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/forgejo-caldav-sync/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/forgejo-caldav-sync/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "linkwarden-obsidian-sync",
+      "kind": "CLI",
+      "repo": "https://github.com/alrayyes/linkwarden-obsidian-sync",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/linkwarden-obsidian-sync/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/linkwarden-obsidian-sync/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/linkwarden-obsidian-sync/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "form-handler",
+      "kind": "Service",
+      "repo": "https://github.com/alrayyes/form-handler",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/form-handler/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/form-handler/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/form-handler/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "washy-washy-core",
+      "kind": "Library",
+      "repo": "https://github.com/alrayyes/washy-washy-core",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/washy-washy-core/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/washy-washy-core/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/washy-washy-core/reports/coverage/coverage.xml"
+      }
     }
   ]
 }
