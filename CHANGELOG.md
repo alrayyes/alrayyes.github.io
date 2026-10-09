@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.28.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.27.0...alrayyes.github.io-v0.28.0) (2026-10-09)
+
+
+### Features
+
+* **ui:** give Lighthouse and Test results a page each ([#187](https://github.com/alrayyes/alrayyes.github.io/issues/187)) ([f8a0ecc](https://github.com/alrayyes/alrayyes.github.io/commit/f8a0ecc03afec04fc700cb261b310b511afdee08))
+
 ## [0.27.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.26.0...alrayyes.github.io-v0.27.0) (2026-10-09)
 
 
