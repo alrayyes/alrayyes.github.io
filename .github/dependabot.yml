@@ -3,11 +3,9 @@
 # a floating range drifts silently and there's nothing to raise a pull
 # request about.
 #
-# Three pins Dependabot can't see, and which are updated by hand: the Vale
-# version in prose.yml/CONTRIBUTING.md, the gitleaks version in gitleaks.yml
-# and the Playwright image in ci.yml, which must follow @playwright/test
-# (scripts/playwright-image.test.ts fails until it does). None of them lives
-# anywhere Dependabot's ecosystems look.
+# Two pins Dependabot can't see, and which are updated by hand: the Vale
+# version in prose.yml/CONTRIBUTING.md and the gitleaks version in
+# gitleaks.yml. Neither lives anywhere Dependabot's ecosystems look.
 version: 2
 
 updates:
