@@ -27,7 +27,7 @@
       "kind": "Scaffold",
       "repo": "https://github.com/alrayyes/scaffold-python-cli",
       "reports": {
-        "tests": "https://apis.ryankes.eu/scaffold-python-cli/reports/tests/junit.xml",
+        "tests": "https://apis.ryankes.eu/scaffold-python-cli/reports/tests/",
         "coverage": "https://apis.ryankes.eu/scaffold-python-cli/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/scaffold-python-cli/reports/coverage/coverage.xml"
       }
@@ -40,6 +40,118 @@
         "tests": "https://apis.ryankes.eu/scaffold-go-api/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/scaffold-go-api/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/scaffold-go-api/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "washy-washy-cli",
+      "kind": "CLI",
+      "repo": "https://github.com/alrayyes/washy-washy-cli",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/washy-washy-cli/reports/tests/",
+        "coverage": "https://apis.ryankes.eu/washy-washy-cli/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/washy-washy-cli/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "service-not-ready",
+      "kind": "Service",
+      "repo": "https://github.com/alrayyes/service-not-ready",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/service-not-ready/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/service-not-ready/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/service-not-ready/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "org-roam-to-obsidian",
+      "kind": "CLI",
+      "repo": "https://github.com/alrayyes/org-roam-to-obsidian",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/org-roam-to-obsidian/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/org-roam-to-obsidian/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/org-roam-to-obsidian/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "tempus-fugit",
+      "kind": "Site",
+      "repo": "https://github.com/alrayyes/tempus-fugit",
+      "reports": {
+        "lighthouse": "https://apis.ryankes.eu/tempus-fugit/reports/lighthouse/index/report.html",
+        "tests": "https://apis.ryankes.eu/tempus-fugit/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/tempus-fugit/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/tempus-fugit/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "forgejo-time-sync",
+      "kind": "CLI",
+      "repo": "https://github.com/alrayyes/forgejo-time-sync",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/forgejo-time-sync/reports/tests/junit.xml",
+        "coverage": "https://apis.ryankes.eu/forgejo-time-sync/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/forgejo-time-sync/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "washy-washy-web",
+      "kind": "Site",
+      "repo": "https://github.com/alrayyes/washy-washy-web",
+      "reports": {
+        "lighthouse": "https://apis.ryankes.eu/washy-washy-web/reports/lighthouse/",
+        "tests": "https://apis.ryankes.eu/washy-washy-web/reports/tests/",
+        "coverage": "https://apis.ryankes.eu/washy-washy-web/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/washy-washy-web/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "bot-pr-watchdog",
+      "kind": "Other",
+      "repo": "https://github.com/alrayyes/bot-pr-watchdog",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/bot-pr-watchdog/reports/tests/junit.xml",
+        "coverage": "https://apis.ryankes.eu/bot-pr-watchdog/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/bot-pr-watchdog/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "forgejo-mirror-sync",
+      "kind": "CLI",
+      "repo": "https://github.com/alrayyes/forgejo-mirror-sync",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/forgejo-mirror-sync/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/forgejo-mirror-sync/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/forgejo-mirror-sync/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "movie-planner",
+      "kind": "CLI",
+      "repo": "https://github.com/alrayyes/movie-planner",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/movie-planner/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/movie-planner/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/movie-planner/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "washy-washy-pdf",
+      "kind": "Library",
+      "repo": "https://github.com/alrayyes/washy-washy-pdf",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/washy-washy-pdf/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/washy-washy-pdf/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/washy-washy-pdf/reports/coverage/coverage.xml"
+      }
+    },
+    {
+      "name": "hush-hush-cli",
+      "kind": "CLI",
+      "repo": "https://github.com/alrayyes/hush-hush-cli",
+      "reports": {
+        "tests": "https://apis.ryankes.eu/hush-hush-cli/reports/tests/junit.xml",
+        "coverage": "https://apis.ryankes.eu/hush-hush-cli/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/hush-hush-cli/reports/coverage/coverage.xml"
       }
     }
   ]
