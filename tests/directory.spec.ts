@@ -68,8 +68,11 @@ test("Lighthouse and Test results are the primary links, each with an icon and a
   const analytics = row(page, "pipeline-analytics");
   const lighthouse = analytics.getByRole("link", { name: /^Lighthouse/ });
   const tests = analytics.getByRole("link", { name: /^Test results/ });
-  await expect(lighthouse).toHaveAttribute("href", "/reports/pipeline-analytics/");
-  await expect(tests).toHaveAttribute("href", "/reports/pipeline-analytics/");
+  await expect(lighthouse).toHaveAttribute(
+    "href",
+    "/reports/pipeline-analytics/#repo-reports-lighthouse",
+  );
+  await expect(tests).toHaveAttribute("href", "/reports/pipeline-analytics/#repo-reports-tests");
   for (const link of [lighthouse, tests]) {
     await expect(link.locator("svg[aria-hidden='true']")).toHaveCount(1);
   }
@@ -119,7 +122,7 @@ test("this site's own row links its report files", async ({ page }) => {
   );
   await expect(site.getByRole("link", { name: /^Lighthouse/ })).toHaveAttribute(
     "href",
-    "/reports/alrayyes.github.io/",
+    "/reports/alrayyes.github.io/#repo-reports-lighthouse",
   );
 });
 

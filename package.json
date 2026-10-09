@@ -1,6 +1,6 @@
 {
   "name": "alrayyes.github.io",
-  "version": "0.25.1",
+  "version": "0.25.2",
   "private": true,
   "description": "A catalogue of the public HTTP APIs I maintain, and every SDK generated for each.",
   "scripts": {
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@astrojs/check": "0.9.10",
     "@axe-core/playwright": "4.13.0",
-    "@biomejs/biome": "2.5.14",
+    "@biomejs/biome": "2.5.15",
     "@commitlint/cli": "21.2.3",
     "@commitlint/config-conventional": "21.2.3",
     "@playwright/test": "1.63.0",
@@ -50,10 +50,10 @@
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
     "bun-types": "1.4.2",
-    "lefthook": "2.1.14",
+    "lefthook": "2.1.16",
     "lighthouse": "13.5.0",
     "markdownlint-cli2": "0.23.3",
-    "oxlint": "1.85.0",
+    "oxlint": "1.86.0",
     "prettier": "3.9.9",
     "prettier-plugin-astro": "1.1.0",
     "sort-package-json": "4.0.0",
