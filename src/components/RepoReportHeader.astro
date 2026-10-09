@@ -1,0 +1,37 @@
+---
+import type { RepoSection } from "../lib/reportsIndex";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import BrandIcon from "./icons/BrandIcon.astro";
+
+interface Props {
+  section: RepoSection;
+}
+
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const { section } = Astro.props;
+---
+
+<p class="text-sm">
+  <a
+    href="/"
+    class="inline-flex min-h-8 items-center text-accent underline underline-offset-2 hover:text-accent-hover dark:text-accent-dark dark:hover:text-accent-dark-hover"
+  >
+    <span aria-hidden="true">←</span>&nbsp;All repositories
+  </a>
+</p>
+
+<h1 class="mt-2 font-mono text-2xl font-bold tracking-tight break-all text-slate-900 dark:text-slate-100">
+  {section.name}
+</h1>
+<p class="mt-2 flex flex-wrap items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+  <span class="rounded border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-xs font-medium text-slate-700 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-300">
+    {section.kind}
+  </span>
+  <a
+    href={section.repo}
+    class="inline-flex min-h-9 items-center gap-1.5 rounded-md border border-slate-300 bg-white px-3 py-1 font-medium text-slate-800 hover:border-accent hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-accent-dark dark:hover:bg-slate-800"
+  >
+    <BrandIcon name="github" />
+    Repository
+  </a>
+</p>

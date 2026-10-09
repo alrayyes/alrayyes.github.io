@@ -1,0 +1,45 @@
+---
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import RepoReportHeader from "../../../components/RepoReportHeader.astro";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import ReportSection from "../../../components/ReportSection.astro";
+import { apis } from "../../../data/apis";
+import { otherRepos } from "../../../data/repos";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import Layout from "../../../layouts/Layout.astro";
+import { filesOf } from "../../../lib/repoReportPage";
+import type { RepoSection } from "../../../lib/reportsIndex";
+import { reportSections } from "../../../lib/reportsIndex";
+// One page per repo that publishes Tests, at /reports/<repo>/tests/. The server
+// renders the links the catalogue holds, which is all a visitor without
+// JavaScript gets. The script then reads the repo's own directory from the same
+// origin and replaces those links with rows that say what each report found.
+
+export function getStaticPaths() {
+  // getStaticPaths runs outside this file's scope, so it can only use what it imports.
+  const pages = Object.keys(import.meta.glob("/src/pages/**/*.astro"));
+  return reportSections({ pages, apis, others: otherRepos })
+    .filter((section) => filesOf(section, "Tests").length > 0)
+    .map((section) => ({
+      params: { repo: section.name },
+      props: { section },
+    }));
+}
+
+interface Props {
+  section: RepoSection;
+}
+
+const { section } = Astro.props;
+---
+
+<Layout title={`${section.name} — Tests`}>
+  <RepoReportHeader section={section} />
+  <div class="mt-8">
+    <ReportSection section={section} group="Tests" live />
+  </div>
+</Layout>
+
+<script>
+  import "../../../scripts/repoReports";
+</script>
