@@ -119,6 +119,8 @@ jobs:
       options: --ipc=host
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: unzip, which setup-bun needs and the image lacks
+        run: apt-get update && apt-get install -y --no-install-recommends unzip
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version-file: package.json
@@ -134,7 +136,6 @@ jobs:
         # requests too, so a broken step shows up before a merge, not on main.
         run: |
           # The container runs as root, so there is no sudo.
-          apt-get update
           apt-get install -y --no-install-recommends lcov pipx
           # Pinned here; no bot reads a pipx pin, so bump it by hand.
           pipx run --spec lcov_cobertura==2.1.1 lcov_cobertura coverage/lcov.info --output coverage/coverage.xml
@@ -209,6 +210,8 @@ jobs:
         shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: unzip, which setup-bun needs and the image lacks
+        run: apt-get update && apt-get install -y --no-install-recommends unzip
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version-file: package.json
