@@ -145,7 +145,7 @@ jobs:
         # CODECOV_TOKEN, so the upload would fail a pull request that changed
         # nothing about coverage.
         if: ${{ github.actor != 'dependabot[bot]' }}
-        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage/lcov.info
@@ -159,7 +159,7 @@ jobs:
       - name: upload test results to Codecov
         # Even when a test failed: a red run is what test analytics is for.
         if: ${{ !cancelled() && github.actor != 'dependabot[bot]' }}
-        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           report_type: test_results
