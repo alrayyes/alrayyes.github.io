@@ -57,6 +57,18 @@ async function serveReports(page: Page, { index = true }: { index?: boolean } = 
   });
 }
 
+test("the front page's Lighthouse and Test results links land on their own section", async ({
+  page,
+}) => {
+  await serveReports(page);
+  await page.goto("/");
+  const row = page.locator('[data-repo-row][data-name="pipeline-analytics"]');
+  await row.getByRole("link", { name: /^Test results/ }).click();
+  await expect(page).toHaveURL(/\/reports\/pipeline-analytics\/#repo-reports-tests$/);
+  await expect(page.locator("#repo-reports-tests")).toBeInViewport();
+  await expect(page.locator("#repo-reports-lighthouse")).toHaveCount(1);
+});
+
 test("a repo's page lists its Lighthouse pages with their scores as text", async ({ page }) => {
   await serveReports(page);
   await page.goto("/reports/pipeline-analytics/");
