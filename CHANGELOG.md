@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.31.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.30.1...alrayyes.github.io-v0.31.0) (2026-10-09)
+
+
+### Features
+
+* **catalogue:** link movie-planner-web's Lighthouse reports ([#196](https://github.com/alrayyes/alrayyes.github.io/issues/196)) ([6e111ad](https://github.com/alrayyes/alrayyes.github.io/commit/6e111ad1768c487e2abb29eb465dd556c4e987c0))
+
 ## [0.30.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.30.0...alrayyes.github.io-v0.30.1) (2026-10-09)
 
 
