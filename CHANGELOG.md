@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.25.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.25.0...alrayyes.github.io-v0.25.1) (2026-10-09)
+
+
+### Performance Improvements
+
+* **ci:** run the test and lighthouse jobs in the official Playwright image ([#168](https://github.com/alrayyes/alrayyes.github.io/issues/168)) ([04ef572](https://github.com/alrayyes/alrayyes.github.io/commit/04ef572fdd83ecd63bc8573b8d47ef4debb6bf13))
+
 ## [0.25.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.24.0...alrayyes.github.io-v0.25.0) (2026-10-09)
 
 
