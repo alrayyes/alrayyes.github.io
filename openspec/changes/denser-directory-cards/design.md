@@ -24,4 +24,4 @@
 
 ## Risks / Trade-offs
 
-- [A card grows tall next to a short one in the same row] → The grid stretches cards to equal height, which is acceptable.
+- [A card grows tall next to a short one in one row] → The grid stretches cards to equal height, which is acceptable.

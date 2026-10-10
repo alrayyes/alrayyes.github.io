@@ -9,7 +9,10 @@ A directory of my active public repos, deployed at
 [apis.ryankes.eu](https://apis.ryankes.eu). Archived repos and forks aren't
 listed. The front page lists every one with a filter, grouped into cards: each
 API with its SDK repos under it, then the groups declared in
-`src/data/repos.json`, then everything else. Each row shows the badges from the
+`src/data/repos.json`, then everything else. Product cards sit two to a row on
+a wide screen, the scaffolds in a grid, and a strip of counts (repos, APIs,
+SDK repos and CI passing) sits above the filter. Pressing `/` focuses the
+filter, and Reset clears it. Each row shows the badges from the
 repo's own README, and the filter narrows by name, kind, licence, and CI:
 whether the latest run passed or failed. For the repos that publish them,
 Lighthouse and test results are the primary links on a row. Lighthouse opens

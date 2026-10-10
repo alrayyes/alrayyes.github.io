@@ -5,6 +5,7 @@ import {
   CI_FILTERS,
   directoryRows,
   directorySections,
+  directoryStats,
   filterRows,
   flatten,
   licences,
@@ -355,5 +356,26 @@ describe("directorySections", () => {
       expect(card).toMatchObject({ type: "api", title: "Hush-Hush" });
       expect(card.rows.map((row) => row.name)).toEqual(["Hush-Hush"]);
     });
+  });
+});
+
+describe("directoryStats", () => {
+  const withStatus = directoryRows({
+    pages: [],
+    apis,
+    others,
+    ciStatus: { "Hush-Hush": "failing", "hush-hush-go": "passing", "bun-with-git": "passing" },
+  });
+
+  test("counts every repo, SDKs included, the APIs and the SDKs", () => {
+    expect(directoryStats(withStatus)).toMatchObject({ repos: 5, apis: 1, sdks: 1 });
+  });
+
+  test("counts the repos whose newest CI run passed", () => {
+    expect(directoryStats(withStatus).passing).toBe(2);
+  });
+
+  test("counts nothing as passing without a snapshot", () => {
+    expect(directoryStats(rows).passing).toBe(0);
   });
 });

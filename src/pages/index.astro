@@ -11,6 +11,7 @@ import {
   CI_FILTERS,
   directoryRows,
   directorySections,
+  directoryStats,
   flatten,
   KINDS,
   licences,
@@ -28,6 +29,17 @@ const rows = directoryRows({
 const ciCheckedLabel = `${ciCheckedAt.slice(0, 16).replace("T", " ")} UTC`;
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 const sections = directorySections(rows, repoGroups);
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const stats = directoryStats(rows);
+// Adjacent product cards share a two-column grid; everything else is full width.
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const runs: { grid: boolean; sections: typeof sections }[] = [];
+for (const section of sections) {
+  const grid = section.type === "product";
+  const last = runs[runs.length - 1];
+  if (grid && last?.grid) last.sections.push(section);
+  else runs.push({ grid, sections: [section] });
+}
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 const licenceOptions = licences(flatten(rows));
 // min-h-9 is 36px, over WCAG 2.5.8's 24px minimum.
@@ -56,6 +68,30 @@ const textButton =
       .
     </p>
   </header>
+
+  <dl
+    aria-label="Directory summary"
+    class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3"
+  >
+    {[
+      { label: "Repositories", value: String(stats.repos) },
+      {
+        label: "APIs and SDKs",
+        value: `${stats.apis} / ${stats.sdks}`,
+      },
+      { label: "CI passing", value: `${stats.passing} of ${stats.repos}` },
+    ].map((stat) => (
+      <div
+        data-stat={stat.label}
+        class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-700 dark:bg-slate-800"
+      >
+        <dt class="text-sm text-slate-600 dark:text-slate-400">{stat.label}</dt>
+        <dd class="font-mono text-2xl font-semibold text-slate-900 dark:text-slate-100">
+          {stat.value}
+        </dd>
+      </div>
+    ))}
+  </dl>
 
   {/* Only shown once the script below has run, so there is no search box that
   does nothing without JavaScript. */}
@@ -121,7 +157,7 @@ const textButton =
         class="flex flex-wrap gap-2"
       ></ul>
       <button id="directory-clear" type="button" hidden class={textButton}>
-        Clear filters
+        Reset
       </button>
     </div>
     <p
@@ -141,9 +177,17 @@ const textButton =
   </p>
 
   <div id="directory-list" class="mt-6">
-    {sections.map((section) => (
-      <RepoGroupCard section={section} />
-    ))}
+    {runs.map((run) =>
+      run.grid ? (
+        <div class="mt-6 grid gap-6 first:mt-0 lg:grid-cols-2 [&>section]:mt-0">
+          {run.sections.map((section) => (
+            <RepoGroupCard section={section} />
+          ))}
+        </div>
+      ) : (
+        run.sections.map((section) => <RepoGroupCard section={section} />)
+      ),
+    )}
   </div>
 
   <p
@@ -151,13 +195,13 @@ const textButton =
     hidden
     class="mt-6 rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-700 dark:border-slate-600 dark:text-slate-300"
   >
-    No matching repositories. Clear the filters to see all of them.
+    No matching repositories. Reset the filters to see all of them.
     <button
       id="directory-empty-clear"
       type="button"
       class={`ml-2 ${textButton}`}
     >
-      Clear filters
+      Reset
     </button>
   </p>
 </Layout>
@@ -308,6 +352,18 @@ const textButton =
   ciSelect.addEventListener("change", update);
   licenceSelect.addEventListener("change", update);
   clear.addEventListener("click", clearAll);
+  // "/" jumps to the name filter, unless a field already has focus or a
+  // modifier key is held.
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "/" || event.ctrlKey || event.metaKey || event.altKey) {
+      return;
+    }
+    const target = event.target as HTMLElement | null;
+    if (target?.closest("input, select, textarea, [contenteditable]")) return;
+    if (wrapper.hidden) return;
+    event.preventDefault();
+    input.focus();
+  });
   emptyClear.addEventListener("click", clearAll);
   wrapper.hidden = false;
   update();

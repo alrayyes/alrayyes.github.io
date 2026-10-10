@@ -8,8 +8,8 @@ The page SHALL lay product cards out two to a row from 1024px wide and in one co
 
 #### Scenario: Wide viewport
 
-- **WHEN** the viewport is 1024px wide or more
-- **THEN** two product cards share a row
+- **WHEN** the viewport is at least 1024px wide
+- **THEN** two product cards share one row
 
 #### Scenario: Phone
 
@@ -22,5 +22,5 @@ The page SHALL lay the Scaffolds section's repos out in at least three columns f
 
 #### Scenario: Wide viewport
 
-- **WHEN** the viewport is 1024px wide or more
-- **THEN** the scaffolds show three or more to a row
+- **WHEN** the viewport is at least 1024px wide
+- **THEN** at least three scaffolds share one row
