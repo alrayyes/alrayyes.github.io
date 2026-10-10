@@ -257,7 +257,13 @@ const matching = (page: import("@playwright/test").Page) =>
 
 test("the CI filter shows only repos with a CI badge, or only those without", async ({ page }) => {
   await page.goto("/");
-  await expect(ci(page).locator("option")).toHaveText(["Any", "Has CI badge", "No CI badge"]);
+  await expect(ci(page).locator("option")).toHaveText([
+    "Any",
+    "Passing",
+    "Failing",
+    "Has CI badge",
+    "No CI badge",
+  ]);
 
   await ci(page).selectOption("Has CI badge");
   const withCi = await visible(page).evaluateAll((rows) =>
@@ -272,6 +278,46 @@ test("the CI filter shows only repos with a CI badge, or only those without", as
   );
   expect(without).toContain("wiki");
   expect(without).not.toContain("forge-dashboard");
+});
+
+test("the CI filter narrows to repos whose latest CI run passed, or failed", async ({ page }) => {
+  await page.goto("/");
+  const total = await visible(page).count();
+
+  await ci(page).selectOption("Passing");
+  const passing = (await matching(page)).map((data) => data.ciStatus);
+  expect(passing.length).toBeGreaterThan(0);
+  expect(new Set(passing)).toEqual(new Set(["passing"]));
+  await expect(visible(page).first()).toBeVisible();
+
+  await ci(page).selectOption("Failing");
+  const failing = (await matching(page)).map((data) => data.ciStatus);
+  expect(failing.every((status) => status === "failing")).toBe(true);
+  await expect(page.getByRole("status")).toHaveText(
+    new RegExp(`^Showing ${failing.length} of ${total} repositories`),
+  );
+
+  await ci(page).selectOption("Any");
+  await expect(visible(page)).toHaveCount(total);
+});
+
+test("a row says whether its CI passed, in words and an icon, not colour alone", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const label = row(page, "forge-dashboard").locator("[data-ci-status-label]");
+  await expect(label).toHaveText("CI passing");
+  await expect(label.locator("svg[aria-hidden='true']")).toHaveCount(1);
+  await expect(row(page, "forge-dashboard")).toHaveAttribute("data-ci-status", "passing");
+  await expect(row(page, "wiki").locator("[data-ci-status-label]")).toHaveCount(0);
+  await expect(row(page, "wiki")).toHaveAttribute("data-ci-status", "unknown");
+});
+
+test("the page says when the CI status was read", async ({ page }) => {
+  await page.goto("/");
+  const stamp = page.locator("time[data-ci-checked]");
+  await expect(stamp).toHaveAttribute("datetime", /^\d{4}-\d{2}-\d{2}T/);
+  await expect(page.getByText(/^CI status read /)).toBeVisible();
 });
 
 test("the licence filter lists each licence in the data and narrows to the one chosen", async ({

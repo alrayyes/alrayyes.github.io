@@ -8,6 +8,12 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  # The front page shows each repo's latest CI result, read when the site is
+  # built, so a quiet week would leave it stale. A scheduled run goes through
+  # every gate and deploys like a push: the deploy needs the report artifacts,
+  # so there is no lighter way to rebuild.
+  schedule:
+    - cron: "23 */6 * * *"
 
 permissions:
   contents: read
@@ -328,6 +334,13 @@ jobs:
           bun-version-file: package.json
       - name: bun install
         run: bun install --frozen-lockfile
+      - name: read each repo's CI status
+        # Written to src/data/ci-status.json for the build below. Nothing
+        # commits it: the copy in git is only a seed for local builds. A lookup
+        # that fails keeps the seed's value for that repo.
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: bun scripts/ci-status.ts
       - name: build
         run: bun run build
         # Uploads the bundle report for main, the baseline pull requests are
