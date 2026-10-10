@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.35.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.34.0...alrayyes.github.io-v0.35.0) (2026-10-10)
+
+
+### Features
+
+* drop the has-CI-badge options from the CI filter ([#219](https://github.com/alrayyes/alrayyes.github.io/issues/219)) ([b917310](https://github.com/alrayyes/alrayyes.github.io/commit/b9173104987946c00227006f9feea2f0e96806d5))
+* **ui:** let an API's card take the repos that joined its group ([#217](https://github.com/alrayyes/alrayyes.github.io/issues/217)) ([116709a](https://github.com/alrayyes/alrayyes.github.io/commit/116709ae022eb92b7e7fd956827a142f7580801d))
+
 ## [0.34.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.33.1...alrayyes.github.io-v0.34.0) (2026-10-10)
 
 
