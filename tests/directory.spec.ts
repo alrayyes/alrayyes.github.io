@@ -255,29 +255,9 @@ const matching = (page: import("@playwright/test").Page) =>
       .map((el) => (el as HTMLElement).dataset),
   );
 
-test("the CI filter shows only repos with a CI badge, or only those without", async ({ page }) => {
+test("the CI filter offers only Any, Passing and Failing", async ({ page }) => {
   await page.goto("/");
-  await expect(ci(page).locator("option")).toHaveText([
-    "Any",
-    "Passing",
-    "Failing",
-    "Has CI badge",
-    "No CI badge",
-  ]);
-
-  await ci(page).selectOption("Has CI badge");
-  const withCi = await visible(page).evaluateAll((rows) =>
-    rows.map((el) => (el as HTMLElement).dataset.ci),
-  );
-  expect(withCi.length).toBeGreaterThan(0);
-  expect(new Set(withCi)).toEqual(new Set(["true"]));
-
-  await ci(page).selectOption("No CI badge");
-  const without = await visible(page).evaluateAll((rows) =>
-    rows.map((el) => (el as HTMLElement).dataset.name),
-  );
-  expect(without).toContain("wiki");
-  expect(without).not.toContain("forge-dashboard");
+  await expect(ci(page).locator("option")).toHaveText(["Any", "Passing", "Failing"]);
 });
 
 test("the CI filter narrows to repos whose latest CI run passed, or failed", async ({ page }) => {
@@ -345,7 +325,7 @@ test("CI, licence, kind and text filters combine, and the count follows", async 
   const total = await page.locator("[data-repo-row]").count();
 
   await licence(page).selectOption("MIT");
-  await ci(page).selectOption("Has CI badge");
+  await ci(page).selectOption("Passing");
   await page.getByRole("button", { name: "SDK", exact: true }).click();
   await page.getByLabel("Filter repositories by name").fill("hush");
   const names = (await matching(page)).map((data) => data.name);
@@ -365,14 +345,14 @@ test("active filters show as removable chips, and Clear filters resets them all"
   const active = page.getByRole("list", { name: "Active filters" });
   await expect(active).toBeHidden();
 
-  await ci(page).selectOption("Has CI badge");
+  await ci(page).selectOption("Passing");
   await licence(page).selectOption("GPL-3.0-or-later");
   await expect(active.getByRole("listitem")).toHaveText([
-    /CI: Has CI badge/,
+    /CI: Passing/,
     /Licence: GPL-3.0-or-later/,
   ]);
 
-  await active.getByRole("button", { name: /Remove filter CI: Has CI badge/ }).click();
+  await active.getByRole("button", { name: /Remove filter CI: Passing/ }).click();
   await expect(ci(page)).toHaveValue("Any");
   await expect(active.getByRole("listitem")).toHaveCount(1);
 
@@ -506,7 +486,7 @@ for (const scheme of ["light", "dark"] as const) {
   }) => {
     await page.emulateMedia({ colorScheme: scheme });
     await page.goto("/");
-    await ci(page).selectOption("Has CI badge");
+    await ci(page).selectOption("Passing");
     await licence(page).selectOption("GPL-3.0");
     await expect(page.getByRole("list", { name: "Active filters" })).toBeVisible();
     await expectNoAxeViolations(page);

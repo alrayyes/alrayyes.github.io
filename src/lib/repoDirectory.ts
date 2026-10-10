@@ -16,7 +16,7 @@ type RepoKind = Exclude<KindFilter, "All">;
 
 export type { CiStatus };
 
-export const CI_FILTERS = ["Any", "Passing", "Failing", "Has CI badge", "No CI badge"] as const;
+export const CI_FILTERS = ["Any", "Passing", "Failing"] as const;
 export type CiFilter = (typeof CI_FILTERS)[number];
 
 // The licence filter's "everything" value; every other value is a licence in
@@ -42,7 +42,6 @@ export interface DirectoryRow {
   // The badges from the repo's README, in README order.
   badges: Badge[];
   license: string;
-  hasCi: boolean;
   // The result of the newest completed CI run, from the build-time snapshot.
   ciStatus: CiStatus;
   // The id of the group repos.json puts this repo in, if any.
@@ -122,7 +121,6 @@ export function directoryRows({
         ...links,
         badges,
         license,
-        hasCi: badges.some((badge) => badge.kind === "ci"),
         ciStatus: ciStatus[section.name] ?? "unknown",
         lighthouse: inGroup("Lighthouse").length > 0 ? `${detail}lighthouse/` : undefined,
         tests: inGroup("Tests").length > 0 ? `${detail}tests/` : undefined,
@@ -157,18 +155,13 @@ export const licences = (rows: { license: string }[]): string[] =>
     a.localeCompare(b, "en", { sensitivity: "base" }),
   );
 
-function matchesCi(row: { hasCi?: boolean; ciStatus?: CiStatus }, ci: CiFilter): boolean {
-  if (ci === "Any") return true;
-  if (ci === "Passing") return row.ciStatus === "passing";
-  if (ci === "Failing") return row.ciStatus === "failing";
-  return (ci === "Has CI badge") === row.hasCi;
-}
+const matchesCi = (row: { ciStatus?: CiStatus }, ci: CiFilter): boolean =>
+  ci === "Any" || row.ciStatus === ci.toLowerCase();
 
 export function filterRows<
   T extends {
     name: string;
     kind: string;
-    hasCi?: boolean;
     ciStatus?: CiStatus;
     license?: string;
   },

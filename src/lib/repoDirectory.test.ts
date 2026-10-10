@@ -111,7 +111,6 @@ describe("directoryRows", () => {
     expect(byName("bun-with-git")).toMatchObject({
       kind: "Other",
       license: "MIT",
-      hasCi: true,
       lighthouse: undefined,
       tests: undefined,
       coverage: undefined,
@@ -218,12 +217,6 @@ describe("badges and licence", () => {
     expect(byName("alrayyes.github.io")?.badges).toHaveLength(1);
   });
 
-  test("a repo has CI when it has a ci badge", () => {
-    expect(byName("Hush-Hush")?.hasCi).toBe(true);
-    expect(byName("hush-hush-go")?.hasCi).toBe(false);
-    expect(byName("scaffold-go-api")?.hasCi).toBe(false);
-  });
-
   test("lists each licence once, A to Z, for the licence filter", () => {
     expect(licences(flatten(rows))).toEqual(["GPL-3.0", "GPL-3.0-or-later", "MIT", "Unlicensed"]);
   });
@@ -242,13 +235,8 @@ describe("filterRows", () => {
     expect(filterRows(flatten(rows), "scaffold", "SDK")).toEqual([]);
   });
 
-  test("filters by CI badge", () => {
-    expect(CI_FILTERS).toEqual(["Any", "Passing", "Failing", "Has CI badge", "No CI badge"]);
-    const names = (ci: (typeof CI_FILTERS)[number]) =>
-      filterRows(flatten(rows), "", "All", { ci }).map((row) => row.name);
-    expect(names("Has CI badge")).toEqual(["alrayyes.github.io", "bun-with-git", "Hush-Hush"]);
-    expect(names("No CI badge")).toEqual(["hush-hush-go", "scaffold-go-api"]);
-    expect(names("Any")).toHaveLength(5);
+  test("offers only Any, Passing and Failing for CI", () => {
+    expect(CI_FILTERS).toEqual(["Any", "Passing", "Failing"]);
   });
 
   test("filters by licence, and combines with text, kind and CI", () => {
@@ -257,7 +245,7 @@ describe("filterRows", () => {
     expect(run("", "All", { license: "MIT" })).toEqual(["bun-with-git", "hush-hush-go"]);
     expect(run("", "All", { license: "Any" })).toHaveLength(5);
     expect(run("", "SDK", { license: "GPL-3.0" })).toEqual([]);
-    expect(run("hush", "All", { license: "GPL-3.0", ci: "Has CI badge" })).toEqual(["Hush-Hush"]);
+    expect(run("hush", "All", { license: "GPL-3.0" })).toEqual(["Hush-Hush"]);
   });
 
   test("ignores surrounding whitespace and returns everything for an empty filter", () => {

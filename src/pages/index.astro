@@ -197,7 +197,6 @@ const textButton =
     element,
     name: element.dataset.name ?? "",
     kind: element.dataset.kind ?? "",
-    hasCi: element.dataset.ci === "true",
     ciStatus: (element.dataset.ciStatus ?? "unknown") as CiStatus,
     license: element.dataset.license ?? "",
   }));

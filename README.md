@@ -11,12 +11,11 @@ listed. The front page lists every one with a filter, grouped into cards: each
 API with its SDK repos under it, then the groups declared in
 `src/data/repos.json`, then everything else. Each row shows the badges from the
 repo's own README, and the filter narrows by name, kind, licence, and CI:
-whether the latest run passed or failed, or whether the repo has a CI badge at
-all. For the repos that publish them, Lighthouse and test results are the
-primary links on a row. Lighthouse opens `/reports/<repo>/lighthouse/` and Test
-results opens `/reports/<repo>/tests/`; coverage and the raw XML and `lcov.info`
-files are secondary. For an API it also links the OpenAPI spec and the generated
-docs, and each SDK is its own row.
+whether the latest run passed or failed. For the repos that publish them,
+Lighthouse and test results are the primary links on a row. Lighthouse opens
+`/reports/<repo>/lighthouse/` and Test results opens `/reports/<repo>/tests/`;
+coverage and the raw XML and `lcov.info` files are secondary. For an API it also
+links the OpenAPI spec and the generated docs, and each SDK is its own row.
 
 The APIs and the SDK repos are in `src/data/apis.json`, validated by
 `src/data/apis.schema.json`. Adding a new API or SDK is a plain data-file edit,
@@ -27,11 +26,10 @@ Every entry, whether API, SDK or other repo, also carries `badges` and
 README, in README order: each has a `kind` (`ci`, `coverage`, `release`,
 `license`, `deployment` or `other`), a `label` used as the image's alt text, the
 `image` URL and the `href` it links to. Any GitHub Actions workflow badge is
-`ci`, which is how the CI filter knows a repo has CI and which workflows to look
-up for its status (see CI status below). `license` is the SPDX id, or
-`Unlicensed`, and the licence filter lists each value found in the data. Copy
-both from the README when you add an entry, and leave `badges` empty when the
-README has none.
+`ci`, which is how the CI status knows which workflows to look up (see CI status
+below). `license` is the SPDX id, or `Unlicensed`, and the licence filter lists
+each value found in the data. Copy both from the README when you add an entry,
+and leave `badges` empty when the README has none.
 
 An API or SDK entry can also carry `reports`: links to the Lighthouse,
 test-result and coverage reports (`lighthouse`, `tests`, `coverage`,
