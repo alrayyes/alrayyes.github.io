@@ -129,6 +129,7 @@ describe("lighthousePages", () => {
         "../pages/changelog.astro",
         "../pages/reports/index.astro",
         "../pages/reports/[repo].astro",
+        "../pages/404.astro",
       ]),
     ).toEqual(["home", "changelog", "privacy"]);
   });

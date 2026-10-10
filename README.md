@@ -96,6 +96,8 @@ and `prose` jobs, so a red run on `main` deploys nothing. The Actions tab's
 "Run workflow" button redeploys by hand, through the same gates, and so does a
 scheduled run every six hours. The reason for GitHub Pages over Cloudflare is in
 [the deployment decision record](docs/adr/0001-deploy-to-github-pages.md).
+A path that doesn't exist gets this site's own `src/pages/404.astro`, which
+GitHub Pages serves as `404.html`.
 
 ## CI status
 
