@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.42.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.41.0...alrayyes.github.io-v0.42.0) (2026-10-10)
+
+
+### Features
+
+* **ui:** show this site's average Lighthouse scores on the front page ([#248](https://github.com/alrayyes/alrayyes.github.io/issues/248)) ([c808529](https://github.com/alrayyes/alrayyes.github.io/commit/c80852904422ae041bb6aea094be2395bd048450))
+
 ## [0.41.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.40.0...alrayyes.github.io-v0.41.0) (2026-10-10)
 
 
