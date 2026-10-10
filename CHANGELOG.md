@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.38.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.37.0...alrayyes.github.io-v0.38.0) (2026-10-10)
+
+
+### Features
+
+* **site:** add a 404 page ([#233](https://github.com/alrayyes/alrayyes.github.io/issues/233)) ([06669fb](https://github.com/alrayyes/alrayyes.github.io/commit/06669fbbe70690a134a76ce92d9a1bca66ddeb45))
+
 ## [0.37.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.36.0...alrayyes.github.io-v0.37.0) (2026-10-10)
 
 
