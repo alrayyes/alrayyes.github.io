@@ -9,7 +9,7 @@ A group can only be a standalone card, so the hush-hush CLI and GitHub Action si
 - A group gets a third type, `api`. An API in `apis.json` names the group with an optional `group`, and so do the extra repos in `repos.json`.
 - An `api` group renders as one card: the API row with its SDKs nested, then the other members under it.
 - The stray `hush-hush` product group is removed, and `hush-hush-cli` and `hush-hush-action` join the API's group.
-- The schema test also fails for an `api` group no API names.
+- The schema test also fails for a group of type `api` no API names.
 
 ## Capabilities
 

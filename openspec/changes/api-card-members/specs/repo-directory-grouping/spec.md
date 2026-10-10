@@ -13,7 +13,7 @@ A group of type `api` SHALL render as one card holding the API that names it, wi
 
 #### Scenario: Api group nobody names
 
-- **WHEN** an `api` group is declared and no API names it
+- **WHEN** a group of type `api` is declared and no API names it
 - **THEN** the schema check fails and says which group
 
 ### Requirement: APIs without a group keep their own card
