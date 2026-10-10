@@ -4,8 +4,7 @@
     {
       "id": "hush-hush",
       "title": "hush-hush",
-      "type": "product",
-      "description": "The hush-hush command line client and GitHub Action."
+      "type": "api"
     },
     {
       "id": "washy-washy",

@@ -35,6 +35,8 @@ export interface Api {
   license: string;
   badges: Badge[];
   sdks: Sdk[];
+  // The id of an `api` group in repos.json, shared with the extra repos in this API's card.
+  group?: string;
 }
 
 export const apis = catalogue.apis as Api[];

@@ -77,8 +77,8 @@
           "minLength": 1
         },
         "type": {
-          "description": "`product` is a card for related repos; `scaffolds` is a section of starter templates.",
-          "enum": ["product", "scaffolds"]
+          "description": "`product` is a card for related repos; `scaffolds` is a section of starter templates; `api` adds repos to the card of the API in apis.json that names the group.",
+          "enum": ["product", "scaffolds", "api"]
         },
         "description": {
           "description": "One line under the heading.",
