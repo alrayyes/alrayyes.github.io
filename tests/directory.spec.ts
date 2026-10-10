@@ -703,3 +703,18 @@ test("the front page shows this site's average Lighthouse scores, with a band wo
   await expect(tile).toContainText(`${pages} pages`);
   await expectNoAxeViolations(page);
 });
+
+test("the Lighthouse tile reads cleanly at 375px: a spaced heading and the scores in two even rows", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 800 });
+  await page.goto("/");
+  const tile = page.locator('[data-stat="Lighthouse"]');
+  await expect(tile.locator("dt")).toContainText(/Lighthouse site average/);
+  const tops = await tile
+    .locator("li")
+    .evaluateAll((items) => items.map((li) => Math.round(li.getBoundingClientRect().top)));
+  expect(tops[0]).toBe(tops[1]);
+  expect(tops[2]).toBe(tops[3]);
+  expect(tops[2]).toBeGreaterThan(tops[0] ?? 0);
+});
