@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.39.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.38.1...alrayyes.github.io-v0.39.0) (2026-10-10)
+
+
+### Features
+
+* **catalogue:** link hush-hush-action's published reports ([#237](https://github.com/alrayyes/alrayyes.github.io/issues/237)) ([edd2c8c](https://github.com/alrayyes/alrayyes.github.io/commit/edd2c8cb78cc76a2e4d317c56af14d081176ad2c))
+
 ## [0.38.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.38.0...alrayyes.github.io-v0.38.1) (2026-10-10)
 
 
