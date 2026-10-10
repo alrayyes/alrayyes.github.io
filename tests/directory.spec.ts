@@ -626,3 +626,16 @@ test("an SDK with no reports has no report page", async ({ page }) => {
   const response = await page.goto("/reports/pipeline-analytics-sdk-go/");
   expect(response?.status()).toBe(404);
 });
+
+test("the container image repos share one card", async ({ page }) => {
+  await page.goto("/");
+  const names = await section(page, "Container images")
+    .locator("[data-repo-row]")
+    .evaluateAll((rows) => rows.map((el) => el.getAttribute("data-name")));
+  expect(names.sort()).toEqual([
+    "bun-with-git",
+    "cloudflare-wrangler",
+    "deploy-ssh",
+    "ltex-cli-plus",
+  ]);
+});
