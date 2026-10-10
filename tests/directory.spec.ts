@@ -639,3 +639,14 @@ test("the container image repos share one card", async ({ page }) => {
     "ltex-cli-plus",
   ]);
 });
+
+test("repo rows skip rendering work until they near the viewport", async ({ page }) => {
+  await page.goto("/");
+  const values = await page
+    .locator("[data-repo-row]")
+    .evaluateAll((rows) =>
+      rows.map((el) => getComputedStyle(el.closest("li") as HTMLElement).contentVisibility),
+    );
+  expect(values.length).toBeGreaterThan(0);
+  expect(new Set(values)).toEqual(new Set(["auto"]));
+});
