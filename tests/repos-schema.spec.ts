@@ -17,6 +17,8 @@ const repo = (over: Record<string, unknown> = {}) => ({
   kind: "Scaffold",
   repo: "https://github.com/alrayyes/scaffold-x",
   reports: { coverage: "https://apis.ryankes.eu/scaffold-x/reports/coverage/" },
+  license: "Unlicensed",
+  badges: [],
   ...over,
 });
 
@@ -53,4 +55,26 @@ test("the schema rejects a report type it doesn't know", () => {
   expect(validate({ repos: [repo({ reports: { mutation: "https://apis.ryankes.eu/x/" } })] })).toBe(
     false,
   );
+});
+
+test("the schema requires a licence and badges on a repo", () => {
+  const { license: _l, badges: _b, ...bare } = repo();
+  expect(validate({ repos: [bare] })).toBe(false);
+  expect(validate.errors?.map((e) => e.params)).toContainEqual({ missingProperty: "license" });
+  expect(validate.errors?.map((e) => e.params)).toContainEqual({ missingProperty: "badges" });
+});
+
+test("the schema checks a repo's badges against the shared badge shape", () => {
+  const ci = {
+    kind: "ci",
+    label: "CI",
+    image: "https://github.com/alrayyes/scaffold-x/actions/workflows/ci.yml/badge.svg",
+    href: "https://github.com/alrayyes/scaffold-x/actions/workflows/ci.yml",
+  };
+  expect(validate({ repos: [repo({ badges: [ci] })] })).toBe(true);
+  expect(validate({ repos: [repo({ badges: [{ ...ci, kind: "vibes" }] })] })).toBe(false);
+});
+
+test("the schema accepts a repo with no reports of its own, such as this site", () => {
+  expect(validate({ repos: [repo({ reports: {} })] })).toBe(true);
 });

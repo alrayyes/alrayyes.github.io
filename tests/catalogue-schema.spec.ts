@@ -47,7 +47,11 @@ const withReports = (reports: unknown) => ({
       repo: "https://example.com/r",
       spec: "https://example.com/s",
       reports,
-      sdks: [{ language: "Go", repo: "https://example.com/g", reports }],
+      license: "MIT",
+      badges: [],
+      sdks: [
+        { language: "Go", repo: "https://example.com/g", reports, license: "MIT", badges: [] },
+      ],
     },
   ],
 });
@@ -71,4 +75,52 @@ test("the schema rejects a report link that isn't https", () => {
 
 test("the schema rejects an unknown report key", () => {
   expect(validate(withReports({ mutation: "https://apis.ryankes.eu/m/" }))).toBe(false);
+});
+
+const badge = {
+  kind: "ci",
+  label: "CI",
+  image: "https://github.com/x/r/actions/workflows/ci.yml/badge.svg",
+  href: "https://github.com/x/r/actions/workflows/ci.yml",
+};
+
+const withBadges = (badges: unknown, license: unknown = "MIT") => ({
+  apis: [
+    {
+      name: "x",
+      description: "y",
+      repo: "https://example.com/r",
+      spec: "https://example.com/s",
+      license,
+      badges,
+      sdks: [{ language: "Go", repo: "https://example.com/g", license, badges }],
+    },
+  ],
+});
+
+test("the schema accepts badges and a licence on an API and an SDK", () => {
+  expect(validate(withBadges([badge]))).toBe(true);
+  expect(validate(withBadges([]))).toBe(true);
+});
+
+test("the schema requires badges and a licence", () => {
+  const { badges: _b, license: _l, ...bare } = withBadges([badge]).apis[0];
+  expect(validate({ apis: [bare] })).toBe(false);
+  expect(validate.errors?.map((e) => e.params)).toContainEqual({ missingProperty: "badges" });
+  expect(validate.errors?.map((e) => e.params)).toContainEqual({ missingProperty: "license" });
+});
+
+test("the schema rejects a badge with an unknown kind", () => {
+  expect(validate(withBadges([{ ...badge, kind: "vibes" }]))).toBe(false);
+});
+
+test("the schema rejects a badge image or link that isn't https", () => {
+  expect(validate(withBadges([{ ...badge, image: "http://img.example.test/b.svg" }]))).toBe(false);
+  expect(validate(withBadges([{ ...badge, href: "LICENSE" }]))).toBe(false);
+});
+
+test("the schema rejects a badge with no label, and an empty licence", () => {
+  const { label: _label, ...unlabelled } = badge;
+  expect(validate(withBadges([unlabelled]))).toBe(false);
+  expect(validate(withBadges([badge], ""))).toBe(false);
 });

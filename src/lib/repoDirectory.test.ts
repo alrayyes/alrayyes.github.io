@@ -1,13 +1,27 @@
 import { describe, expect, test } from "bun:test";
-import type { Api } from "../data/apis";
+import type { Api, Badge } from "../data/apis";
 import type { OtherRepo } from "../data/repos";
-import { directoryGroups, directoryRows, filterRows, flatten } from "./repoDirectory";
+import {
+  CI_FILTERS,
+  directoryGroups,
+  directoryRows,
+  filterRows,
+  flatten,
+  licences,
+} from "./repoDirectory";
 
 const reports = (name: string) => ({
   lighthouse: `https://apis.ryankes.eu/${name}/reports/lighthouse/`,
   tests: `https://apis.ryankes.eu/${name}/reports/tests/junit.xml`,
   coverage: `https://apis.ryankes.eu/${name}/reports/coverage/`,
   coverageXml: `https://apis.ryankes.eu/${name}/reports/coverage/coverage.xml`,
+});
+
+const badge = (kind: Badge["kind"], name: string): Badge => ({
+  kind,
+  label: kind,
+  image: `https://img.example.test/${name}/${kind}.svg`,
+  href: `https://example.test/${name}/${kind}`,
 });
 
 const apis: Api[] = [
@@ -18,12 +32,16 @@ const apis: Api[] = [
     spec: "https://example.test/openapi.yaml",
     docs: "https://example.test/docs",
     reports: reports("Hush-Hush"),
+    license: "GPL-3.0",
+    badges: [badge("ci", "Hush-Hush"), badge("license", "Hush-Hush")],
     sdks: [
       {
         language: "Go",
         repo: "https://github.com/alrayyes/hush-hush-go",
         docs: "https://example.test/go",
         reports: { coverage: "https://apis.ryankes.eu/hush-hush-go/reports/coverage/" },
+        license: "MIT",
+        badges: [badge("coverage", "hush-hush-go")],
       },
     ],
   },
@@ -35,6 +53,16 @@ const others: OtherRepo[] = [
     kind: "Scaffold",
     repo: "https://github.com/alrayyes/scaffold-go-api",
     reports: reports("scaffold-go-api"),
+    license: "Unlicensed",
+    badges: [],
+  },
+  {
+    name: "alrayyes.github.io",
+    kind: "This site",
+    repo: "https://github.com/alrayyes/alrayyes.github.io",
+    reports: {},
+    license: "GPL-3.0-or-later",
+    badges: [badge("ci", "site")],
   },
 ];
 
@@ -118,6 +146,29 @@ describe("directoryRows", () => {
   });
 });
 
+describe("badges and licence", () => {
+  test("carries a repo's badges in order, and its licence", () => {
+    expect(byName("Hush-Hush")?.badges.map((b) => b.kind)).toEqual(["ci", "license"]);
+    expect(byName("Hush-Hush")?.license).toBe("GPL-3.0");
+    expect(byName("hush-hush-go")?.license).toBe("MIT");
+  });
+
+  test("takes this site's badges from its own entry in the repos list", () => {
+    expect(byName("alrayyes.github.io")).toMatchObject({ license: "GPL-3.0-or-later" });
+    expect(byName("alrayyes.github.io")?.badges).toHaveLength(1);
+  });
+
+  test("a repo has CI when it has a ci badge", () => {
+    expect(byName("Hush-Hush")?.hasCi).toBe(true);
+    expect(byName("hush-hush-go")?.hasCi).toBe(false);
+    expect(byName("scaffold-go-api")?.hasCi).toBe(false);
+  });
+
+  test("lists each licence once, A to Z, for the licence filter", () => {
+    expect(licences(flatten(rows))).toEqual(["GPL-3.0", "GPL-3.0-or-later", "MIT", "Unlicensed"]);
+  });
+});
+
 describe("filterRows", () => {
   test("matches the name as a case-insensitive substring", () => {
     expect(filterRows(flatten(rows), "HUSH", "All").map((row) => row.name)).toEqual([
@@ -129,6 +180,24 @@ describe("filterRows", () => {
   test("narrows by kind, and combines with the text", () => {
     expect(filterRows(flatten(rows), "", "SDK").map((row) => row.name)).toEqual(["hush-hush-go"]);
     expect(filterRows(flatten(rows), "scaffold", "SDK")).toEqual([]);
+  });
+
+  test("filters by CI badge", () => {
+    expect(CI_FILTERS).toEqual(["Any", "Has CI badge", "No CI badge"]);
+    const names = (ci: (typeof CI_FILTERS)[number]) =>
+      filterRows(flatten(rows), "", "All", { ci }).map((row) => row.name);
+    expect(names("Has CI badge")).toEqual(["alrayyes.github.io", "Hush-Hush"]);
+    expect(names("No CI badge")).toEqual(["hush-hush-go", "scaffold-go-api"]);
+    expect(names("Any")).toHaveLength(4);
+  });
+
+  test("filters by licence, and combines with text, kind and CI", () => {
+    const run = (text: string, kind: "All" | "SDK", options: Parameters<typeof filterRows>[3]) =>
+      filterRows(flatten(rows), text, kind, options).map((row) => row.name);
+    expect(run("", "All", { license: "MIT" })).toEqual(["hush-hush-go"]);
+    expect(run("", "All", { license: "Any" })).toHaveLength(4);
+    expect(run("", "SDK", { license: "GPL-3.0" })).toEqual([]);
+    expect(run("hush", "All", { license: "GPL-3.0", ci: "Has CI badge" })).toEqual(["Hush-Hush"]);
   });
 
   test("ignores surrounding whitespace and returns everything for an empty filter", () => {

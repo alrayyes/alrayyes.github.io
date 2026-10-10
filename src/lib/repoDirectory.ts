@@ -4,13 +4,20 @@
 // go to the repo's own /reports/<repo>/ page, which reads whatever the repo
 // publishes and shows it the same way for every repo; coverage and the raw
 // XML and LCOV files are secondary.
-import type { Api } from "../data/apis";
+import type { Api, Badge } from "../data/apis";
 import type { OtherRepo } from "../data/repos";
 import { repoName, reportSections } from "./reportsIndex";
 
 export const KINDS = ["All", "API", "SDK", "Scaffold", "Other"] as const;
 export type KindFilter = (typeof KINDS)[number];
 type RepoKind = Exclude<KindFilter, "All">;
+
+export const CI_FILTERS = ["Any", "Has CI badge", "No CI badge"] as const;
+export type CiFilter = (typeof CI_FILTERS)[number];
+
+// The licence filter's "everything" value; every other value is a licence in
+// the data.
+export const ANY_LICENCE = "Any";
 
 export interface RawFile {
   label: string;
@@ -28,21 +35,41 @@ export interface DirectoryRow {
   tests?: string;
   coverage?: string;
   raw: RawFile[];
+  // The badges from the repo's README, in README order.
+  badges: Badge[];
+  license: string;
+  hasCi: boolean;
   // An API's SDKs, listed under it. Empty for every other kind.
   sdks: DirectoryRow[];
 }
 
+const UNKNOWN_LICENCE = "Unlicensed";
+
 const kindOf = (kind: string): RepoKind =>
   kind === "API" || kind === "SDK" || kind === "Scaffold" ? kind : "Other";
 
-// A repo's own spec and docs, from the catalogue entry that names it.
-function catalogueLinks(apis: Api[]): Map<string, { spec?: string; docs?: string }> {
-  const links = new Map<string, { spec?: string; docs?: string }>();
-  for (const api of apis) {
-    links.set(repoName(api.repo), { spec: api.spec, docs: api.docs });
-    for (const sdk of api.sdks) links.set(repoName(sdk.repo), { docs: sdk.docs });
+interface Known {
+  spec?: string;
+  docs?: string;
+  badges: Badge[];
+  license: string;
+}
+
+// A repo's own spec, docs, badges and licence, from the entry that names it.
+function knownAbout(apis: Api[], others: OtherRepo[]): Map<string, Known> {
+  const known = new Map<string, Known>();
+  for (const other of others) {
+    known.set(repoName(other.repo), { badges: other.badges, license: other.license });
   }
-  return links;
+  for (const api of apis) {
+    const { badges, license } = api;
+    known.set(repoName(api.repo), { spec: api.spec, docs: api.docs, badges, license });
+    for (const sdk of api.sdks) {
+      const { badges, license } = sdk;
+      known.set(repoName(sdk.repo), { docs: sdk.docs, badges, license });
+    }
+  }
+  return known;
 }
 
 // SDK repo name -> the API repo it belongs to.
@@ -66,17 +93,21 @@ export function directoryRows({
   apis: Api[];
   others: OtherRepo[];
 }): DirectoryRow[] {
-  const links = catalogueLinks(apis);
+  const known = knownAbout(apis, others);
   const parents = sdkParents(apis);
   const all = reportSections({ pages, apis, others })
     .map((section): DirectoryRow => {
       const detail = `/reports/${section.name}/`;
       const inGroup = (group: string) => section.files.filter((file) => file.group === group);
+      const { badges = [], license = UNKNOWN_LICENCE, ...links } = known.get(section.name) ?? {};
       return {
         name: section.name,
         kind: kindOf(section.kind),
         repo: section.repo,
-        ...links.get(section.name),
+        ...links,
+        badges,
+        license,
+        hasCi: badges.some((badge) => badge.kind === "ci"),
         lighthouse: inGroup("Lighthouse").length > 0 ? `${detail}lighthouse/` : undefined,
         tests: inGroup("Tests").length > 0 ? `${detail}tests/` : undefined,
         coverage: inGroup("Coverage").find((file) => file.format === "HTML")?.href,
@@ -104,14 +135,27 @@ export function directoryRows({
 export const flatten = (rows: DirectoryRow[]): DirectoryRow[] =>
   rows.flatMap((row) => [row, ...row.sdks]);
 
-export function filterRows<T extends { name: string; kind: string }>(
+// Each licence in the data once, A to Z, for the licence filter.
+export const licences = (rows: { license: string }[]): string[] =>
+  [...new Set(rows.map((row) => row.license))].sort((a, b) =>
+    a.localeCompare(b, "en", { sensitivity: "base" }),
+  );
+
+export function filterRows<
+  T extends { name: string; kind: string; hasCi?: boolean; license?: string },
+>(
   rows: T[],
   text: string,
   kind: KindFilter,
+  { ci = "Any", license = ANY_LICENCE }: { ci?: CiFilter; license?: string } = {},
 ): T[] {
   const needle = text.trim().toLowerCase();
   return rows.filter(
-    (row) => row.name.toLowerCase().includes(needle) && (kind === "All" || row.kind === kind),
+    (row) =>
+      row.name.toLowerCase().includes(needle) &&
+      (kind === "All" || row.kind === kind) &&
+      (ci === "Any" || (ci === "Has CI badge") === row.hasCi) &&
+      (license === ANY_LICENCE || row.license === license),
   );
 }
 

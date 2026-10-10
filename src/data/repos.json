@@ -2,6 +2,39 @@
   "$schema": "./repos.schema.json",
   "repos": [
     {
+      "name": "alrayyes.github.io",
+      "kind": "This site",
+      "repo": "https://github.com/alrayyes/alrayyes.github.io",
+      "reports": {},
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/alrayyes.github.io/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/alrayyes.github.io/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/alrayyes.github.io/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/alrayyes.github.io"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/alrayyes.github.io?sort=semver",
+          "href": "https://github.com/alrayyes/alrayyes.github.io/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-GPL--3.0--or--later-blue.svg",
+          "href": "https://github.com/alrayyes/alrayyes.github.io/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0-or-later"
+    },
+    {
       "name": "scaffold-astro-site",
       "kind": "Scaffold",
       "repo": "https://github.com/alrayyes/scaffold-astro-site",
@@ -10,7 +43,34 @@
         "tests": "https://apis.ryankes.eu/scaffold-astro-site/reports/tests/",
         "coverage": "https://apis.ryankes.eu/scaffold-astro-site/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/scaffold-astro-site/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/scaffold-astro-site/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/scaffold-astro-site/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/scaffold-astro-site/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/scaffold-astro-site"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/scaffold-astro-site?sort=semver",
+          "href": "https://github.com/alrayyes/scaffold-astro-site/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-unlicensed-lightgrey",
+          "href": "https://github.com/alrayyes/scaffold-astro-site/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "Unlicensed"
     },
     {
       "name": "scaffold-typescript-cli",
@@ -20,7 +80,34 @@
         "tests": "https://apis.ryankes.eu/scaffold-typescript-cli/reports/tests/",
         "coverage": "https://apis.ryankes.eu/scaffold-typescript-cli/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/scaffold-typescript-cli/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/scaffold-typescript-cli/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/scaffold-typescript-cli/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/scaffold-typescript-cli/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/scaffold-typescript-cli"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/scaffold-typescript-cli?sort=semver",
+          "href": "https://github.com/alrayyes/scaffold-typescript-cli/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-unlicensed-lightgrey",
+          "href": "https://github.com/alrayyes/scaffold-typescript-cli/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "Unlicensed"
     },
     {
       "name": "scaffold-python-cli",
@@ -30,7 +117,34 @@
         "tests": "https://apis.ryankes.eu/scaffold-python-cli/reports/tests/",
         "coverage": "https://apis.ryankes.eu/scaffold-python-cli/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/scaffold-python-cli/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/scaffold-python-cli/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/scaffold-python-cli/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/scaffold-python-cli/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/scaffold-python-cli"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/scaffold-python-cli?sort=semver",
+          "href": "https://github.com/alrayyes/scaffold-python-cli/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-unlicensed-lightgrey",
+          "href": "https://github.com/alrayyes/scaffold-python-cli/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "Unlicensed"
     },
     {
       "name": "scaffold-go-api",
@@ -40,7 +154,34 @@
         "tests": "https://apis.ryankes.eu/scaffold-go-api/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/scaffold-go-api/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/scaffold-go-api/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/scaffold-go-api/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/scaffold-go-api/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/scaffold-go-api/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/scaffold-go-api"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/scaffold-go-api?sort=semver",
+          "href": "https://github.com/alrayyes/scaffold-go-api/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-unlicensed-lightgrey",
+          "href": "https://github.com/alrayyes/scaffold-go-api/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "Unlicensed"
     },
     {
       "name": "washy-washy-cli",
@@ -50,7 +191,46 @@
         "tests": "https://apis.ryankes.eu/washy-washy-cli/reports/tests/",
         "coverage": "https://apis.ryankes.eu/washy-washy-cli/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/washy-washy-cli/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "check",
+          "image": "https://github.com/alrayyes/washy-washy-cli/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/washy-washy-cli/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/washy-washy-cli/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/washy-washy-cli"
+        },
+        {
+          "kind": "ci",
+          "label": "release",
+          "image": "https://github.com/alrayyes/washy-washy-cli/actions/workflows/release.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/washy-washy-cli/actions/workflows/release.yml"
+        },
+        {
+          "kind": "release",
+          "label": "latest release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/washy-washy-cli?sort=semver",
+          "href": "https://github.com/alrayyes/washy-washy-cli/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "licence: GPL v3+",
+          "image": "https://img.shields.io/badge/licence-GPL--3.0--or--later-blue.svg",
+          "href": "https://github.com/alrayyes/washy-washy-cli/blob/HEAD/LICENSE"
+        },
+        {
+          "kind": "other",
+          "label": "container image",
+          "image": "https://img.shields.io/badge/ghcr.io-washy--washy--cli-blue?logo=docker&logoColor=white",
+          "href": "https://github.com/alrayyes/washy-washy-cli/pkgs/container/washy-washy-cli"
+        }
+      ],
+      "license": "GPL-3.0-or-later"
     },
     {
       "name": "service-not-ready",
@@ -60,7 +240,34 @@
         "tests": "https://apis.ryankes.eu/service-not-ready/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/service-not-ready/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/service-not-ready/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/service-not-ready/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/service-not-ready/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/service-not-ready/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/service-not-ready"
+        },
+        {
+          "kind": "release",
+          "label": "Latest release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/service-not-ready",
+          "href": "https://github.com/alrayyes/service-not-ready/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "License: GPL-3.0-only",
+          "image": "https://img.shields.io/github/license/alrayyes/service-not-ready",
+          "href": "https://github.com/alrayyes/service-not-ready/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0"
     },
     {
       "name": "org-roam-to-obsidian",
@@ -70,7 +277,52 @@
         "tests": "https://apis.ryankes.eu/org-roam-to-obsidian/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/org-roam-to-obsidian/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/org-roam-to-obsidian/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "Test",
+          "image": "https://github.com/alrayyes/org-roam-to-obsidian/actions/workflows/test.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/org-roam-to-obsidian/actions/workflows/test.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Coverage",
+          "image": "https://codecov.io/gh/alrayyes/org-roam-to-obsidian/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/org-roam-to-obsidian"
+        },
+        {
+          "kind": "ci",
+          "label": "Lint",
+          "image": "https://github.com/alrayyes/org-roam-to-obsidian/actions/workflows/lint.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/org-roam-to-obsidian/actions/workflows/lint.yml"
+        },
+        {
+          "kind": "ci",
+          "label": "Prose",
+          "image": "https://github.com/alrayyes/org-roam-to-obsidian/actions/workflows/prose.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/org-roam-to-obsidian/actions/workflows/prose.yml"
+        },
+        {
+          "kind": "ci",
+          "label": "Docker",
+          "image": "https://github.com/alrayyes/org-roam-to-obsidian/actions/workflows/docker.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/org-roam-to-obsidian/actions/workflows/docker.yml"
+        },
+        {
+          "kind": "release",
+          "label": "Release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/org-roam-to-obsidian",
+          "href": "https://github.com/alrayyes/org-roam-to-obsidian/releases"
+        },
+        {
+          "kind": "license",
+          "label": "Licence",
+          "image": "https://img.shields.io/github/license/alrayyes/org-roam-to-obsidian",
+          "href": "https://github.com/alrayyes/org-roam-to-obsidian/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0"
     },
     {
       "name": "tempus-fugit",
@@ -81,7 +333,9 @@
         "tests": "https://apis.ryankes.eu/tempus-fugit/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/tempus-fugit/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/tempus-fugit/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [],
+      "license": "GPL-3.0"
     },
     {
       "name": "forgejo-time-sync",
@@ -91,7 +345,34 @@
         "tests": "https://apis.ryankes.eu/forgejo-time-sync/reports/tests/junit.xml",
         "coverage": "https://apis.ryankes.eu/forgejo-time-sync/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/forgejo-time-sync/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/forgejo-time-sync/actions/workflows/ci.yml/badge.svg",
+          "href": "https://github.com/alrayyes/forgejo-time-sync/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "codecov",
+          "image": "https://codecov.io/gh/alrayyes/forgejo-time-sync/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/forgejo-time-sync"
+        },
+        {
+          "kind": "other",
+          "label": "Go Reference",
+          "image": "https://pkg.go.dev/badge/github.com/alrayyes/forgejo-time-sync.svg",
+          "href": "https://pkg.go.dev/github.com/alrayyes/forgejo-time-sync"
+        },
+        {
+          "kind": "license",
+          "label": "License: GPL-3.0",
+          "image": "https://img.shields.io/badge/license-GPL--3.0-blue.svg",
+          "href": "https://github.com/alrayyes/forgejo-time-sync/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0"
     },
     {
       "name": "washy-washy-web",
@@ -102,7 +383,40 @@
         "tests": "https://apis.ryankes.eu/washy-washy-web/reports/tests/",
         "coverage": "https://apis.ryankes.eu/washy-washy-web/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/washy-washy-web/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "check",
+          "image": "https://github.com/alrayyes/washy-washy-web/actions/workflows/check.yml/badge.svg",
+          "href": "https://github.com/alrayyes/washy-washy-web/actions/workflows/check.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/washy-washy-web/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/washy-washy-web"
+        },
+        {
+          "kind": "release",
+          "label": "Release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/washy-washy-web",
+          "href": "https://github.com/alrayyes/washy-washy-web/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "License: GPL-3.0-or-later",
+          "image": "https://img.shields.io/badge/license-GPL--3.0--or--later-blue.svg",
+          "href": "https://github.com/alrayyes/washy-washy-web/blob/HEAD/LICENSE"
+        },
+        {
+          "kind": "other",
+          "label": "Live site",
+          "image": "https://img.shields.io/badge/live-washy--washy.ryankes.eu-0891b2",
+          "href": "https://washy-washy.ryankes.eu/"
+        }
+      ],
+      "license": "GPL-3.0-or-later"
     },
     {
       "name": "bot-pr-watchdog",
@@ -112,7 +426,9 @@
         "tests": "https://apis.ryankes.eu/bot-pr-watchdog/reports/tests/junit.xml",
         "coverage": "https://apis.ryankes.eu/bot-pr-watchdog/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/bot-pr-watchdog/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [],
+      "license": "GPL-3.0"
     },
     {
       "name": "forgejo-mirror-sync",
@@ -122,7 +438,40 @@
         "tests": "https://apis.ryankes.eu/forgejo-mirror-sync/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/forgejo-mirror-sync/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/forgejo-mirror-sync/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/forgejo-mirror-sync/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/forgejo-mirror-sync/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/forgejo-mirror-sync/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/forgejo-mirror-sync"
+        },
+        {
+          "kind": "other",
+          "label": "Go Reference",
+          "image": "https://pkg.go.dev/badge/github.com/alrayyes/forgejo-mirror-sync.svg",
+          "href": "https://pkg.go.dev/github.com/alrayyes/forgejo-mirror-sync"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/forgejo-mirror-sync?sort=semver",
+          "href": "https://github.com/alrayyes/forgejo-mirror-sync/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "Licence: GPL-3.0",
+          "image": "https://img.shields.io/badge/license-GPL--3.0-blue.svg",
+          "href": "https://github.com/alrayyes/forgejo-mirror-sync/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0"
     },
     {
       "name": "movie-planner",
@@ -132,7 +481,34 @@
         "tests": "https://apis.ryankes.eu/movie-planner/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/movie-planner/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/movie-planner/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/movie-planner/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/movie-planner/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/movie-planner/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/movie-planner"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/movie-planner?sort=semver",
+          "href": "https://github.com/alrayyes/movie-planner/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-GPL--3.0-blue",
+          "href": "https://github.com/alrayyes/movie-planner/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0"
     },
     {
       "name": "washy-washy-pdf",
@@ -142,7 +518,46 @@
         "tests": "https://apis.ryankes.eu/washy-washy-pdf/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/washy-washy-pdf/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/washy-washy-pdf/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "check",
+          "image": "https://github.com/alrayyes/washy-washy-pdf/actions/workflows/check.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/washy-washy-pdf/actions/workflows/check.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/washy-washy-pdf/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/washy-washy-pdf"
+        },
+        {
+          "kind": "ci",
+          "label": "release",
+          "image": "https://github.com/alrayyes/washy-washy-pdf/actions/workflows/release.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/washy-washy-pdf/actions/workflows/release.yml"
+        },
+        {
+          "kind": "other",
+          "label": "npm",
+          "image": "https://img.shields.io/npm/v/@washy-washy/pdf",
+          "href": "https://www.npmjs.com/package/@washy-washy/pdf"
+        },
+        {
+          "kind": "deployment",
+          "label": "docs",
+          "image": "https://img.shields.io/website?url=https%3A%2F%2Fapis.ryankes.eu%2Fwashy-washy-pdf%2F&label=docs",
+          "href": "https://apis.ryankes.eu/washy-washy-pdf/"
+        },
+        {
+          "kind": "license",
+          "label": "licence: GPL v3+",
+          "image": "https://img.shields.io/badge/licence-GPL--3.0--or--later-blue.svg",
+          "href": "https://github.com/alrayyes/washy-washy-pdf/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0-or-later"
     },
     {
       "name": "hush-hush-cli",
@@ -152,7 +567,28 @@
         "tests": "https://apis.ryankes.eu/hush-hush-cli/reports/tests/junit.xml",
         "coverage": "https://apis.ryankes.eu/hush-hush-cli/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/hush-hush-cli/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/hush-hush-cli/actions/workflows/ci.yml/badge.svg",
+          "href": "https://github.com/alrayyes/hush-hush-cli/actions"
+        },
+        {
+          "kind": "other",
+          "label": "pkg.go.dev",
+          "image": "https://pkg.go.dev/badge/github.com/alrayyes/hush-hush-cli.svg",
+          "href": "https://pkg.go.dev/github.com/alrayyes/hush-hush-cli"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-GPL--3.0-blue",
+          "href": "https://github.com/alrayyes/hush-hush-cli/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0"
     },
     {
       "name": "backup-git-repos",
@@ -162,7 +598,52 @@
         "tests": "https://apis.ryankes.eu/backup-git-repos/reports/tests/junit.xml",
         "coverage": "https://apis.ryankes.eu/backup-git-repos/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/backup-git-repos/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "Test",
+          "image": "https://github.com/alrayyes/backup-git-repos/actions/workflows/test.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/backup-git-repos/actions/workflows/test.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/backup-git-repos/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/backup-git-repos"
+        },
+        {
+          "kind": "ci",
+          "label": "Lint",
+          "image": "https://github.com/alrayyes/backup-git-repos/actions/workflows/lint.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/backup-git-repos/actions/workflows/lint.yml"
+        },
+        {
+          "kind": "ci",
+          "label": "Prose",
+          "image": "https://github.com/alrayyes/backup-git-repos/actions/workflows/prose.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/backup-git-repos/actions/workflows/prose.yml"
+        },
+        {
+          "kind": "other",
+          "label": "Go Reference",
+          "image": "https://pkg.go.dev/badge/github.com/alrayyes/backup-git-repos.svg",
+          "href": "https://pkg.go.dev/github.com/alrayyes/backup-git-repos"
+        },
+        {
+          "kind": "release",
+          "label": "Release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/backup-git-repos",
+          "href": "https://github.com/alrayyes/backup-git-repos/releases"
+        },
+        {
+          "kind": "license",
+          "label": "Licence",
+          "image": "https://img.shields.io/github/license/alrayyes/backup-git-repos",
+          "href": "https://github.com/alrayyes/backup-git-repos/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0"
     },
     {
       "name": "gwttr",
@@ -172,7 +653,58 @@
         "tests": "https://apis.ryankes.eu/gwttr/reports/tests/junit.xml",
         "coverage": "https://apis.ryankes.eu/gwttr/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/gwttr/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "Build",
+          "image": "https://github.com/alrayyes/gwttr/actions/workflows/build.yml/badge.svg",
+          "href": "https://github.com/alrayyes/gwttr/actions/workflows/build.yml"
+        },
+        {
+          "kind": "ci",
+          "label": "Tests",
+          "image": "https://github.com/alrayyes/gwttr/actions/workflows/test.yml/badge.svg",
+          "href": "https://github.com/alrayyes/gwttr/actions/workflows/test.yml"
+        },
+        {
+          "kind": "ci",
+          "label": "golangci-lint",
+          "image": "https://github.com/alrayyes/gwttr/actions/workflows/golangci-lint.yml/badge.svg",
+          "href": "https://github.com/alrayyes/gwttr/actions/workflows/golangci-lint.yml"
+        },
+        {
+          "kind": "ci",
+          "label": "Linting",
+          "image": "https://github.com/alrayyes/gwttr/actions/workflows/linting.yml/badge.svg",
+          "href": "https://github.com/alrayyes/gwttr/actions/workflows/linting.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/gwttr/graph/badge.svg?token=LMBZHSBSSD",
+          "href": "https://codecov.io/gh/alrayyes/gwttr"
+        },
+        {
+          "kind": "release",
+          "label": "Release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/gwttr",
+          "href": "https://github.com/alrayyes/gwttr/releases/latest"
+        },
+        {
+          "kind": "other",
+          "label": "Go Reference",
+          "image": "https://pkg.go.dev/badge/github.com/alrayyes/gwttr.svg",
+          "href": "https://pkg.go.dev/github.com/alrayyes/gwttr"
+        },
+        {
+          "kind": "license",
+          "label": "Licence",
+          "image": "https://img.shields.io/github/license/alrayyes/gwttr",
+          "href": "https://choosealicense.com/licenses/gpl-3.0/"
+        }
+      ],
+      "license": "GPL-3.0"
     },
     {
       "name": "forgejo-caldav-sync",
@@ -182,7 +714,34 @@
         "tests": "https://apis.ryankes.eu/forgejo-caldav-sync/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/forgejo-caldav-sync/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/forgejo-caldav-sync/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/forgejo-caldav-sync/actions/workflows/ci.yml/badge.svg",
+          "href": "https://github.com/alrayyes/forgejo-caldav-sync/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/forgejo-caldav-sync/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/forgejo-caldav-sync"
+        },
+        {
+          "kind": "license",
+          "label": "License: GPL-3.0",
+          "image": "https://img.shields.io/badge/license-GPL--3.0-blue.svg",
+          "href": "https://github.com/alrayyes/forgejo-caldav-sync/blob/HEAD/LICENSE"
+        },
+        {
+          "kind": "other",
+          "label": "Go Reference",
+          "image": "https://pkg.go.dev/badge/github.com/alrayyes/forgejo-caldav-sync.svg",
+          "href": "https://pkg.go.dev/github.com/alrayyes/forgejo-caldav-sync"
+        }
+      ],
+      "license": "GPL-3.0"
     },
     {
       "name": "linkwarden-obsidian-sync",
@@ -192,7 +751,40 @@
         "tests": "https://apis.ryankes.eu/linkwarden-obsidian-sync/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/linkwarden-obsidian-sync/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/linkwarden-obsidian-sync/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/linkwarden-obsidian-sync/actions/workflows/ci.yml/badge.svg",
+          "href": "https://github.com/alrayyes/linkwarden-obsidian-sync/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/linkwarden-obsidian-sync/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/linkwarden-obsidian-sync"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/linkwarden-obsidian-sync",
+          "href": "https://github.com/alrayyes/linkwarden-obsidian-sync/releases"
+        },
+        {
+          "kind": "other",
+          "label": "Go Reference",
+          "image": "https://pkg.go.dev/badge/github.com/alrayyes/linkwarden-obsidian-sync.svg",
+          "href": "https://pkg.go.dev/github.com/alrayyes/linkwarden-obsidian-sync"
+        },
+        {
+          "kind": "license",
+          "label": "license",
+          "image": "https://img.shields.io/github/license/alrayyes/linkwarden-obsidian-sync",
+          "href": "https://github.com/alrayyes/linkwarden-obsidian-sync/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0"
     },
     {
       "name": "form-handler",
@@ -202,7 +794,58 @@
         "tests": "https://apis.ryankes.eu/form-handler/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/form-handler/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/form-handler/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/form-handler/actions/workflows/ci.yml/badge.svg?branch=master",
+          "href": "https://github.com/alrayyes/form-handler/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "ci",
+          "label": "CodeQL",
+          "image": "https://github.com/alrayyes/form-handler/actions/workflows/codeql.yml/badge.svg?branch=master",
+          "href": "https://github.com/alrayyes/form-handler/actions/workflows/codeql.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/form-handler/branch/master/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/form-handler"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/form-handler?sort=semver",
+          "href": "https://github.com/alrayyes/form-handler/releases/latest"
+        },
+        {
+          "kind": "other",
+          "label": "image",
+          "image": "https://img.shields.io/badge/ghcr.io-form--handler-2496ED?logo=docker&logoColor=white",
+          "href": "https://github.com/alrayyes/form-handler/pkgs/container/form-handler"
+        },
+        {
+          "kind": "other",
+          "label": "reference",
+          "image": "https://pkg.go.dev/badge/github.com/alrayyes/form-handler.svg",
+          "href": "https://pkg.go.dev/github.com/alrayyes/form-handler"
+        },
+        {
+          "kind": "other",
+          "label": "scorecard",
+          "image": "https://api.securityscorecards.dev/projects/github.com/alrayyes/form-handler/badge",
+          "href": "https://scorecard.dev/viewer/?uri=github.com/alrayyes/form-handler"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-GPL--3.0--or--later-blue",
+          "href": "https://github.com/alrayyes/form-handler/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0-or-later"
     },
     {
       "name": "washy-washy-core",
@@ -212,7 +855,40 @@
         "tests": "https://apis.ryankes.eu/washy-washy-core/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/washy-washy-core/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/washy-washy-core/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "check",
+          "image": "https://github.com/alrayyes/washy-washy-core/actions/workflows/ci.yml/badge.svg",
+          "href": "https://github.com/alrayyes/washy-washy-core/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "other",
+          "label": "npm",
+          "image": "https://img.shields.io/npm/v/%40washy-washy%2Fcore",
+          "href": "https://www.npmjs.com/package/@washy-washy/core"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/washy-washy-core/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/washy-washy-core"
+        },
+        {
+          "kind": "license",
+          "label": "license",
+          "image": "https://img.shields.io/github/license/alrayyes/washy-washy-core",
+          "href": "https://github.com/alrayyes/washy-washy-core/blob/HEAD/LICENSE"
+        },
+        {
+          "kind": "other",
+          "label": "docs",
+          "image": "https://img.shields.io/badge/docs-typedoc-blue",
+          "href": "https://alrayyes.github.io/washy-washy-core/"
+        }
+      ],
+      "license": "GPL-3.0"
     },
     {
       "name": "movie-planner-web",
@@ -223,7 +899,40 @@
         "tests": "https://apis.ryankes.eu/movie-planner-web/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/movie-planner-web/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/movie-planner-web/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/movie-planner-web/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/movie-planner-web/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "coverage",
+          "image": "https://codecov.io/gh/alrayyes/movie-planner-web/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/movie-planner-web"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/movie-planner-web?sort=semver",
+          "href": "https://github.com/alrayyes/movie-planner-web/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-GPL--3.0--or--later-blue.svg",
+          "href": "https://github.com/alrayyes/movie-planner-web/blob/HEAD/LICENSE"
+        },
+        {
+          "kind": "deployment",
+          "label": "production",
+          "image": "https://img.shields.io/website?url=https%3A%2F%2Fmovie-planner.ryankes.eu&label=production",
+          "href": "https://movie-planner.ryankes.eu"
+        }
+      ],
+      "license": "GPL-3.0-or-later"
     }
   ]
 }
