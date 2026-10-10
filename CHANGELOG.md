@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.41.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.40.0...alrayyes.github.io-v0.41.0) (2026-10-10)
+
+
+### Features
+
+* **ui:** calm the front page rows into one line of links ([#247](https://github.com/alrayyes/alrayyes.github.io/issues/247)) ([4aaf766](https://github.com/alrayyes/alrayyes.github.io/commit/4aaf766fe4a4228634018e4a570f4b0db91b4544))
+
 ## [0.40.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.39.0...alrayyes.github.io-v0.40.0) (2026-10-10)
 
 
