@@ -99,13 +99,34 @@ describe("directoryRows", () => {
     expect(rows.map((row) => row.name)).not.toContain("hush-hush-go");
   });
 
-  test("keeps an SDK whose API has no row in the list", () => {
-    const orphan = directoryRows({
+  test("lists an API that publishes no reports, with its SDK under it", () => {
+    const unreported = directoryRows({
       pages: [],
       apis: [{ ...apis[0], reports: undefined }],
       others: [],
     });
-    expect(orphan.map((row) => row.name)).toContain("hush-hush-go");
+    const api = unreported.find((row) => row.name === "Hush-Hush");
+    expect(api).toMatchObject({ lighthouse: undefined, tests: undefined, raw: [] });
+    expect(api?.sdks.map((sdk) => sdk.name)).toEqual(["hush-hush-go"]);
+  });
+
+  test("lists an SDK that publishes no reports, with its badges and licence", () => {
+    const [sdk] = apis[0].sdks;
+    const bare = directoryRows({
+      pages: [],
+      apis: [{ ...apis[0], sdks: [{ ...sdk, reports: undefined }] }],
+      others: [],
+    });
+    const sdks = bare.find((row) => row.name === "Hush-Hush")?.sdks ?? [];
+    expect(sdks).toHaveLength(1);
+    expect(sdks[0]).toMatchObject({
+      name: "hush-hush-go",
+      kind: "SDK",
+      license: "MIT",
+      coverage: undefined,
+      raw: [],
+    });
+    expect(sdks[0].badges).toHaveLength(1);
   });
 
   test("lists a repo that publishes no reports, with its badges and no report links", () => {

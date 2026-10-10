@@ -102,6 +102,27 @@ function sdkParents(apis: Api[]): Map<string, string> {
 const byName = (a: { name: string }, b: { name: string }) =>
   a.name.localeCompare(b.name, "en", { sensitivity: "base" });
 
+// An API or SDK with no reports has no section in the reports index, but the
+// front page lists every repo, so it still gets a row.
+function unreportedCatalogue(
+  apis: Api[],
+  others: OtherRepo[],
+  pages: string[],
+): { name: string; kind: string; repo: string; files: [] }[] {
+  const listed = new Set(reportSections({ pages, apis, others }).map((section) => section.name));
+  return apis
+    .flatMap((api) => [
+      { name: repoName(api.repo), kind: "API", repo: api.repo, files: [] as [] },
+      ...api.sdks.map((sdk) => ({
+        name: repoName(sdk.repo),
+        kind: "SDK",
+        repo: sdk.repo,
+        files: [] as [],
+      })),
+    ])
+    .filter((entry) => !listed.has(entry.name));
+}
+
 export function directoryRows({
   pages,
   apis,
@@ -115,7 +136,10 @@ export function directoryRows({
 }): DirectoryRow[] {
   const known = knownAbout(apis, others);
   const parents = sdkParents(apis);
-  const all = reportSections({ pages, apis, others })
+  const all = [
+    ...reportSections({ pages, apis, others }),
+    ...unreportedCatalogue(apis, others, pages),
+  ]
     .map((section): DirectoryRow => {
       const detail = `/reports/${section.name}/`;
       const inGroup = (group: string) => section.files.filter((file) => file.group === group);
