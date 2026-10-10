@@ -8,10 +8,14 @@ import RepoBadges from "./RepoBadges.astro";
 interface Props {
   row: DirectoryRow;
   nested?: boolean;
+  // Stack the name, badges and links, for a narrow grid cell.
+  compact?: boolean;
+  // Stack from 1024px up, where the row sits in half a page.
+  stackAtLg?: boolean;
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
-const { row, nested = false } = Astro.props;
+const { row, nested = false, compact = false, stackAtLg = false } = Astro.props;
 
 // The human-readable reports are outlined buttons, the same on every row.
 // min-h-9 is 36px, over WCAG 2.5.8's 24px minimum.
@@ -36,7 +40,11 @@ const quiet =
     data-kind={row.kind}
     data-ci-status={row.ciStatus}
     data-license={row.license}
-    class="flex flex-col gap-3 py-4 sm:flex-row sm:items-start sm:justify-between"
+    class:list={[
+      "flex flex-col gap-3 py-4",
+      !compact && "sm:flex-row sm:items-start sm:justify-between",
+      stackAtLg && "lg:flex-col lg:items-stretch lg:justify-start",
+    ]}
   >
     <div class="min-w-0">
       <h3 class="flex flex-wrap items-center gap-2">

@@ -248,3 +248,23 @@ export function directorySections(rows: DirectoryRow[], groups: RepoGroup[]): Di
   if (rest.length > 0) sections.push({ type: "other", title: OTHER_TITLE, rows: rest });
   return sections;
 }
+
+export interface DirectoryStats {
+  repos: number;
+  apis: number;
+  sdks: number;
+  // Repos whose newest completed CI run passed, from the build-time snapshot.
+  passing: number;
+}
+
+// The figures in the strip above the filter. Every one is counted from the
+// rows, so none can say something the data doesn't.
+export function directoryStats(rows: DirectoryRow[]): DirectoryStats {
+  const all = flatten(rows);
+  return {
+    repos: all.length,
+    apis: rows.filter((row) => row.sdks.length > 0).length,
+    sdks: rows.reduce((sum, row) => sum + row.sdks.length, 0),
+    passing: all.filter((row) => row.ciStatus === "passing").length,
+  };
+}

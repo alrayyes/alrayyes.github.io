@@ -105,7 +105,7 @@ test("a card says how many of its repos the filter leaves, and goes when none ma
   await expect(washy.locator("[data-group-count]")).toHaveText("1 of 4 shown");
   await page.getByLabel("Filter repositories by name").fill("scaffold-go");
   await expect(washy).toBeHidden();
-  await page.getByRole("button", { name: "Clear filters" }).first().click();
+  await page.getByRole("button", { name: "Reset" }).first().click();
   await expect(washy.locator("[data-group-count]")).toHaveText("4 repos");
 });
 
@@ -363,9 +363,7 @@ test("CI, licence, kind and text filters combine, and the count follows", async 
   await expect(status).toHaveText(`Showing 4 of ${total} repositories`);
 });
 
-test("active filters show as removable chips, and Clear filters resets them all", async ({
-  page,
-}) => {
+test("active filters show as removable chips, and Reset clears them all", async ({ page }) => {
   await page.goto("/");
   const active = page.getByRole("list", { name: "Active filters" });
   await expect(active).toBeHidden();
@@ -381,18 +379,18 @@ test("active filters show as removable chips, and Clear filters resets them all"
   await expect(ci(page)).toHaveValue("Any");
   await expect(active.getByRole("listitem")).toHaveCount(1);
 
-  await page.getByRole("button", { name: "Clear filters" }).click();
+  await page.getByRole("button", { name: "Reset" }).click();
   await expect(licence(page)).toHaveValue("Any");
   await expect(active).toBeHidden();
   await expect(visible(page)).toHaveCount(await page.locator("[data-repo-row]").count());
 });
 
-test("an empty result offers a Clear filters button", async ({ page }) => {
+test("an empty result offers a Reset button", async ({ page }) => {
   await page.goto("/");
   await licence(page).selectOption("AGPL-3.0");
   await page.getByRole("button", { name: "Scaffold", exact: true }).click();
   await expect(page.getByText("No matching repositories")).toBeVisible();
-  await page.locator("#directory-empty").getByRole("button", { name: "Clear filters" }).click();
+  await page.locator("#directory-empty").getByRole("button", { name: "Reset" }).click();
   await expect(page.getByText("No matching repositories")).toBeHidden();
   await expect(visible(page).first()).toBeVisible();
 });
@@ -538,6 +536,73 @@ test("the grouped front page has no axe violations at 375px", async ({ page }) =
   await page.setViewportSize({ width: 375, height: 800 });
   await page.goto("/");
   await expectNoAxeViolations(page);
+});
+
+test("the stats strip shows counts that match the rows on the page", async ({ page }) => {
+  await page.goto("/");
+  const strip = page.locator('dl[aria-label="Directory summary"]');
+  const total = await page.locator("[data-repo-row]").count();
+  const sdks = await page.locator('[data-repo-row][data-kind="SDK"]').count();
+  const apis = await page.locator('[data-repo-row][data-kind="API"]').count();
+  await expect(strip.locator('[data-stat="Repositories"] dd')).toHaveText(String(total));
+  await expect(strip.locator('[data-stat="APIs and SDKs"] dd')).toHaveText(`${apis} / ${sdks}`);
+  await expect(strip.locator('[data-stat="CI passing"] dd')).toContainText(`of ${total}`);
+  await expect(strip).not.toContainText(/coverage|refreshed/i);
+});
+
+test("product cards sit two to a row on a wide screen and stack on a phone", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  // The filter block appears once the script has run and moves everything below
+  // it, so wait for that before measuring.
+  await expect(page.locator("#directory-filter")).toBeVisible();
+  const tops = () =>
+    page.evaluate(() => {
+      const top = (title: string) => {
+        const heading = [...document.querySelectorAll("h2")].find(
+          (h) => h.textContent?.trim() === title,
+        );
+        return Math.round(heading?.closest("section")?.getBoundingClientRect().top ?? Number.NaN);
+      };
+      return [top("washy-washy"), top("movie-planner")];
+    });
+  const [washy, movie] = await tops();
+  expect(washy).toBe(movie);
+  await page.setViewportSize({ width: 375, height: 800 });
+  const [washyPhone, moviePhone] = await tops();
+  expect(washyPhone).toBeLessThan(moviePhone);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
+});
+
+test("the Scaffolds section is a grid of three or more columns on a wide screen", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  const tops = await section(page, "Scaffolds")
+    .locator("[data-repo-row]")
+    .evaluateAll((rows) => rows.map((el) => Math.round(el.getBoundingClientRect().top)));
+  expect(tops.filter((top) => top === tops[0]).length).toBeGreaterThanOrEqual(3);
+  const links = section(page, "Scaffolds").locator("[data-repo-row] a");
+  for (const link of await links.all()) {
+    expect((await link.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(24);
+  }
+});
+
+test("pressing / focuses the name filter, except inside a field or with a modifier", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const filter = page.getByLabel("Filter repositories by name");
+  await page.locator("body").click();
+  await page.keyboard.press("/");
+  await expect(filter).toBeFocused();
+  await expect(filter).toHaveValue("");
+  await page.keyboard.type("a/b");
+  await expect(filter).toHaveValue("a/b");
+  await filter.blur();
+  await page.keyboard.press("Control+/");
+  await expect(filter).not.toBeFocused();
 });
 
 test("every API, SDK and other repo in the data has a row, reports or not", async ({ page }) => {

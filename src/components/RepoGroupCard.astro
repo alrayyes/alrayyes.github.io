@@ -77,9 +77,19 @@ const style = section.type === "other" ? undefined : types[section.type];
         </p>
       )}
     </div>
-    <ul class="px-4">
+    <ul
+      class:list={[
+        "px-4",
+        section.type === "scaffolds" &&
+          "grid gap-x-4 sm:grid-cols-2 lg:grid-cols-3",
+      ]}
+    >
       {section.rows.map((row) => (
-        <RepoRow row={row} />
+        <RepoRow
+          row={row}
+          compact={section.type === "scaffolds"}
+          stackAtLg={section.type === "product"}
+        />
       ))}
     </ul>
   </section>
