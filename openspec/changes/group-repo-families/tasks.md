@@ -12,14 +12,14 @@
 
 ## 3. Page
 
-- [ ] 3.1 Add `RepoGroupCard.astro` with `product` and `scaffolds` variants and a text type label, and verify it renders in `bun run build`
-- [ ] 3.2 Render the groups in `src/pages/index.astro` in place of letter sections, and verify the built `dist/index.html` shows the `washy-washy` card and the Scaffolds heading
-- [ ] 3.3 Extend the filter script to hide empty cards and write "N of M shown", with a Playwright test in `tests/directory.spec.ts` covering partial and no match
+- [x] 3.1 Add `RepoGroupCard.astro` with `product` and `scaffolds` variants and a text type label, and verify it renders in `bun run build`
+- [x] 3.2 Render the groups in `src/pages/index.astro` in place of letter sections, and verify the built `dist/index.html` shows the `washy-washy` card and the Scaffolds heading
+- [x] 3.3 Extend the filter script to hide empty cards and write "N of M shown", with a Playwright test in `tests/directory.spec.ts` covering partial and no match
 
 ## 4. Accessibility and docs
 
-- [ ] 4.1 Add an axe-core scan of the page in light, dark and 375px to `tests/directory.spec.ts` and verify it passes with controls at least 36px tall
-- [ ] 4.2 Update the page intro and `README.md` (including how to declare a group) so neither says the list is A to Z, and verify by reading both against the built page
+- [x] 4.1 Add an axe-core scan of the page in light, dark and 375px to `tests/directory.spec.ts` and verify it passes with controls at least 36px tall
+- [x] 4.2 Update the page intro and `README.md` (including how to declare a group) so neither says the list is A to Z, and verify by reading both against the built page
 
 ## Workflow follow-up
 
