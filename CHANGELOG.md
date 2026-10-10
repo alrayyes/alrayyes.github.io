@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.42.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.42.0...alrayyes.github.io-v0.42.1) (2026-10-10)
+
+
+### Bug Fixes
+
+* **ui:** lay the Lighthouse tile out as an even grid with a spaced heading ([#251](https://github.com/alrayyes/alrayyes.github.io/issues/251)) ([8329784](https://github.com/alrayyes/alrayyes.github.io/commit/8329784c24f403b13390e279c6223c2fa737631a))
+
 ## [0.42.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.41.0...alrayyes.github.io-v0.42.0) (2026-10-10)
 
 
