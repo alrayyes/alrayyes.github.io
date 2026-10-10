@@ -9,8 +9,8 @@ const lighthouseIndex = `<!doctype html><h1>Lighthouse</h1><ul>
 <li><a href="login-1.report.html">login-1.report.html</a></li>
 <li><a href="manifest.json">manifest.json</a></li></ul>`;
 
-const run = (file: string, representative: boolean, performance: number) => ({
-  url: "http://localhost:4191/login",
+const run = (file: string, representative: boolean, performance: number, page = "login") => ({
+  url: `http://localhost:4191/${page}`,
   isRepresentativeRun: representative,
   htmlPath: `/home/runner/work/x/x/web/.lighthouseci/${file}.report.html`,
   jsonPath: `/home/runner/work/x/x/web/.lighthouseci/${file}.report.json`,
@@ -20,6 +20,7 @@ const manifest = [
   run("login-1", false, 0.84),
   run("login-2", true, 0.83),
   run("login-3", false, 0.83),
+  run("settings-1", true, 0.91, "settings"),
 ];
 
 const testsIndex = `<!doctype html><ul>
@@ -34,7 +35,10 @@ const frontend = `<?xml version="1.0"?><testsuites><testsuite name="x">
 <testcase name="ok" time="0.25"/><testcase name="bad" time="0.25"><failure message="boom"/></testcase>
 <testcase name="later" time="0.5"><skipped/></testcase></testsuite></testsuites>`;
 
-async function serveReports(page: Page, { index = true }: { index?: boolean } = {}) {
+async function serveReports(
+  page: Page,
+  { index = true, manifest: withManifest = true }: { index?: boolean; manifest?: boolean } = {},
+) {
   await page.route(`**${DIR}/**`, async (route) => {
     const path = new URL(route.request().url()).pathname;
     const send = (body: string, type: string) =>
@@ -42,7 +46,12 @@ async function serveReports(page: Page, { index = true }: { index?: boolean } = 
     if (!index && path.endsWith("/")) return route.fulfill({ status: 404, body: "not found" });
     switch (path.slice(DIR.length)) {
       case "/lighthouse/":
-        return send(lighthouseIndex, "text/html");
+        return send(
+          withManifest
+            ? lighthouseIndex
+            : lighthouseIndex.replace(/<li><a href="manifest.json".*?<\/li>/, ""),
+          "text/html",
+        );
       case "/lighthouse/manifest.json":
         return send(JSON.stringify(manifest), "application/json");
       case "/tests/":
@@ -93,10 +102,11 @@ test("a repo's page lists its Lighthouse pages with their scores as text", async
 
   const lighthouse = page.getByRole("region", { name: "Lighthouse" });
   const row = lighthouse.getByRole("listitem").filter({ hasText: "/login" }).first();
-  await expect(row).toContainText("Performance 83");
-  await expect(row).toContainText("Accessibility 100");
-  await expect(row).toContainText("Best practices 100");
-  await expect(row).toContainText("SEO 100");
+  await expect(row).toContainText("83%");
+  await expect(row).toContainText("Performance");
+  await expect(row).toContainText("Accessibility");
+  await expect(row).toContainText("Best practices");
+  await expect(row).toContainText("SEO");
   const html = row.getByRole("link", { name: "HTML report for /login" });
   await expect(html).toHaveAttribute(
     "href",
@@ -130,7 +140,9 @@ for (const [kind, heading] of [
   });
 }
 
-test("a Lighthouse score is a chip that says its category and number as text", async ({ page }) => {
+test("a Lighthouse score is a tile with a percentage, its category and its band in words", async ({
+  page,
+}) => {
   await serveReports(page);
   await page.goto("/reports/pipeline-analytics/lighthouse/");
   const row = page
@@ -138,15 +150,54 @@ test("a Lighthouse score is a chip that says its category and number as text", a
     .getByRole("listitem")
     .filter({ hasText: "/login" })
     .first();
-  await expect(row.locator('[data-score="performance"]').first()).toHaveText("Performance 83");
-  await expect(row.locator('[data-score="performance"]').first()).toHaveAttribute(
-    "data-band",
-    "amber",
+  const performance = row.locator('[data-score="performance"]').first();
+  await expect(performance).toContainText("83%");
+  await expect(performance).toContainText("Performance");
+  await expect(performance).toContainText("Needs improvement");
+  await expect(performance).toHaveAttribute("data-band", "amber");
+  const accessibility = row.locator('[data-score="accessibility"]').first();
+  await expect(accessibility).toContainText("100%");
+  await expect(accessibility).toContainText("Good");
+  await expect(accessibility).toHaveAttribute("data-band", "green");
+});
+
+test("a Lighthouse page opens with a site average of each category over its pages", async ({
+  page,
+}) => {
+  await serveReports(page);
+  await page.goto("/reports/pipeline-analytics/lighthouse/");
+  const average = page.getByRole("group", { name: "Site average" });
+  // 83 and 91 average to 87; the other login runs don't count.
+  await expect(average.locator('[data-score="performance"]')).toContainText("87%");
+  await expect(average.locator('[data-score="performance"]')).toContainText("Needs improvement");
+  await expect(average.locator('[data-score="seo"]')).toContainText("100%");
+  await expect(average).toContainText("2 pages");
+});
+
+test("without a manifest there are no score tiles and no site average, and the links stay", async ({
+  page,
+}) => {
+  await serveReports(page, { manifest: false });
+  await page.goto("/reports/pipeline-analytics/lighthouse/");
+  await expect(page.getByRole("group", { name: "Site average" })).toHaveCount(0);
+  await expect(page.locator("[data-score]")).toHaveCount(0);
+  await expect(
+    page.getByRole("region", { name: "Lighthouse" }).getByRole("link").first(),
+  ).toBeVisible();
+});
+
+test("the score tiles fit a 360px screen and pass axe in both themes", async ({ page }) => {
+  await serveReports(page);
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/reports/pipeline-analytics/lighthouse/");
+  await expect(page.getByRole("group", { name: "Site average" })).toBeVisible();
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
   );
-  await expect(row.locator('[data-score="accessibility"]').first()).toHaveAttribute(
-    "data-band",
-    "green",
-  );
+  expect(overflow).toBeLessThanOrEqual(0);
+  await expectNoAxeViolations(page);
+  await page.emulateMedia({ colorScheme: "dark" });
+  await expectNoAxeViolations(page);
 });
 
 test("a repo's page lists its test files with what each one found, counting cases when the root has no totals", async ({

@@ -1,11 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import {
+  bandLabel,
   directoryLinks,
   directoryOf,
   lighthouseRowsFromFiles,
   lighthouseRowsFromManifest,
   sameOriginPath,
   scoreBand,
+  siteAverage,
 } from "./reportDirectory";
 
 describe("directoryLinks", () => {
@@ -157,5 +159,49 @@ describe("scoreBand", () => {
       "red",
       "red",
     ]);
+  });
+});
+
+describe("bandLabel", () => {
+  test("says the band in words", () => {
+    expect([100, 90, 89, 50, 49].map(bandLabel)).toEqual([
+      "Good",
+      "Good",
+      "Needs improvement",
+      "Needs improvement",
+      "Poor",
+    ]);
+  });
+});
+
+describe("siteAverage", () => {
+  const row = (page: string, scores: Record<string, number> | null, others = [40]) => ({
+    page,
+    representative: { html: `${page}.html`, scores },
+    others: others.map((performance) => ({
+      html: `${page}-x.html`,
+      scores: { performance },
+    })),
+  });
+
+  test("is the rounded mean of each category over the representative runs only", () => {
+    const average = siteAverage([
+      row("a", { performance: 96, accessibility: 100 }),
+      row("b", { performance: 91, accessibility: 99 }),
+    ]);
+    expect(average).toEqual({ performance: 94, accessibility: 100 });
+  });
+
+  test("skips a category a run lacks instead of counting it as zero", () => {
+    const average = siteAverage([
+      row("a", { performance: 90, seo: 100 }),
+      row("b", { performance: 80 }),
+    ]);
+    expect(average).toEqual({ performance: 85, seo: 100 });
+  });
+
+  test("is null when no run has scores", () => {
+    expect(siteAverage([row("a", null), row("b", null)])).toBeNull();
+    expect(siteAverage([])).toBeNull();
   });
 });
