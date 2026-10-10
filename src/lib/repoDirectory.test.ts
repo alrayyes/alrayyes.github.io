@@ -57,6 +57,14 @@ const others: OtherRepo[] = [
     badges: [],
   },
   {
+    name: "bun-with-git",
+    kind: "Docker image",
+    repo: "https://github.com/alrayyes/bun-with-git",
+    reports: {},
+    license: "MIT",
+    badges: [badge("ci", "bun-with-git"), badge("license", "bun-with-git")],
+  },
+  {
     name: "alrayyes.github.io",
     kind: "This site",
     repo: "https://github.com/alrayyes/alrayyes.github.io",
@@ -73,6 +81,7 @@ describe("directoryRows", () => {
   test("sorts every repo A to Z, ignoring case", () => {
     expect(rows.map((row) => row.name)).toEqual([
       "alrayyes.github.io",
+      "bun-with-git",
       "Hush-Hush",
       "scaffold-go-api",
     ]);
@@ -92,12 +101,31 @@ describe("directoryRows", () => {
     expect(orphan.map((row) => row.name)).toContain("hush-hush-go");
   });
 
+  test("lists a repo that publishes no reports, with its badges and no report links", () => {
+    expect(byName("bun-with-git")).toMatchObject({
+      kind: "Other",
+      license: "MIT",
+      hasCi: true,
+      lighthouse: undefined,
+      tests: undefined,
+      coverage: undefined,
+      raw: [],
+    });
+    expect(byName("bun-with-git")?.badges).toHaveLength(2);
+  });
+
   test("lists each repo once", () => {
     expect(new Set(rows.map((row) => row.name)).size).toBe(rows.length);
   });
 
   test("maps kinds onto API, SDK, Scaffold and Other", () => {
-    expect(flatten(rows).map((row) => row.kind)).toEqual(["Other", "API", "SDK", "Scaffold"]);
+    expect(flatten(rows).map((row) => row.kind)).toEqual([
+      "Other",
+      "Other",
+      "API",
+      "SDK",
+      "Scaffold",
+    ]);
   });
 
   test("sends the human-readable reports to the repo's own report page", () => {
@@ -186,16 +214,16 @@ describe("filterRows", () => {
     expect(CI_FILTERS).toEqual(["Any", "Has CI badge", "No CI badge"]);
     const names = (ci: (typeof CI_FILTERS)[number]) =>
       filterRows(flatten(rows), "", "All", { ci }).map((row) => row.name);
-    expect(names("Has CI badge")).toEqual(["alrayyes.github.io", "Hush-Hush"]);
+    expect(names("Has CI badge")).toEqual(["alrayyes.github.io", "bun-with-git", "Hush-Hush"]);
     expect(names("No CI badge")).toEqual(["hush-hush-go", "scaffold-go-api"]);
-    expect(names("Any")).toHaveLength(4);
+    expect(names("Any")).toHaveLength(5);
   });
 
   test("filters by licence, and combines with text, kind and CI", () => {
     const run = (text: string, kind: "All" | "SDK", options: Parameters<typeof filterRows>[3]) =>
       filterRows(flatten(rows), text, kind, options).map((row) => row.name);
-    expect(run("", "All", { license: "MIT" })).toEqual(["hush-hush-go"]);
-    expect(run("", "All", { license: "Any" })).toHaveLength(4);
+    expect(run("", "All", { license: "MIT" })).toEqual(["bun-with-git", "hush-hush-go"]);
+    expect(run("", "All", { license: "Any" })).toHaveLength(5);
     expect(run("", "SDK", { license: "GPL-3.0" })).toEqual([]);
     expect(run("hush", "All", { license: "GPL-3.0", ci: "Has CI badge" })).toEqual(["Hush-Hush"]);
   });
@@ -209,6 +237,7 @@ describe("directoryGroups", () => {
   test("groups by first letter, then puts every scaffold in one Scaffolding group", () => {
     expect(directoryGroups(rows).map((group) => [group.label, group.rows.length])).toEqual([
       ["A", 1],
+      ["B", 1],
       ["H", 1],
       ["Scaffolding", 1],
     ]);

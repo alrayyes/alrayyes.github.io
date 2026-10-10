@@ -332,6 +332,58 @@ test("the badge links are at least 24px tall, and the new controls at least 36px
   }
 });
 
+const unreported = [
+  "bun-with-git",
+  "cloudflare-wrangler",
+  "deploy-ssh",
+  "forge-dashboard-e2e-fixture",
+  "hush-hush-action",
+  "ltex-cli-plus",
+  "scaffold-arch-package",
+  "scaffold-deb-package",
+  "scaffold-nix-package",
+  "scaffold-rpm-package",
+  "wiki",
+];
+
+test("every active repo is listed, including those that publish no reports", async ({ page }) => {
+  await page.goto("/");
+  for (const name of unreported) await expect(row(page, name)).toHaveCount(1);
+  await expect(row(page, "bun-with-git").getByRole("link", { name: /^Lighthouse/ })).toHaveCount(0);
+  await expect(row(page, "bun-with-git").getByRole("link", { name: /^Test results/ })).toHaveCount(
+    0,
+  );
+});
+
+test("a repo with no reports still shows its badges and takes part in the filters", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(
+    row(page, "hush-hush-action").getByRole("list", { name: "Badges for hush-hush-action" }),
+  ).toBeVisible();
+  await page.getByLabel("Filter repositories by name").fill("hush-hush-action");
+  await expect(visible(page)).toHaveCount(1);
+});
+
+test("the packaging templates sit in the Scaffolding group", async ({ page }) => {
+  await page.goto("/");
+  const group = page.getByRole("region", { name: "Scaffolding", exact: true });
+  for (const name of unreported.filter((name) => name.startsWith("scaffold-"))) {
+    await expect(group.locator(`[data-repo-row][data-name="${name}"]`)).toHaveCount(1);
+  }
+});
+
+test("the intro doesn't claim every repo publishes reports", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("header p")).not.toContainText("that publishes");
+});
+
+test("a repo with no reports has no report page", async ({ page }) => {
+  const response = await page.goto("/reports/bun-with-git/");
+  expect(response?.status()).toBe(404);
+});
+
 test.describe("without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
 
