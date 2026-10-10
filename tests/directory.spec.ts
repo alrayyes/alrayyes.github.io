@@ -209,7 +209,7 @@ test("the badges sit above the coverage and raw-file links, and a nested SDK row
 
 test("a repo whose README has no badges gets no badge list", async ({ page }) => {
   await page.goto("/");
-  await expect(row(page, "tempus-fugit").getByRole("list", { name: /^Badges for/ })).toHaveCount(0);
+  await expect(row(page, "wiki").getByRole("list", { name: /^Badges for/ })).toHaveCount(0);
 });
 
 const ci = (page: import("@playwright/test").Page) => page.getByLabel("CI", { exact: true });
@@ -240,7 +240,7 @@ test("the CI filter shows only repos with a CI badge, or only those without", as
   const without = await visible(page).evaluateAll((rows) =>
     rows.map((el) => (el as HTMLElement).dataset.name),
   );
-  expect(without).toContain("tempus-fugit");
+  expect(without).toContain("wiki");
   expect(without).not.toContain("forge-dashboard");
 });
 
@@ -382,6 +382,22 @@ test("the intro doesn't claim every repo publishes reports", async ({ page }) =>
 test("a repo with no reports has no report page", async ({ page }) => {
   const response = await page.goto("/reports/bun-with-git/");
   expect(response?.status()).toBe(404);
+});
+
+test("a README's unlinked and reference-style badges show too", async ({ page }) => {
+  await page.goto("/");
+  const watchdog = row(page, "bot-pr-watchdog").getByRole("list", {
+    name: "Badges for bot-pr-watchdog",
+  });
+  await expect(watchdog.getByRole("img", { name: "CI" })).toHaveAttribute(
+    "src",
+    "https://github.com/alrayyes/bot-pr-watchdog/actions/workflows/ci.yml/badge.svg",
+  );
+  const fugit = row(page, "tempus-fugit").getByRole("list", { name: "Badges for tempus-fugit" });
+  const alts = await fugit
+    .getByRole("img")
+    .evaluateAll((imgs) => imgs.map((img) => img.getAttribute("alt")));
+  expect(alts).toEqual(["pipeline status", "coverage", "licence"]);
 });
 
 test.describe("without JavaScript", () => {

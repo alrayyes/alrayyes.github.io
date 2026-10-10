@@ -334,8 +334,27 @@
         "coverage": "https://apis.ryankes.eu/tempus-fugit/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/tempus-fugit/reports/coverage/coverage.xml"
       },
-      "badges": [],
-      "license": "GPL-3.0"
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "pipeline status",
+          "image": "https://github.com/alrayyes/tempus-fugit/actions/workflows/ci.yml/badge.svg",
+          "href": "https://github.com/alrayyes/tempus-fugit/actions"
+        },
+        {
+          "kind": "coverage",
+          "label": "coverage",
+          "image": "https://codecov.io/gh/alrayyes/tempus-fugit/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/tempus-fugit"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-GPL--3.0--or--later-blue",
+          "href": "https://github.com/alrayyes/tempus-fugit"
+        }
+      ],
+      "license": "GPL-3.0-or-later"
     },
     {
       "name": "forgejo-time-sync",
@@ -427,7 +446,14 @@
         "coverage": "https://apis.ryankes.eu/bot-pr-watchdog/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/bot-pr-watchdog/reports/coverage/coverage.xml"
       },
-      "badges": [],
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/bot-pr-watchdog/actions/workflows/ci.yml/badge.svg",
+          "href": "https://github.com/alrayyes/bot-pr-watchdog/actions/workflows/ci.yml"
+        }
+      ],
       "license": "GPL-3.0"
     },
     {
