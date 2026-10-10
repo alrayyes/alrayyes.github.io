@@ -1153,7 +1153,11 @@
       "name": "hush-hush-action",
       "kind": "Action",
       "repo": "https://github.com/alrayyes/hush-hush-action",
-      "reports": {},
+      "reports": {
+        "tests": "https://apis.ryankes.eu/hush-hush-action/reports/tests/unit.xml",
+        "coverage": "https://apis.ryankes.eu/hush-hush-action/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/hush-hush-action/reports/coverage/coverage.xml"
+      },
       "badges": [
         {
           "kind": "ci",
