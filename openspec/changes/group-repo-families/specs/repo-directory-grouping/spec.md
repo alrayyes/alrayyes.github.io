@@ -2,32 +2,46 @@
 
 ## Purpose
 
-Defines how the Repositories page groups repos so that related repos, and template repos, read as deliberate groups and not as a flat list.
+Defines how the catalogue declares repo groups and how the Repositories page renders them, so that related repos and template repos read as deliberate groups and the grouping lives in data.
 
 ## ADDED Requirements
 
-### Requirement: Product families
+### Requirement: Groups are declared in the data file
 
-The page SHALL render repos that have no SDKs and share a name prefix as one card headed by that prefix, with a repo count. A family needs at least two members.
+The catalogue SHALL declare groups in `repos.json`, each with an id, a title and a type, and a repo SHALL join a group by naming its id. The page SHALL group only by that declaration.
 
-#### Scenario: Three repos share a prefix
+#### Scenario: Repos name a group
 
-- **WHEN** the catalogue holds `washy-washy-cli`, `washy-washy-web` and `washy-washy-pdf`
-- **THEN** they appear together in one card headed `washy-washy` with a "3 repos" count, and no other repo is in that card
+- **WHEN** `washy-washy-cli`, `washy-washy-web` and `washy-washy-pdf` each name the group `washy-washy`
+- **THEN** they appear together in one card titled `washy-washy` with a "3 repos" count, and no other repo is in it
 
-#### Scenario: A repo has no sibling
+#### Scenario: Similar names, no declaration
 
-- **WHEN** a repo shares its prefix with no other repo
-- **THEN** it is not in a family card and appears under the ungrouped section
+- **WHEN** two repos share a name prefix but name no group
+- **THEN** they appear as ordinary rows and not in a card
 
-### Requirement: Scaffolds section
+#### Scenario: Unknown group id
 
-The page SHALL list the scaffold repos under their own "Scaffolds" heading with a one-line description, styled differently from API and product cards.
+- **WHEN** a repo names a group id that is not declared
+- **THEN** the schema check fails and the build does not ship the page
+
+### Requirement: Product groups
+
+The page SHALL render a group of type `product` as a card with its title, a "Product" text label and a repo count, with its members as rows inside.
+
+#### Scenario: Product card
+
+- **WHEN** a `product` group has three members
+- **THEN** one card renders with the title, the "Product" label and "3 repos"
+
+### Requirement: Scaffolds group
+
+The page SHALL render a group of type `scaffolds` under its title as a heading with its description, styled differently from API and product cards.
 
 #### Scenario: Scaffolds present
 
-- **WHEN** the catalogue holds the four `scaffold-*` repos
-- **THEN** they appear under a "Scaffolds" heading with a description, and none of them is in a product family card
+- **WHEN** the four `scaffold-*` repos name the `scaffolds` group
+- **THEN** they appear under that group's heading and description, and none is in a product card
 
 ### Requirement: API families keep their SDKs
 
@@ -35,8 +49,8 @@ The page SHALL render an API with SDKs as a card in the same structure as the ot
 
 #### Scenario: API with an SDK
 
-- **WHEN** an API row has an SDK in the catalogue
-- **THEN** the SDK is nested under the API inside one card whose header has the same parts as a product family card
+- **WHEN** an API has an SDK in the catalogue
+- **THEN** the SDK is nested under the API inside one card whose header has the same parts as a product card
 
 ### Requirement: Group type is not colour only
 
