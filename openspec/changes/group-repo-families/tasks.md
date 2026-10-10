@@ -3,7 +3,7 @@
 ## 1. Data
 
 - [x] 1.1 Write a failing check in `tests/repos-schema.spec.ts` that a repo's `group` must name a declared group and a group must have a member, then add `groups` and `group` to `repos.schema.json` and `repos.ts` until it passes
-- [x] 1.2 Declare the `washy-washy`, `movie-planner` and `scaffolds` groups in `repos.json` and set `group` on their fourteen repos, and verify the schema test passes
+- [x] 1.2 Declare the `washy-washy`, `movie-planner`, `forgejo` and `scaffolds` groups in `repos.json` and set `group` on their seventeen repos, and verify the schema test passes
 
 ## 2. Grouping logic
 

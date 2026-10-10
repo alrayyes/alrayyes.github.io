@@ -14,6 +14,12 @@
       "description": "The movie-planner CLI and its web front end."
     },
     {
+      "id": "forgejo",
+      "title": "forgejo",
+      "type": "product",
+      "description": "Tools that sync Forgejo with other services."
+    },
+    {
       "id": "scaffolds",
       "title": "Scaffolds",
       "type": "scaffolds",
@@ -397,7 +403,8 @@
           "href": "https://github.com/alrayyes/forgejo-time-sync/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "forgejo"
     },
     {
       "name": "washy-washy-web",
@@ -497,7 +504,8 @@
           "href": "https://github.com/alrayyes/forgejo-mirror-sync/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "forgejo"
     },
     {
       "name": "movie-planner",
@@ -769,7 +777,8 @@
           "href": "https://pkg.go.dev/github.com/alrayyes/forgejo-caldav-sync"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "forgejo"
     },
     {
       "name": "linkwarden-obsidian-sync",
