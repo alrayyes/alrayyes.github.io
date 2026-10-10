@@ -4,11 +4,18 @@
   "title": "Other repos that publish reports",
   "description": "Repos that publish test, coverage or Lighthouse reports but aren't APIs, so they have no card in the catalogue. Listed on the Reports page.",
   "type": "object",
-  "required": ["repos"],
+  "required": ["groups", "repos"],
   "additionalProperties": false,
   "properties": {
     "$schema": {
       "type": "string"
+    },
+    "groups": {
+      "description": "The groups repos can join. The Repositories page shows each as a card or section, in this order.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/group"
+      }
     },
     "repos": {
       "type": "array",
@@ -46,6 +53,37 @@
         },
         "badges": {
           "$ref": "apis.schema.json#/$defs/badges"
+        },
+        "group": {
+          "description": "The id of the group the repo belongs to. Leave it out for a repo in no group.",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "group": {
+      "type": "object",
+      "required": ["id", "title", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "What a repo's `group` names.",
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "title": {
+          "description": "The heading shown for the group.",
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "description": "`product` is a card for related repos; `scaffolds` is a section of starter templates.",
+          "enum": ["product", "scaffolds"]
+        },
+        "description": {
+          "description": "One line under the heading.",
+          "type": "string",
+          "minLength": 1
         }
       }
     }
