@@ -85,11 +85,7 @@ const style = section.type === "other" ? undefined : types[section.type];
       ]}
     >
       {section.rows.map((row) => (
-        <RepoRow
-          row={row}
-          compact={section.type === "scaffolds"}
-          stackAtLg={section.type === "product"}
-        />
+        <RepoRow row={row} />
       ))}
     </ul>
   </section>
