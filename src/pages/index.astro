@@ -1,15 +1,15 @@
 ---
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
-import RepoRow from "../components/RepoRow.astro";
+import RepoGroupCard from "../components/RepoGroupCard.astro";
 import { apis } from "../data/apis";
-import { otherRepos } from "../data/repos";
+import { otherRepos, repoGroups } from "../data/repos";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import Layout from "../layouts/Layout.astro";
 import {
   ANY_LICENCE,
   CI_FILTERS,
-  directoryGroups,
   directoryRows,
+  directorySections,
   flatten,
   KINDS,
   licences,
@@ -23,7 +23,7 @@ const rows = directoryRows({
   others: otherRepos,
 });
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
-const groups = directoryGroups(rows);
+const sections = directorySections(rows, repoGroups);
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 const licenceOptions = licences(flatten(rows));
 // min-h-9 is 36px, over WCAG 2.5.8's 24px minimum.
@@ -39,10 +39,10 @@ const textButton =
   <header>
     <h1 class="text-3xl font-bold">Repositories</h1>
     <p class="mt-2 max-w-prose text-slate-600 dark:text-slate-300">
-      Every active public repo of mine, A to Z, with the badges from its README.
-      Where a repo publishes test, coverage or Lighthouse reports, they're
-      linked on its row, and the APIs and their SDKs link their OpenAPI spec and
-      docs too —{" "}
+      Every active public repo of mine, grouped where they belong together, with
+      the badges from its README. Where a repo publishes test, coverage or
+      Lighthouse reports, they're linked on its row, and the APIs and their SDKs
+      link their OpenAPI spec and docs too —{" "}
       <a
         class="underline underline-offset-2"
         href="https://github.com/alrayyes"
@@ -128,24 +128,8 @@ const textButton =
   </div>
 
   <div id="directory-list" class="mt-6">
-    {groups.map(({ label, rows: group }) => (
-      <section
-        data-letter-group
-        aria-labelledby={`group-${label}`}
-        class="mt-6 first:mt-0"
-      >
-        <h2
-          id={`group-${label}`}
-          class="border-b border-slate-300 pb-1 font-mono text-sm font-semibold text-slate-600 dark:border-slate-600 dark:text-slate-400"
-        >
-          {label}
-        </h2>
-        <ul>
-          {group.map((row) => (
-            <RepoRow row={row} />
-          ))}
-        </ul>
-      </section>
+    {sections.map((section) => (
+      <RepoGroupCard section={section} />
     ))}
   </div>
 
@@ -203,7 +187,7 @@ const textButton =
     license: element.dataset.license ?? "",
   }));
   const groups = [
-    ...document.querySelectorAll<HTMLElement>("[data-letter-group]"),
+    ...document.querySelectorAll<HTMLElement>("[data-group-section]"),
   ];
   let kind: KindFilter = "All";
 
@@ -274,7 +258,17 @@ const textButton =
       holder.hidden = !holder.querySelector("[data-repo-row]:not([hidden])");
     }
     for (const group of groups) {
-      group.hidden = !group.querySelector("[data-repo-row]:not([hidden])");
+      const visible = group.querySelectorAll(
+        "[data-repo-row]:not([hidden])",
+      ).length;
+      group.hidden = visible === 0;
+      // A card says how many of its repos the filters leave showing.
+      const label = group.querySelector<HTMLElement>("[data-group-count]");
+      if (!label) continue;
+      const total = Number(group.dataset.total);
+      label.dataset.full ??= label.textContent ?? "";
+      label.textContent =
+        visible < total ? `${visible} of ${total} shown` : label.dataset.full;
     }
     renderActive(ci, license);
     clear.hidden = !(

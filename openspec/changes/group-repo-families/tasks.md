@@ -7,8 +7,8 @@
 
 ## 2. Grouping logic
 
-- [ ] 2.1 Write failing tests in `src/lib/repoDirectory.test.ts` that rows carry their declared group, that a repo with no group falls under everything else, and that group order follows the file, then make `bun test` pass
-- [ ] 2.2 Remove the scaffold special case from `directoryGroups` and verify no check of a repo's name or kind remains in the grouping code (`grep` the file)
+- [x] 2.1 Write failing tests in `src/lib/repoDirectory.test.ts` that rows carry their declared group, that a repo with no group falls under everything else, and that group order follows the file, then make `bun test` pass
+- [x] 2.2 Remove the scaffold special case from `directoryGroups` and verify no check of a repo's name or kind remains in the grouping code (`grep` the file)
 
 ## 3. Page
 

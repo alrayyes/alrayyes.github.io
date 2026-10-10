@@ -3,12 +3,13 @@ import type { Api, Badge } from "../data/apis";
 import type { OtherRepo } from "../data/repos";
 import {
   CI_FILTERS,
-  directoryGroups,
   directoryRows,
+  directorySections,
   filterRows,
   flatten,
   licences,
 } from "./repoDirectory";
+import type { RepoGroup } from "./repoGroups";
 
 const reports = (name: string) => ({
   lighthouse: `https://apis.ryankes.eu/${name}/reports/lighthouse/`,
@@ -72,6 +73,11 @@ const others: OtherRepo[] = [
     license: "GPL-3.0-or-later",
     badges: [badge("ci", "site")],
   },
+];
+
+const groups: RepoGroup[] = [
+  { id: "washy-washy", title: "washy-washy", type: "product" },
+  { id: "scaffolds", title: "Scaffolds", type: "scaffolds", description: "Starter templates." },
 ];
 
 const rows = directoryRows({ pages: ["/src/pages/index.astro"], apis, others });
@@ -233,13 +239,69 @@ describe("filterRows", () => {
   });
 });
 
-describe("directoryGroups", () => {
-  test("groups by first letter, then puts every scaffold in one Scaffolding group", () => {
-    expect(directoryGroups(rows).map((group) => [group.label, group.rows.length])).toEqual([
-      ["A", 1],
-      ["B", 1],
-      ["H", 1],
-      ["Scaffolding", 1],
+const EXTRA: OtherRepo[] = [
+  {
+    name: "washy-washy-web",
+    kind: "Site",
+    repo: "https://github.com/alrayyes/washy-washy-web",
+    reports: {},
+    license: "MIT",
+    badges: [],
+    group: "washy-washy",
+  },
+  {
+    name: "washy-washy-cli",
+    kind: "CLI",
+    repo: "https://github.com/alrayyes/washy-washy-cli",
+    reports: {},
+    license: "MIT",
+    badges: [],
+    group: "washy-washy",
+  },
+  {
+    name: "washy-washy-lookalike",
+    kind: "CLI",
+    repo: "https://github.com/alrayyes/washy-washy-lookalike",
+    reports: {},
+    license: "MIT",
+    badges: [],
+  },
+];
+
+describe("directorySections", () => {
+  const grouped = directoryRows({
+    pages: [],
+    apis,
+    others: [
+      ...others.map((repo) =>
+        repo.name === "scaffold-go-api" ? { ...repo, group: "scaffolds" } : repo,
+      ),
+      ...EXTRA,
+    ],
+  });
+  const sections = directorySections(grouped, groups);
+  const summary = sections.map((s) => [s.type, s.title, s.rows.map((row) => row.name)]);
+
+  test("puts API families first, then the declared groups in file order, then everything else", () => {
+    expect(summary).toEqual([
+      ["api", "Hush-Hush", ["Hush-Hush"]],
+      ["product", "washy-washy", ["washy-washy-cli", "washy-washy-web"]],
+      ["scaffolds", "Scaffolds", ["scaffold-go-api"]],
+      ["other", "Everything else", ["alrayyes.github.io", "bun-with-git", "washy-washy-lookalike"]],
     ]);
+  });
+
+  test("groups by the declaration alone, so a similar name without one stays in everything else", () => {
+    const other = sections.find((s) => s.type === "other");
+    expect(other?.rows.map((row) => row.name)).toContain("washy-washy-lookalike");
+  });
+
+  test("carries the group's description", () => {
+    expect(sections.find((s) => s.type === "scaffolds")?.description).toBe("Starter templates.");
+  });
+
+  test("leaves out a group with no row, and an API with no SDKs joins everything else", () => {
+    const bare = directoryRows({ pages: [], apis: [{ ...apis[0], sdks: [] }], others: [] });
+    expect(directorySections(bare, groups).map((s) => s.type)).toEqual(["other"]);
   });
 });

@@ -6,6 +6,7 @@
 // XML and LCOV files are secondary.
 import type { Api, Badge } from "../data/apis";
 import type { OtherRepo } from "../data/repos";
+import type { GroupType, RepoGroup } from "./repoGroups";
 import { repoName, reportSections } from "./reportsIndex";
 
 export const KINDS = ["All", "API", "SDK", "Scaffold", "Other"] as const;
@@ -39,6 +40,8 @@ export interface DirectoryRow {
   badges: Badge[];
   license: string;
   hasCi: boolean;
+  // The id of the group repos.json puts this repo in, if any.
+  group?: string;
   // An API's SDKs, listed under it. Empty for every other kind.
   sdks: DirectoryRow[];
 }
@@ -53,13 +56,18 @@ interface Known {
   docs?: string;
   badges: Badge[];
   license: string;
+  group?: string;
 }
 
 // A repo's own spec, docs, badges and licence, from the entry that names it.
 function knownAbout(apis: Api[], others: OtherRepo[]): Map<string, Known> {
   const known = new Map<string, Known>();
   for (const other of others) {
-    known.set(repoName(other.repo), { badges: other.badges, license: other.license });
+    known.set(repoName(other.repo), {
+      badges: other.badges,
+      license: other.license,
+      group: other.group,
+    });
   }
   for (const api of apis) {
     const { badges, license } = api;
@@ -159,19 +167,31 @@ export function filterRows<
   );
 }
 
-export const SCAFFOLDING = "Scaffolding";
+export interface DirectorySection {
+  type: GroupType | "api" | "other";
+  title: string;
+  description?: string;
+  rows: DirectoryRow[];
+}
 
-// A to Z letter groups for everything but the scaffolds, which sit together in
-// one "Scaffolding" group at the end.
-export function directoryGroups(rows: DirectoryRow[]): { label: string; rows: DirectoryRow[] }[] {
-  const groups: { label: string; rows: DirectoryRow[] }[] = [];
-  for (const row of rows.filter((row) => row.kind !== "Scaffold")) {
-    const label = row.name.charAt(0).toUpperCase();
-    const last = groups[groups.length - 1];
-    if (last?.label === label) last.rows.push(row);
-    else groups.push({ label, rows: [row] });
+export const OTHER_TITLE = "Everything else";
+
+// What the page shows, in order: a card per API that has SDKs, then each group
+// repos.json declares, in the order it declares them, then every repo in
+// neither. Which group a repo is in comes from the data alone.
+export function directorySections(rows: DirectoryRow[], groups: RepoGroup[]): DirectorySection[] {
+  const apiCards = rows.filter((row) => row.sdks.length > 0);
+  const sections: DirectorySection[] = apiCards.map((row) => ({
+    type: "api",
+    title: row.name,
+    rows: [row],
+  }));
+  for (const { id, title, type, description } of groups) {
+    const members = rows.filter((row) => row.group === id);
+    if (members.length > 0) sections.push({ type, title, description, rows: members });
   }
-  const scaffolds = rows.filter((row) => row.kind === "Scaffold");
-  if (scaffolds.length > 0) groups.push({ label: SCAFFOLDING, rows: scaffolds });
-  return groups;
+  const placed = new Set(sections.flatMap((section) => section.rows));
+  const rest = rows.filter((row) => !placed.has(row));
+  if (rest.length > 0) sections.push({ type: "other", title: OTHER_TITLE, rows: rest });
+  return sections;
 }
