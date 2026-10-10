@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.38.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.38.0...alrayyes.github.io-v0.38.1) (2026-10-10)
+
+
+### Performance Improvements
+
+* **ui:** skip rendering off-screen repo rows ([#235](https://github.com/alrayyes/alrayyes.github.io/issues/235)) ([48f75ee](https://github.com/alrayyes/alrayyes.github.io/commit/48f75ee5a40889bf1b170c8898fc2fd39890d289))
+
 ## [0.38.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.37.0...alrayyes.github.io-v0.38.0) (2026-10-10)
 
 
