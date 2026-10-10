@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.37.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.36.0...alrayyes.github.io-v0.37.0) (2026-10-10)
+
+
+### Features
+
+* **catalogue:** group the container image repos in one card ([#229](https://github.com/alrayyes/alrayyes.github.io/issues/229)) ([ec5c754](https://github.com/alrayyes/alrayyes.github.io/commit/ec5c7542657777d935084d97e2f8b988228f1dad))
+
 ## [0.36.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.35.1...alrayyes.github.io-v0.36.0) (2026-10-10)
 
 
