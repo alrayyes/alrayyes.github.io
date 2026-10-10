@@ -107,6 +107,11 @@
         },
         "badges": {
           "$ref": "#/$defs/badges"
+        },
+        "group": {
+          "description": "The id of an `api` group declared in repos.json. Repos that name the same group share this API's card on the front page.",
+          "type": "string",
+          "minLength": 1
         }
       }
     },

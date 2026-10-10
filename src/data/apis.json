@@ -219,7 +219,8 @@
           "href": "https://github.com/alrayyes/Hush-Hush/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "hush-hush"
     },
     {
       "name": "forge-dashboard",

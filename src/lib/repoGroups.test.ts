@@ -40,4 +40,38 @@ describe("groupProblems", () => {
       'the group "washy-washy" is declared twice',
     ]);
   });
+
+  describe("api groups", () => {
+    const withApi = [...groups, { id: "hush-hush", title: "hush-hush", type: "api" as const }];
+    const members = [
+      { name: "a", group: "washy-washy" },
+      { name: "b", group: "scaffolds" },
+    ];
+
+    test("accepts an api group an API names, with a repo joining it", () => {
+      const repos = [...members, { name: "cli", group: "hush-hush" }];
+      expect(groupProblems(withApi, repos, [{ name: "Hush-Hush", group: "hush-hush" }])).toEqual(
+        [],
+      );
+    });
+
+    test("flags an api group no API names", () => {
+      const repos = [...members, { name: "cli", group: "hush-hush" }];
+      expect(groupProblems(withApi, repos, [{ name: "Other" }])).toEqual([
+        'the api group "hush-hush" is named by no API',
+      ]);
+    });
+
+    test("flags an API that names a group that isn't of type api", () => {
+      expect(groupProblems(groups, members, [{ name: "Hush-Hush", group: "washy-washy" }])).toEqual(
+        ['the API Hush-Hush names "washy-washy", which is not an api group'],
+      );
+    });
+
+    test("flags an API that names an undeclared group", () => {
+      expect(groupProblems(groups, members, [{ name: "Hush-Hush", group: "nope" }])).toEqual([
+        'the API Hush-Hush names the undeclared group "nope"',
+      ]);
+    });
+  });
 });
