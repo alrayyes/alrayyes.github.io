@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 import { expectNoAxeViolations } from "./axe";
 
@@ -537,4 +538,26 @@ test("the grouped front page has no axe violations at 375px", async ({ page }) =
   await page.setViewportSize({ width: 375, height: 800 });
   await page.goto("/");
   await expectNoAxeViolations(page);
+});
+
+test("every API, SDK and other repo in the data has a row, reports or not", async ({ page }) => {
+  const { apis } = JSON.parse(readFileSync("src/data/apis.json", "utf8")) as {
+    apis: { sdks: unknown[] }[];
+  };
+  const { repos } = JSON.parse(readFileSync("src/data/repos.json", "utf8")) as {
+    repos: unknown[];
+  };
+  const expected = apis.length + apis.reduce((sum, api) => sum + api.sdks.length, 0) + repos.length;
+  await page.goto("/");
+  await expect(page.locator("[data-repo-row]")).toHaveCount(expected);
+  await expect(
+    page
+      .getByRole("list", { name: "SDKs for pipeline-analytics" })
+      .locator('[data-repo-row][data-name="pipeline-analytics-sdk-go"]'),
+  ).toHaveCount(1);
+});
+
+test("an SDK with no reports has no report page", async ({ page }) => {
+  const response = await page.goto("/reports/pipeline-analytics-sdk-go/");
+  expect(response?.status()).toBe(404);
 });
