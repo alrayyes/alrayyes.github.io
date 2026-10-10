@@ -9,18 +9,18 @@ A directory of my active public repos, deployed at
 [apis.ryankes.eu](https://apis.ryankes.eu). Archived repos and forks aren't
 listed. The front page lists every one with a filter, grouped into cards: each
 API with its SDK repos under it, then the groups declared in
-`src/data/repos.json`, then everything else. Product cards sit two to a row on
-a wide screen, the scaffolds in a grid, and a strip of counts (repos, APIs,
-SDK repos and CI passing) sits above the filter. Pressing `/` focuses the
-filter, and Reset clears it. Each row shows the badges from the repo's own
-README, and the filter narrows by name, kind, licence, and CI: whether the
-latest run passed or failed. A row is the repo's name and its kind label, with
-the CI status at the right, then one plain line of links, then its badges in
-grey until hovered. The links are the reports the repo publishes, where it
-publishes them. Lighthouse opens `/reports/<repo>/lighthouse/` and Test results
-opens `/reports/<repo>/tests/`, followed by coverage and the raw XML and
-`lcov.info` files. For an API it also links the OpenAPI spec and the generated
-docs, and each SDK is its own row.
+`src/data/repos.json`, then everything else. Product cards sit two to a row on a
+wide screen, the scaffolds in a grid, and a strip of counts (repos, APIs, SDK
+repos and CI passing) sits above the filter, with this site's average Lighthouse
+scores under it. Pressing `/` focuses the filter, and Reset clears it. Each row
+shows the badges from the repo's own README, and the filter narrows by name,
+kind, licence, and CI: whether the latest run passed or failed. A row is the
+repo's name and its kind label, with the CI status at the right, then one plain
+line of links, then its badges in grey until hovered. The links are the reports
+the repo publishes, where it publishes them. Lighthouse opens
+`/reports/<repo>/lighthouse/` and Test results opens `/reports/<repo>/tests/`,
+followed by coverage and the raw XML and `lcov.info` files. For an API it also
+links the OpenAPI spec and the generated docs, and each SDK is its own row.
 
 The APIs and the SDK repos are in `src/data/apis.json`, validated by
 `src/data/apis.schema.json`. Adding a new API or SDK is a plain data-file edit,
@@ -120,6 +120,18 @@ lookup fails the repo keeps its previous status, and if all of them fail the fil
 is left alone. Run it by hand with `GITHUB_TOKEN=$(gh auth token) bun
 scripts/ci-status.ts`; without a token GitHub allows only 60 requests an hour,
 which one run uses up.
+
+## Lighthouse average
+
+The tile under the counts averages this site's own Lighthouse reports: each
+category's mean over the audited pages, with its band word. It's plain HTML, not
+a fetch in the browser, because a request chain on the home page costs it a
+Lighthouse insight. `scripts/lighthouse-average.ts` reads the reports the
+pipeline just made and writes `src/data/lighthouse-average.json`. The `build`
+job runs it before the build, so the tile is one deploy behind: the numbers come
+from the reports of the run that built them. The copy in git is a seed for local
+builds and the tests. With no readable report the file is left alone. Run it by
+hand with `bun scripts/lighthouse-average.ts <dir with *.report.json>`.
 
 ## Reports
 

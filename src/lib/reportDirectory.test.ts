@@ -7,6 +7,7 @@ import {
   lighthouseRowsFromManifest,
   sameOriginPath,
   scoreBand,
+  scoresFromReport,
   siteAverage,
 } from "./reportDirectory";
 
@@ -203,5 +204,29 @@ describe("siteAverage", () => {
   test("is null when no run has scores", () => {
     expect(siteAverage([row("a", null), row("b", null)])).toBeNull();
     expect(siteAverage([])).toBeNull();
+  });
+});
+
+describe("scoresFromReport", () => {
+  test("turns a Lighthouse report's category scores into whole percentages", () => {
+    expect(
+      scoresFromReport({
+        categories: {
+          performance: { score: 0.974 },
+          accessibility: { score: 1 },
+          "best-practices": { score: 0.5 },
+          seo: { score: 0.995 },
+        },
+      }),
+    ).toEqual({ performance: 97, accessibility: 100, "best-practices": 50, seo: 100 });
+  });
+
+  test("leaves out a category with no score, and returns null for no categories", () => {
+    expect(
+      scoresFromReport({ categories: { performance: { score: null }, seo: { score: 1 } } }),
+    ).toEqual({ seo: 100 });
+    expect(scoresFromReport({ categories: {} })).toBeNull();
+    expect(scoresFromReport({})).toBeNull();
+    expect(scoresFromReport(null)).toBeNull();
   });
 });

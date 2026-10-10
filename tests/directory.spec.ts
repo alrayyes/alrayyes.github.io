@@ -682,3 +682,24 @@ test("badges are muted until hovered, and the CI status sits at the right of the
   expect(Math.abs((status?.y ?? 0) - (name?.y ?? 0))).toBeLessThan(24);
   expect(status?.x ?? 0).toBeGreaterThan((name?.x ?? 0) + (name?.width ?? 0));
 });
+
+test("the front page shows this site's average Lighthouse scores, with a band word each", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const tile = page.locator('[data-stat="Lighthouse"]');
+  await expect(tile).toBeVisible();
+  const pages = Number(await tile.getAttribute("data-pages"));
+  expect(pages).toBeGreaterThan(1);
+  await expect(tile.getByRole("link", { name: /Lighthouse/ })).toHaveAttribute(
+    "href",
+    "/reports/alrayyes.github.io/lighthouse/",
+  );
+  for (const name of ["Performance", "Accessibility", "Best practices", "SEO"]) {
+    await expect(tile).toContainText(name);
+  }
+  await expect(tile).toContainText(/\d+%/);
+  await expect(tile).toContainText(/Good|Needs improvement|Poor/);
+  await expect(tile).toContainText(`${pages} pages`);
+  await expectNoAxeViolations(page);
+});
