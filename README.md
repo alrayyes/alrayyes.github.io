@@ -5,16 +5,16 @@
 [![release](https://img.shields.io/github/v/release/alrayyes/alrayyes.github.io?sort=semver)](https://github.com/alrayyes/alrayyes.github.io/releases/latest)
 [![licence](https://img.shields.io/badge/licence-GPL--3.0--or--later-blue.svg)](LICENSE)
 
-A directory of the public repos that publish test, coverage, or Lighthouse
-reports, deployed at [apis.ryankes.eu](https://apis.ryankes.eu). The front page
-lists every one A to Z with a filter, each API with its SDK repos under it and
-the scaffolds together in one group. Each row shows the badges from the repo's
-own README, and the filter narrows by name, kind, whether the repo has a CI
-badge, and licence. Lighthouse and test results are the
-primary links on each row. Lighthouse opens `/reports/<repo>/lighthouse/` and
-Test results opens `/reports/<repo>/tests/`; coverage and the raw XML and
-`lcov.info` files are secondary. For an API it also links the OpenAPI spec and
-the generated docs, and each SDK is its own row.
+A directory of my active public repos, deployed at
+[apis.ryankes.eu](https://apis.ryankes.eu). Archived repos and forks aren't
+listed. The front page lists every one A to Z with a filter, each API with its
+SDK repos under it and the scaffolds together in one group. Each row shows the
+badges from the repo's own README, and the filter narrows by name, kind, whether
+the repo has a CI badge, and licence. For the repos that publish them,
+Lighthouse and test results are the primary links on a row. Lighthouse opens
+`/reports/<repo>/lighthouse/` and Test results opens `/reports/<repo>/tests/`;
+coverage and the raw XML and `lcov.info` files are secondary. For an API it also
+links the OpenAPI spec and the generated docs, and each SDK is its own row.
 
 The APIs and the SDK repos are in `src/data/apis.json`, validated by
 `src/data/apis.schema.json`. Adding a new API or SDK is a plain data-file edit,
@@ -36,12 +36,13 @@ test-result and coverage reports (`lighthouse`, `tests`, `coverage`,
 `apis.ryankes.eu/<repo>/reports/` (this repo, being the user site, has no
 prefix: see Reports below). Add a key only once its URL returns 200.
 
-A repo that publishes reports but isn't an API, such as a scaffold, goes in
-`src/data/repos.json`, validated by `src/data/repos.schema.json`, in the same
-`reports` shape. This site has an entry there too, with empty `reports`, so its
-row gets badges and a licence like any other; its report links come from the
-build. The list and its sort, filters and kind chips are built from both files
-by `src/lib/repoDirectory.ts`.
+A repo that isn't an API, such as a scaffold, a Docker image or an action, goes
+in `src/data/repos.json`, validated by `src/data/repos.schema.json`, in the same
+`reports` shape. Leave `reports` empty when the repo publishes none: it still
+gets a row with its badges and licence, but no report page. This site has an
+entry there too, with empty `reports`, so its row gets badges and a licence like
+any other; its report links come from the build. The list and its sort, filters
+and kind chips are built from both files by `src/lib/repoDirectory.ts`.
 
 ## Requirements
 

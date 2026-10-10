@@ -933,6 +933,245 @@
         }
       ],
       "license": "GPL-3.0-or-later"
+    },
+    {
+      "name": "bun-with-git",
+      "kind": "Docker image",
+      "repo": "https://github.com/alrayyes/bun-with-git",
+      "reports": {},
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/bun-with-git/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/bun-with-git/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/bun-with-git?sort=semver",
+          "href": "https://github.com/alrayyes/bun-with-git/releases/latest"
+        },
+        {
+          "kind": "other",
+          "label": "image",
+          "image": "https://img.shields.io/badge/ghcr.io-bun--with--git-2496ED?logo=docker&logoColor=white",
+          "href": "https://github.com/alrayyes/bun-with-git/pkgs/container/bun-with-git"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-MIT-blue",
+          "href": "https://github.com/alrayyes/bun-with-git/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "cloudflare-wrangler",
+      "kind": "Docker image",
+      "repo": "https://github.com/alrayyes/cloudflare-wrangler",
+      "reports": {},
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/cloudflare-wrangler/actions/workflows/ci.yml/badge.svg",
+          "href": "https://github.com/alrayyes/cloudflare-wrangler/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/cloudflare-wrangler",
+          "href": "https://github.com/alrayyes/cloudflare-wrangler/releases"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/github/license/alrayyes/cloudflare-wrangler",
+          "href": "https://github.com/alrayyes/cloudflare-wrangler/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0"
+    },
+    {
+      "name": "deploy-ssh",
+      "kind": "Docker image",
+      "repo": "https://github.com/alrayyes/deploy-ssh",
+      "reports": {},
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/deploy-ssh/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/deploy-ssh/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/deploy-ssh?sort=semver",
+          "href": "https://github.com/alrayyes/deploy-ssh/releases/latest"
+        },
+        {
+          "kind": "other",
+          "label": "image",
+          "image": "https://img.shields.io/badge/ghcr.io-deploy--ssh-2496ED?logo=docker&logoColor=white",
+          "href": "https://github.com/alrayyes/deploy-ssh/pkgs/container/deploy-ssh"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-GPL--3.0--or--later-blue",
+          "href": "https://github.com/alrayyes/deploy-ssh/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0-or-later"
+    },
+    {
+      "name": "ltex-cli-plus",
+      "kind": "Docker image",
+      "repo": "https://github.com/alrayyes/ltex-cli-plus",
+      "reports": {},
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "build",
+          "image": "https://github.com/alrayyes/ltex-cli-plus/actions/workflows/build.yml/badge.svg",
+          "href": "https://github.com/alrayyes/ltex-cli-plus/actions/workflows/build.yml"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/ltex-cli-plus",
+          "href": "https://github.com/alrayyes/ltex-cli-plus/releases"
+        },
+        {
+          "kind": "other",
+          "label": "ghcr.io",
+          "image": "https://img.shields.io/badge/ghcr.io-ltex--cli--plus-blue",
+          "href": "https://github.com/alrayyes/ltex-cli-plus/pkgs/container/ltex-cli-plus"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/github/license/alrayyes/ltex-cli-plus",
+          "href": "https://github.com/alrayyes/ltex-cli-plus/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0"
+    },
+    {
+      "name": "hush-hush-action",
+      "kind": "Action",
+      "repo": "https://github.com/alrayyes/hush-hush-action",
+      "reports": {},
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/hush-hush-action/actions/workflows/ci.yml/badge.svg",
+          "href": "https://github.com/alrayyes/hush-hush-action/actions"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/hush-hush-action/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/hush-hush-action"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-GPL--3.0-blue",
+          "href": "https://github.com/alrayyes/hush-hush-action/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0"
+    },
+    {
+      "name": "forge-dashboard-e2e-fixture",
+      "kind": "Fixture",
+      "repo": "https://github.com/alrayyes/forge-dashboard-e2e-fixture",
+      "reports": {},
+      "badges": [],
+      "license": "Unlicensed"
+    },
+    {
+      "name": "wiki",
+      "kind": "Site",
+      "repo": "https://github.com/alrayyes/wiki",
+      "reports": {},
+      "badges": [],
+      "license": "MIT"
+    },
+    {
+      "name": "scaffold-arch-package",
+      "kind": "Scaffold",
+      "repo": "https://github.com/alrayyes/scaffold-arch-package",
+      "reports": {},
+      "badges": [],
+      "license": "Unlicensed"
+    },
+    {
+      "name": "scaffold-deb-package",
+      "kind": "Scaffold",
+      "repo": "https://github.com/alrayyes/scaffold-deb-package",
+      "reports": {},
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/scaffold-deb-package/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/scaffold-deb-package/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/scaffold-deb-package?sort=semver",
+          "href": "https://github.com/alrayyes/scaffold-deb-package/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-unlicensed-lightgrey",
+          "href": "https://github.com/alrayyes/scaffold-deb-package/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "Unlicensed"
+    },
+    {
+      "name": "scaffold-nix-package",
+      "kind": "Scaffold",
+      "repo": "https://github.com/alrayyes/scaffold-nix-package",
+      "reports": {},
+      "badges": [],
+      "license": "Unlicensed"
+    },
+    {
+      "name": "scaffold-rpm-package",
+      "kind": "Scaffold",
+      "repo": "https://github.com/alrayyes/scaffold-rpm-package",
+      "reports": {},
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/scaffold-rpm-package/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/scaffold-rpm-package/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/scaffold-rpm-package?sort=semver",
+          "href": "https://github.com/alrayyes/scaffold-rpm-package/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-unlicensed-lightgrey",
+          "href": "https://github.com/alrayyes/scaffold-rpm-package/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "Unlicensed"
     }
   ]
 }

@@ -18,10 +18,12 @@ import { reportSections } from "../../../lib/reportsIndex";
 export function getStaticPaths() {
   // getStaticPaths runs outside this file's scope, so it can only use what it imports.
   const pages = Object.keys(import.meta.glob("/src/pages/**/*.astro"));
-  return reportSections({ pages, apis, others: otherRepos }).map((section) => ({
-    params: { repo: section.name },
-    props: { section },
-  }));
+  return reportSections({ pages, apis, others: otherRepos })
+    .filter((section) => section.files.length > 0)
+    .map((section) => ({
+      params: { repo: section.name },
+      props: { section },
+    }));
 }
 
 interface Props {
