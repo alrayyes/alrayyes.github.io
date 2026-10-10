@@ -180,6 +180,32 @@ describe("directoryRows", () => {
   });
 });
 
+describe("CI status", () => {
+  const withStatus = directoryRows({
+    pages: [],
+    apis,
+    others,
+    ciStatus: { "Hush-Hush": "failing", "hush-hush-go": "passing", "bun-with-git": "passing" },
+  });
+  const status = (name: string) => flatten(withStatus).find((row) => row.name === name)?.ciStatus;
+
+  test("carries each repo's status from the snapshot, and unknown without one", () => {
+    expect(status("Hush-Hush")).toBe("failing");
+    expect(status("bun-with-git")).toBe("passing");
+    expect(status("scaffold-go-api")).toBe("unknown");
+    expect(byName("Hush-Hush")?.ciStatus).toBe("unknown");
+  });
+
+  test("filters by passing or failing, and combines with the other filters", () => {
+    const names = (options: Parameters<typeof filterRows>[3], text = "") =>
+      filterRows(flatten(withStatus), text, "All", options).map((row) => row.name);
+    expect(names({ ci: "Passing" })).toEqual(["bun-with-git", "hush-hush-go"]);
+    expect(names({ ci: "Failing" })).toEqual(["Hush-Hush"]);
+    expect(names({ ci: "Passing", license: "MIT" })).toEqual(["bun-with-git", "hush-hush-go"]);
+    expect(names({ ci: "Failing" }, "go")).toEqual([]);
+  });
+});
+
 describe("badges and licence", () => {
   test("carries a repo's badges in order, and its licence", () => {
     expect(byName("Hush-Hush")?.badges.map((b) => b.kind)).toEqual(["ci", "license"]);
@@ -217,7 +243,7 @@ describe("filterRows", () => {
   });
 
   test("filters by CI badge", () => {
-    expect(CI_FILTERS).toEqual(["Any", "Has CI badge", "No CI badge"]);
+    expect(CI_FILTERS).toEqual(["Any", "Passing", "Failing", "Has CI badge", "No CI badge"]);
     const names = (ci: (typeof CI_FILTERS)[number]) =>
       filterRows(flatten(rows), "", "All", { ci }).map((row) => row.name);
     expect(names("Has CI badge")).toEqual(["alrayyes.github.io", "bun-with-git", "Hush-Hush"]);

@@ -2,6 +2,7 @@
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import RepoGroupCard from "../components/RepoGroupCard.astro";
 import { apis } from "../data/apis";
+import { ciCheckedAt, ciStatuses } from "../data/ciStatus";
 import { otherRepos, repoGroups } from "../data/repos";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import Layout from "../layouts/Layout.astro";
@@ -21,7 +22,10 @@ const rows = directoryRows({
   pages: Object.keys(import.meta.glob("/src/pages/**/*.astro")),
   apis,
   others: otherRepos,
+  ciStatus: ciStatuses,
 });
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const ciCheckedLabel = `${ciCheckedAt.slice(0, 16).replace("T", " ")} UTC`;
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 const sections = directorySections(rows, repoGroups);
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
@@ -127,6 +131,15 @@ const textButton =
     ></p>
   </div>
 
+  <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+    CI status read{" "}
+    <time data-ci-checked datetime={ciCheckedAt}>
+      {ciCheckedLabel}
+    </time>
+    . It's the newest finished run on each repo's default branch, refreshed
+    every few hours.
+  </p>
+
   <div id="directory-list" class="mt-6">
     {sections.map((section) => (
       <RepoGroupCard section={section} />
@@ -153,6 +166,7 @@ const textButton =
   import {
     ANY_LICENCE,
     type CiFilter,
+    type CiStatus,
     filterRows,
     type KindFilter,
   } from "../lib/repoDirectory";
@@ -184,6 +198,7 @@ const textButton =
     name: element.dataset.name ?? "",
     kind: element.dataset.kind ?? "",
     hasCi: element.dataset.ci === "true",
+    ciStatus: (element.dataset.ciStatus ?? "unknown") as CiStatus,
     license: element.dataset.license ?? "",
   }));
   const groups = [

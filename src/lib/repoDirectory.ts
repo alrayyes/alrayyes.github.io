@@ -4,6 +4,7 @@
 // go to the repo's own /reports/<repo>/ page, which reads whatever the repo
 // publishes and shows it the same way for every repo; coverage and the raw
 // XML and LCOV files are secondary.
+import type { CiStatus } from "../../scripts/ci-status";
 import type { Api, Badge } from "../data/apis";
 import type { OtherRepo } from "../data/repos";
 import type { GroupType, RepoGroup } from "./repoGroups";
@@ -13,7 +14,9 @@ export const KINDS = ["All", "API", "SDK", "Scaffold", "Other"] as const;
 export type KindFilter = (typeof KINDS)[number];
 type RepoKind = Exclude<KindFilter, "All">;
 
-export const CI_FILTERS = ["Any", "Has CI badge", "No CI badge"] as const;
+export type { CiStatus };
+
+export const CI_FILTERS = ["Any", "Passing", "Failing", "Has CI badge", "No CI badge"] as const;
 export type CiFilter = (typeof CI_FILTERS)[number];
 
 // The licence filter's "everything" value; every other value is a licence in
@@ -40,6 +43,8 @@ export interface DirectoryRow {
   badges: Badge[];
   license: string;
   hasCi: boolean;
+  // The result of the newest completed CI run, from the build-time snapshot.
+  ciStatus: CiStatus;
   // The id of the group repos.json puts this repo in, if any.
   group?: string;
   // An API's SDKs, listed under it. Empty for every other kind.
@@ -96,10 +101,12 @@ export function directoryRows({
   pages,
   apis,
   others,
+  ciStatus = {},
 }: {
   pages: string[];
   apis: Api[];
   others: OtherRepo[];
+  ciStatus?: Record<string, CiStatus>;
 }): DirectoryRow[] {
   const known = knownAbout(apis, others);
   const parents = sdkParents(apis);
@@ -116,6 +123,7 @@ export function directoryRows({
         badges,
         license,
         hasCi: badges.some((badge) => badge.kind === "ci"),
+        ciStatus: ciStatus[section.name] ?? "unknown",
         lighthouse: inGroup("Lighthouse").length > 0 ? `${detail}lighthouse/` : undefined,
         tests: inGroup("Tests").length > 0 ? `${detail}tests/` : undefined,
         coverage: inGroup("Coverage").find((file) => file.format === "HTML")?.href,
@@ -149,8 +157,21 @@ export const licences = (rows: { license: string }[]): string[] =>
     a.localeCompare(b, "en", { sensitivity: "base" }),
   );
 
+function matchesCi(row: { hasCi?: boolean; ciStatus?: CiStatus }, ci: CiFilter): boolean {
+  if (ci === "Any") return true;
+  if (ci === "Passing") return row.ciStatus === "passing";
+  if (ci === "Failing") return row.ciStatus === "failing";
+  return (ci === "Has CI badge") === row.hasCi;
+}
+
 export function filterRows<
-  T extends { name: string; kind: string; hasCi?: boolean; license?: string },
+  T extends {
+    name: string;
+    kind: string;
+    hasCi?: boolean;
+    ciStatus?: CiStatus;
+    license?: string;
+  },
 >(
   rows: T[],
   text: string,
@@ -162,7 +183,7 @@ export function filterRows<
     (row) =>
       row.name.toLowerCase().includes(needle) &&
       (kind === "All" || row.kind === kind) &&
-      (ci === "Any" || (ci === "Has CI badge") === row.hasCi) &&
+      matchesCi(row, ci) &&
       (license === ANY_LICENCE || row.license === license),
   );
 }
