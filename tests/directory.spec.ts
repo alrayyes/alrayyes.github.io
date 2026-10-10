@@ -4,7 +4,10 @@ import { expectNoAxeViolations } from "./axe";
 const row = (page: import("@playwright/test").Page, name: string) =>
   page.locator(`[data-repo-row][data-name="${name}"]`);
 
-test("the front page lists every repo once, A to Z, with SDKs under their API and scaffolds together", async ({
+const section = (page: import("@playwright/test").Page, name: string) =>
+  page.getByRole("region", { name, exact: true });
+
+test("the front page lists every repo once, with SDKs under their API, each section A to Z", async ({
   page,
 }) => {
   await page.goto("/");
@@ -17,41 +20,68 @@ test("the front page lists every repo once, A to Z, with SDKs under their API an
   expect(names).toContain("Hush-Hush");
   expect(names).toContain("scaffold-go-api");
   expect(new Set(names).size).toBe(names.length);
-  const topLevel = await page
-    .locator("[data-repo-row]:not(ul ul [data-repo-row])")
-    .evaluateAll((rows) =>
-      rows
-        .map((el) => (el as HTMLElement).dataset)
-        .filter((data) => data.kind !== "Scaffold")
-        .map((data) => data.name ?? ""),
-    );
-  const sorted = [...topLevel].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
-  expect(topLevel).toEqual(sorted);
+  for (const heading of ["washy-washy", "Scaffolds", "Everything else"]) {
+    const topLevel = await section(page, heading)
+      .locator("[data-repo-row]:not(ul ul [data-repo-row])")
+      .evaluateAll((rows) => rows.map((el) => (el as HTMLElement).dataset.name ?? ""));
+    const sorted = [...topLevel].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
+    expect(topLevel).toEqual(sorted);
+  }
 });
 
 test("an API lists its SDKs under it", async ({ page }) => {
   await page.goto("/");
   const sdks = page.getByRole("list", { name: "SDKs for forge-dashboard" });
   await expect(sdks.locator('[data-repo-row][data-kind="SDK"]').first()).toBeVisible();
-  await expect(page.locator('[data-letter-group] > ul > li > div[data-kind="SDK"]')).toHaveCount(0);
+  await expect(page.locator('[data-group-section] > ul > li > div[data-kind="SDK"]')).toHaveCount(
+    0,
+  );
 });
 
-test("every scaffold sits in one Scaffolding group", async ({ page }) => {
+test("every scaffold sits in the Scaffolds section, under its description", async ({ page }) => {
   await page.goto("/");
-  const group = page.getByRole("region", { name: "Scaffolding", exact: true });
+  const group = section(page, "Scaffolds");
+  await expect(group.getByText("Starter templates new repos are generated from.")).toBeVisible();
   await expect(group.locator('[data-repo-row][data-name="scaffold-go-api"]')).toHaveCount(1);
   await expect(page.locator('[data-repo-row][data-kind="Scaffold"]')).toHaveCount(
     await group.locator('[data-repo-row][data-kind="Scaffold"]').count(),
   );
 });
 
-test("letter headings divide the list, and every repo sits under its own letter", async ({
+test("the groups repos.json declares are cards with a type label and a repo count", async ({
   page,
 }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 2, name: "H", exact: true })).toBeVisible();
-  const h = page.getByRole("region", { name: "H", exact: true });
-  await expect(h.locator('[data-repo-row][data-name="Hush-Hush"]')).toHaveCount(1);
+  const washy = section(page, "washy-washy");
+  await expect(washy.getByText("Product", { exact: true })).toBeVisible();
+  await expect(washy.locator("[data-group-count]")).toHaveText("4 repos");
+  await expect(washy.locator("[data-repo-row]")).toHaveCount(4);
+  for (const name of ["hush-hush", "forgejo", "obsidian", "movie-planner"]) {
+    await expect(section(page, name).locator("[data-repo-row]").first()).toBeVisible();
+  }
+  const api = section(page, "forge-dashboard");
+  await expect(api.getByText("API and SDKs", { exact: true })).toBeVisible();
+  await expect(api.getByRole("list", { name: "SDKs for forge-dashboard" })).toBeVisible();
+});
+
+test("a repo in no group is under Everything else", async ({ page }) => {
+  await page.goto("/");
+  await expect(
+    section(page, "Everything else").locator('[data-repo-row][data-name="alrayyes.github.io"]'),
+  ).toHaveCount(1);
+});
+
+test("a card says how many of its repos the filter leaves, and goes when none match", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const washy = section(page, "washy-washy");
+  await page.getByLabel("Filter repositories by name").fill("washy-washy-web");
+  await expect(washy.locator("[data-group-count]")).toHaveText("1 of 4 shown");
+  await page.getByLabel("Filter repositories by name").fill("scaffold-go");
+  await expect(washy).toBeHidden();
+  await page.getByRole("button", { name: "Clear filters" }).first().click();
+  await expect(washy.locator("[data-group-count]")).toHaveText("4 repos");
 });
 
 test("each repo's name links to its repo", async ({ page }) => {
@@ -366,9 +396,9 @@ test("a repo with no reports still shows its badges and takes part in the filter
   await expect(visible(page)).toHaveCount(1);
 });
 
-test("the packaging templates sit in the Scaffolding group", async ({ page }) => {
+test("the packaging templates sit in the Scaffolds section", async ({ page }) => {
   await page.goto("/");
-  const group = page.getByRole("region", { name: "Scaffolding", exact: true });
+  const group = section(page, "Scaffolds");
   for (const name of unreported.filter((name) => name.startsWith("scaffold-"))) {
     await expect(group.locator(`[data-repo-row][data-name="${name}"]`)).toHaveCount(1);
   }
@@ -451,4 +481,10 @@ test("the front page fits a 360px screen without scrolling sideways, and its lin
     const box = await link.boundingBox();
     expect(box?.height ?? 0).toBeGreaterThanOrEqual(24);
   }
+});
+
+test("the grouped front page has no axe violations at 375px", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 800 });
+  await page.goto("/");
+  await expectNoAxeViolations(page);
 });

@@ -1,5 +1,43 @@
 {
   "$schema": "./repos.schema.json",
+  "groups": [
+    {
+      "id": "hush-hush",
+      "title": "hush-hush",
+      "type": "product",
+      "description": "The hush-hush command line client and GitHub Action."
+    },
+    {
+      "id": "washy-washy",
+      "title": "washy-washy",
+      "type": "product",
+      "description": "The washy-washy CLI, web app, PDF library and core."
+    },
+    {
+      "id": "movie-planner",
+      "title": "movie-planner",
+      "type": "product",
+      "description": "The movie-planner CLI and its web front end."
+    },
+    {
+      "id": "forgejo",
+      "title": "forgejo",
+      "type": "product",
+      "description": "Tools that sync Forgejo with other services."
+    },
+    {
+      "id": "obsidian",
+      "title": "obsidian",
+      "type": "product",
+      "description": "Tools that move notes and bookmarks into an Obsidian vault."
+    },
+    {
+      "id": "scaffolds",
+      "title": "Scaffolds",
+      "type": "scaffolds",
+      "description": "Starter templates new repos are generated from."
+    }
+  ],
   "repos": [
     {
       "name": "alrayyes.github.io",
@@ -70,7 +108,8 @@
           "href": "https://github.com/alrayyes/scaffold-astro-site/blob/HEAD/LICENSE"
         }
       ],
-      "license": "Unlicensed"
+      "license": "Unlicensed",
+      "group": "scaffolds"
     },
     {
       "name": "scaffold-typescript-cli",
@@ -107,7 +146,8 @@
           "href": "https://github.com/alrayyes/scaffold-typescript-cli/blob/HEAD/LICENSE"
         }
       ],
-      "license": "Unlicensed"
+      "license": "Unlicensed",
+      "group": "scaffolds"
     },
     {
       "name": "scaffold-python-cli",
@@ -144,7 +184,8 @@
           "href": "https://github.com/alrayyes/scaffold-python-cli/blob/HEAD/LICENSE"
         }
       ],
-      "license": "Unlicensed"
+      "license": "Unlicensed",
+      "group": "scaffolds"
     },
     {
       "name": "scaffold-go-api",
@@ -181,7 +222,8 @@
           "href": "https://github.com/alrayyes/scaffold-go-api/blob/HEAD/LICENSE"
         }
       ],
-      "license": "Unlicensed"
+      "license": "Unlicensed",
+      "group": "scaffolds"
     },
     {
       "name": "washy-washy-cli",
@@ -230,7 +272,8 @@
           "href": "https://github.com/alrayyes/washy-washy-cli/pkgs/container/washy-washy-cli"
         }
       ],
-      "license": "GPL-3.0-or-later"
+      "license": "GPL-3.0-or-later",
+      "group": "washy-washy"
     },
     {
       "name": "service-not-ready",
@@ -322,7 +365,8 @@
           "href": "https://github.com/alrayyes/org-roam-to-obsidian/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "obsidian"
     },
     {
       "name": "tempus-fugit",
@@ -391,7 +435,8 @@
           "href": "https://github.com/alrayyes/forgejo-time-sync/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "forgejo"
     },
     {
       "name": "washy-washy-web",
@@ -435,7 +480,8 @@
           "href": "https://washy-washy.ryankes.eu/"
         }
       ],
-      "license": "GPL-3.0-or-later"
+      "license": "GPL-3.0-or-later",
+      "group": "washy-washy"
     },
     {
       "name": "bot-pr-watchdog",
@@ -497,7 +543,8 @@
           "href": "https://github.com/alrayyes/forgejo-mirror-sync/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "forgejo"
     },
     {
       "name": "movie-planner",
@@ -534,7 +581,8 @@
           "href": "https://github.com/alrayyes/movie-planner/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "movie-planner"
     },
     {
       "name": "washy-washy-pdf",
@@ -583,7 +631,8 @@
           "href": "https://github.com/alrayyes/washy-washy-pdf/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0-or-later"
+      "license": "GPL-3.0-or-later",
+      "group": "washy-washy"
     },
     {
       "name": "hush-hush-cli",
@@ -614,7 +663,8 @@
           "href": "https://github.com/alrayyes/hush-hush-cli/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "hush-hush"
     },
     {
       "name": "backup-git-repos",
@@ -767,7 +817,8 @@
           "href": "https://pkg.go.dev/github.com/alrayyes/forgejo-caldav-sync"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "forgejo"
     },
     {
       "name": "linkwarden-obsidian-sync",
@@ -810,7 +861,8 @@
           "href": "https://github.com/alrayyes/linkwarden-obsidian-sync/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "obsidian"
     },
     {
       "name": "form-handler",
@@ -914,7 +966,8 @@
           "href": "https://alrayyes.github.io/washy-washy-core/"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "washy-washy"
     },
     {
       "name": "movie-planner-web",
@@ -958,7 +1011,8 @@
           "href": "https://movie-planner.ryankes.eu"
         }
       ],
-      "license": "GPL-3.0-or-later"
+      "license": "GPL-3.0-or-later",
+      "group": "movie-planner"
     },
     {
       "name": "bun-with-git",
@@ -1111,7 +1165,8 @@
           "href": "https://github.com/alrayyes/hush-hush-action/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "hush-hush"
     },
     {
       "name": "forge-dashboard-e2e-fixture",
@@ -1135,7 +1190,8 @@
       "repo": "https://github.com/alrayyes/scaffold-arch-package",
       "reports": {},
       "badges": [],
-      "license": "Unlicensed"
+      "license": "Unlicensed",
+      "group": "scaffolds"
     },
     {
       "name": "scaffold-deb-package",
@@ -1162,7 +1218,8 @@
           "href": "https://github.com/alrayyes/scaffold-deb-package/blob/HEAD/LICENSE"
         }
       ],
-      "license": "Unlicensed"
+      "license": "Unlicensed",
+      "group": "scaffolds"
     },
     {
       "name": "scaffold-nix-package",
@@ -1170,7 +1227,8 @@
       "repo": "https://github.com/alrayyes/scaffold-nix-package",
       "reports": {},
       "badges": [],
-      "license": "Unlicensed"
+      "license": "Unlicensed",
+      "group": "scaffolds"
     },
     {
       "name": "scaffold-rpm-package",
@@ -1197,7 +1255,8 @@
           "href": "https://github.com/alrayyes/scaffold-rpm-package/blob/HEAD/LICENSE"
         }
       ],
-      "license": "Unlicensed"
+      "license": "Unlicensed",
+      "group": "scaffolds"
     }
   ]
 }

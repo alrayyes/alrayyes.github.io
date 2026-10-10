@@ -7,9 +7,10 @@
 
 A directory of my active public repos, deployed at
 [apis.ryankes.eu](https://apis.ryankes.eu). Archived repos and forks aren't
-listed. The front page lists every one A to Z with a filter, each API with its
-SDK repos under it and the scaffolds together in one group. Each row shows the
-badges from the repo's own README, and the filter narrows by name, kind, whether
+listed. The front page lists every one with a filter, grouped into cards: each
+API with its SDK repos under it, then the groups declared in
+`src/data/repos.json`, then everything else. Each row shows the badges from the
+repo's own README, and the filter narrows by name, kind, whether
 the repo has a CI badge, and licence. For the repos that publish them,
 Lighthouse and test results are the primary links on a row. Lighthouse opens
 `/reports/<repo>/lighthouse/` and Test results opens `/reports/<repo>/tests/`;
@@ -43,6 +44,12 @@ gets a row with its badges and licence, but no report page. This site has an
 entry there too, with empty `reports`, so its row gets badges and a licence like
 any other; its report links come from the build. The list and its sort, filters
 and kind chips are built from both files by `src/lib/repoDirectory.ts`.
+
+The same file decides the grouping. Its top-level `groups` array declares each
+group (`id`, `title`, `type` of `product` or `scaffolds`, and an optional
+`description`), in display order, and a repo joins one with `"group": "<id>"`.
+A repo with no `group` lands under Everything else. A `group` that names an
+undeclared id, or a group with no members, fails `bun run test:e2e`.
 
 ## Requirements
 
