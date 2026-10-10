@@ -131,10 +131,11 @@ Each repo has a page for its Lighthouse reports, at `/reports/<repo>/lighthouse/
 and one for its test results, at `/reports/<repo>/tests/`, and only for a report
 it publishes. `/reports/<repo>/` is an overview with the coverage links and a
 link to each of those pages. A report page opens the repo's directory in the
-browser, reads the file names
-from the index page its pipeline wrote there (GitHub Pages can't list a
-directory), and shows one row per audited page with its four scores, and one row
-per test file with its tests, failures, errors, skipped and time. Where a
+browser, reads the file names from the index page its pipeline wrote there
+(GitHub Pages can't list a directory), and shows one row per audited page with
+its four scores as percentages, each with a ring and a band word (Good, Needs
+improvement or Poor), a site average of them above the rows, and one row per
+test file with its tests, failures, errors, skipped and time. Where a
 directory has no index page, or JavaScript is off, it shows the links the
 catalogue holds.
 

@@ -40,6 +40,9 @@ export type ScoreBand = "green" | "amber" | "red";
 export const scoreBand = (score: number): ScoreBand =>
   score >= 90 ? "green" : score >= 50 ? "amber" : "red";
 
+export const bandLabel = (score: number) =>
+  ({ green: "Good", amber: "Needs improvement", red: "Poor" })[scoreBand(score)];
+
 export type Scores = Record<string, number>;
 
 export interface LighthouseRun {
@@ -117,4 +120,21 @@ export function lighthouseRowsFromFiles(files: string[]): LighthouseRow[] {
       representative: representative as LighthouseRun,
       others,
     }));
+}
+
+// The rounded mean of each category over the pages' representative runs. The
+// other runs are repeats of a page, so counting them would weight a page by how
+// often it ran. A category a run lacks is left out of its mean.
+export function siteAverage(rows: LighthouseRow[]): Scores | null {
+  const sums = new Map<string, { total: number; count: number }>();
+  for (const { representative } of rows) {
+    for (const [name, score] of Object.entries(representative.scores ?? {})) {
+      const sum = sums.get(name) ?? { total: 0, count: 0 };
+      sums.set(name, { total: sum.total + score, count: sum.count + 1 });
+    }
+  }
+  if (sums.size === 0) return null;
+  return Object.fromEntries(
+    [...sums].map(([name, { total, count }]) => [name, Math.round(total / count)]),
+  );
 }

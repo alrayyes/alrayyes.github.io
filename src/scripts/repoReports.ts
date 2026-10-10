@@ -6,11 +6,14 @@ import { ICONS, type IconName } from "../lib/icons";
 import { describeSummary, junitSummary } from "../lib/junit";
 import type { LighthouseRow, LighthouseRun } from "../lib/reportDirectory";
 import {
+  bandLabel,
   directoryLinks,
   lighthouseRowsFromFiles,
   lighthouseRowsFromManifest,
+  type Scores,
   sameOriginPath,
   scoreBand,
+  siteAverage,
 } from "../lib/reportDirectory";
 
 // Outline icon buttons, 36px square: a glyph and a visually hidden name that
@@ -34,6 +37,81 @@ const BAND_CLASS = {
     "border-amber-300 bg-amber-50 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200",
   red: "border-red-300 bg-red-50 text-red-900 dark:border-red-700 dark:bg-red-950 dark:text-red-200",
 } as const;
+
+const RING_CLASS = {
+  green: "text-emerald-600 dark:text-emerald-400",
+  amber: "text-amber-500 dark:text-amber-400",
+  red: "text-red-600 dark:text-red-400",
+} as const;
+
+function ring(score: number) {
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("viewBox", "0 0 36 36");
+  svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("class", `size-12 -rotate-90 ${RING_CLASS[scoreBand(score)]}`);
+  for (const [filled, extra] of [
+    [false, "opacity-20"],
+    [true, ""],
+  ] as const) {
+    const circle = document.createElementNS(ns, "circle");
+    circle.setAttribute("cx", "18");
+    circle.setAttribute("cy", "18");
+    circle.setAttribute("r", "15.5");
+    circle.setAttribute("fill", "none");
+    circle.setAttribute("stroke", "currentColor");
+    circle.setAttribute("stroke-width", "3");
+    circle.setAttribute("class", extra);
+    if (filled) {
+      circle.setAttribute("pathLength", "100");
+      circle.setAttribute("stroke-dasharray", `${score} 100`);
+      circle.setAttribute("stroke-linecap", "round");
+    }
+    svg.append(circle);
+  }
+  return svg;
+}
+
+// One score: a ring that fills to it, the percentage, the category and the
+// band in words. The ring is decoration; the text says all of it.
+function scoreTile(key: string, score: number) {
+  const band = scoreBand(score);
+  const tile = el("div", {
+    class:
+      "flex flex-col items-center gap-1 rounded-md border border-slate-200 bg-white p-2 text-center dark:border-slate-700 dark:bg-slate-900",
+    attrs: { "data-score": key, "data-band": band },
+  });
+  const dial = el("div", {
+    class: "relative flex size-12 items-center justify-center",
+  });
+  dial.append(
+    ring(score),
+    el("span", {
+      class: "absolute font-mono text-xs font-semibold text-slate-900 dark:text-slate-100",
+      text: `${score}%`,
+    }),
+  );
+  tile.append(
+    dial,
+    el("span", {
+      class: "text-sm text-slate-800 dark:text-slate-200",
+      text: SCORE_NAMES[key] ?? key,
+    }),
+    el("span", {
+      class: `rounded border px-1.5 text-xs font-medium ${BAND_CLASS[band]}`,
+      text: bandLabel(score),
+    }),
+  );
+  return tile;
+}
+
+const tileGrid = "grid grid-cols-2 gap-2 sm:grid-cols-4";
+
+function scoreTiles(scores: Scores) {
+  const grid = el("div", { class: tileGrid });
+  for (const [key, score] of Object.entries(scores)) grid.append(scoreTile(key, score));
+  return grid;
+}
 
 function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -79,24 +157,35 @@ async function fetchText(url: string) {
 }
 
 function lighthouseRun(dir: string, row: LighthouseRow, run: LighthouseRun) {
-  const item = el("div", {
-    class: "flex flex-wrap items-start justify-between gap-3",
-  });
-  const chips = el("div", { class: "flex flex-wrap gap-1.5" });
-  for (const [key, score] of Object.entries(run.scores ?? {})) {
-    chips.append(
-      el("span", {
-        class: `rounded border px-2 py-0.5 text-sm ${BAND_CLASS[scoreBand(score)]}`,
-        text: `${SCORE_NAMES[key] ?? key} ${score}`,
-        attrs: { "data-score": key, "data-band": scoreBand(score) },
-      }),
-    );
-  }
-  const buttons = el("div", { class: "ml-auto flex gap-2" });
+  const item = el("div", { class: "flex flex-col gap-3" });
+  const buttons = el("div", { class: "flex gap-2" });
   buttons.append(iconButton(dir, run.html, "open", `HTML report for ${row.page}`));
   if (run.json) buttons.append(iconButton(dir, run.json, "braces", `JSON report for ${row.page}`));
-  item.append(chips, buttons);
+  item.append(buttons);
+  if (run.scores) item.append(scoreTiles(run.scores));
   return item;
+}
+
+// The mean of each category over the pages, above the rows.
+function renderAverage(rows: LighthouseRow[], list: HTMLElement) {
+  const average = siteAverage(rows);
+  if (!average) return;
+  const group = el("div", {
+    class: `${rowClass} mt-3 flex flex-col gap-3`,
+    attrs: { role: "group", "aria-label": "Site average" },
+  });
+  group.append(
+    el("p", {
+      class: "text-sm font-semibold text-slate-900 dark:text-slate-100",
+      text: "Site average",
+    }),
+    el("p", {
+      class: "text-sm text-slate-700 dark:text-slate-300",
+      text: `Mean over ${rows.length} page${rows.length === 1 ? "" : "s"}`,
+    }),
+    scoreTiles(average),
+  );
+  list.before(group);
 }
 
 function renderLighthouse(dir: string, rows: LighthouseRow[], list: HTMLElement) {
@@ -197,6 +286,7 @@ async function enhance(section: HTMLElement) {
           )
         : lighthouseRowsFromFiles(files);
       if (lighthouseRows.length === 0) return;
+      renderAverage(lighthouseRows, rows);
       renderLighthouse(dir, lighthouseRows, rows);
     } else if (section.dataset.kind === "tests") {
       const xml = files.filter((file) => file.endsWith(".xml"));
