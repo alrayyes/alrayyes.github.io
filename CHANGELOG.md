@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.33.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.33.0...alrayyes.github.io-v0.33.1) (2026-10-10)
+
+
+### Bug Fixes
+
+* add the README badges the extractor missed ([#208](https://github.com/alrayyes/alrayyes.github.io/issues/208)) ([618c2bd](https://github.com/alrayyes/alrayyes.github.io/commit/618c2bd874e13f9e1d23c337c0d3969d8a8e2576))
+
 ## [0.33.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.32.0...alrayyes.github.io-v0.33.0) (2026-10-10)
 
 
