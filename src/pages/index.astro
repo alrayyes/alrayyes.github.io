@@ -120,19 +120,21 @@ const textButton =
             class="inline-flex min-h-6 items-center underline underline-offset-2 hover:text-accent dark:hover:text-accent-dark"
           >
             Lighthouse
-          </a>
+          </a>{" "}
           site average, {lighthouseAverage.pages}{" "}
           {lighthouseAverage.pages === 1 ? "page" : "pages"}
         </dt>
         <dd>
-          <ul class="mt-1 flex flex-wrap gap-x-6 gap-y-2">
+          <ul class="mt-2 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-4">
             {lighthouseScores.map(({ label, score }) => (
               <li class="text-sm text-slate-700 dark:text-slate-300">
-                {label}{" "}
-                <span class="font-mono text-lg font-semibold text-slate-900 dark:text-slate-100">
-                  {score}%
-                </span>{" "}
-                {bandLabel(score)}
+                {label}
+                <p class="font-mono text-2xl font-semibold text-slate-900 dark:text-slate-100">
+                  {score}%{" "}
+                  <span class="font-sans text-sm font-normal text-slate-700 dark:text-slate-300">
+                    {bandLabel(score)}
+                  </span>
+                </p>
               </li>
             ))}
           </ul>
