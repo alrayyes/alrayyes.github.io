@@ -122,6 +122,17 @@ export function lighthouseRowsFromFiles(files: string[]): LighthouseRow[] {
     }));
 }
 
+// A Lighthouse report's category scores (0 to 1) as whole percentages. A
+// category with no score is left out; no categories at all gives null.
+export function scoresFromReport(report: unknown): Scores | null {
+  const categories = (report as { categories?: Record<string, { score?: number | null }> } | null)
+    ?.categories;
+  const entries = Object.entries(categories ?? {}).flatMap(([name, { score }]) =>
+    typeof score === "number" ? [[name, Math.round(score * 100)] as const] : [],
+  );
+  return entries.length > 0 ? Object.fromEntries(entries) : null;
+}
+
 // The rounded mean of each category over the pages' representative runs. The
 // other runs are repeats of a page, so counting them would weight a page by how
 // often it ran. A category a run lacks is left out of its mean.

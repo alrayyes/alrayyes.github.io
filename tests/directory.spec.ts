@@ -682,3 +682,45 @@ test("badges are muted until hovered, and the CI status sits at the right of the
   expect(Math.abs((status?.y ?? 0) - (name?.y ?? 0))).toBeLessThan(24);
   expect(status?.x ?? 0).toBeGreaterThan((name?.x ?? 0) + (name?.width ?? 0));
 });
+
+const lighthouseReport = (performance: number) => ({
+  categories: {
+    performance: { score: performance },
+    accessibility: { score: 1 },
+    "best-practices": { score: 1 },
+    seo: { score: 1 },
+  },
+});
+
+test("the front page shows this site's average Lighthouse scores, with a band word each", async ({
+  page,
+}) => {
+  const scores = [0.97, 0.89];
+  let n = 0;
+  await page.route("**/reports/lighthouse/*.report.json", (route) =>
+    route.fulfill({ json: lighthouseReport(scores[n++ % scores.length] ?? 1) }),
+  );
+  await page.goto("/");
+  const tile = page.locator('[data-stat="Lighthouse"]');
+  await expect(tile).toBeVisible();
+  const pages = Number(await tile.getAttribute("data-pages"));
+  expect(pages).toBeGreaterThan(1);
+  await expect(tile.getByRole("link", { name: /Lighthouse/ })).toHaveAttribute(
+    "href",
+    "/reports/alrayyes.github.io/lighthouse/",
+  );
+  await expect(tile).toContainText("Accessibility");
+  await expect(tile).toContainText("100%");
+  await expect(tile).toContainText("Good");
+  await expect(tile).toContainText(`${pages} pages`);
+  await expectNoAxeViolations(page);
+});
+
+test("the Lighthouse tile stays out when the reports can't be read", async ({ page }) => {
+  await page.route("**/reports/lighthouse/*.report.json", (route) =>
+    route.fulfill({ status: 404, body: "" }),
+  );
+  await page.goto("/");
+  await expect(page.locator('dl[aria-label="Directory summary"]')).toBeVisible();
+  await expect(page.locator('[data-stat="Lighthouse"]')).toBeHidden();
+});

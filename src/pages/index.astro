@@ -16,6 +16,7 @@ import {
   KINDS,
   licences,
 } from "../lib/repoDirectory";
+import { lighthousePages } from "../lib/reportsIndex";
 
 // This site's Lighthouse pages are its own routes, so a new page gets a link
 // without anyone listing it.
@@ -25,6 +26,11 @@ const rows = directoryRows({
   others: otherRepos,
   ciStatus: ciStatuses,
 });
+// The pages Lighthouse audits, which the tile below averages over.
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const auditedPages = lighthousePages(
+  Object.keys(import.meta.glob("/src/pages/**/*.astro")),
+);
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 const ciCheckedLabel = `${ciCheckedAt.slice(0, 16).replace("T", " ")} UTC`;
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
@@ -91,6 +97,30 @@ const textButton =
         </dd>
       </div>
     ))}
+    {/* Filled in by the script below from the site's own published Lighthouse
+    reports, and left hidden when they can't be read. */}
+    <div
+      data-stat="Lighthouse"
+      data-pages={auditedPages.join(",")}
+      hidden
+      class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 sm:col-span-3 dark:border-slate-700 dark:bg-slate-800"
+    >
+      <dt class="text-sm text-slate-600 dark:text-slate-400">
+        <a
+          href="/reports/alrayyes.github.io/lighthouse/"
+          class="underline underline-offset-2 hover:text-accent dark:hover:text-accent-dark"
+        >
+          Lighthouse
+        </a>
+        site average, <span data-lighthouse-count></span>
+      </dt>
+      <dd>
+        <ul
+          data-lighthouse-scores
+          class="mt-1 flex flex-wrap gap-x-6 gap-y-2"
+        ></ul>
+      </dd>
+    </div>
   </dl>
 
   {/* Only shown once the script below has run, so there is no search box that
@@ -205,6 +235,10 @@ const textButton =
     </button>
   </p>
 </Layout>
+
+<script>
+  import "../scripts/lighthouseAverage";
+</script>
 
 <script>
   import {
