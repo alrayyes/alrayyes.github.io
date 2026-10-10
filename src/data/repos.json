@@ -20,6 +20,12 @@
       "description": "Tools that sync Forgejo with other services."
     },
     {
+      "id": "obsidian",
+      "title": "obsidian",
+      "type": "product",
+      "description": "Tools that move notes and bookmarks into an Obsidian vault."
+    },
+    {
       "id": "scaffolds",
       "title": "Scaffolds",
       "type": "scaffolds",
@@ -353,7 +359,8 @@
           "href": "https://github.com/alrayyes/org-roam-to-obsidian/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "obsidian"
     },
     {
       "name": "tempus-fugit",
@@ -821,7 +828,8 @@
           "href": "https://github.com/alrayyes/linkwarden-obsidian-sync/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "obsidian"
     },
     {
       "name": "form-handler",
