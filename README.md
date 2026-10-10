@@ -12,13 +12,15 @@ API with its SDK repos under it, then the groups declared in
 `src/data/repos.json`, then everything else. Product cards sit two to a row on
 a wide screen, the scaffolds in a grid, and a strip of counts (repos, APIs,
 SDK repos and CI passing) sits above the filter. Pressing `/` focuses the
-filter, and Reset clears it. Each row shows the badges from the
-repo's own README, and the filter narrows by name, kind, licence, and CI:
-whether the latest run passed or failed. For the repos that publish them,
-Lighthouse and test results are the primary links on a row. Lighthouse opens
-`/reports/<repo>/lighthouse/` and Test results opens `/reports/<repo>/tests/`;
-coverage and the raw XML and `lcov.info` files are secondary. For an API it also
-links the OpenAPI spec and the generated docs, and each SDK is its own row.
+filter, and Reset clears it. Each row shows the badges from the repo's own
+README, and the filter narrows by name, kind, licence, and CI: whether the
+latest run passed or failed. A row is the repo's name and its kind label, with
+the CI status at the right, then one plain line of links, then its badges in
+grey until hovered. The links are the reports the repo publishes, where it
+publishes them. Lighthouse opens `/reports/<repo>/lighthouse/` and Test results
+opens `/reports/<repo>/tests/`, followed by coverage and the raw XML and
+`lcov.info` files. For an API it also links the OpenAPI spec and the generated
+docs, and each SDK is its own row.
 
 The APIs and the SDK repos are in `src/data/apis.json`, validated by
 `src/data/apis.schema.json`. Adding a new API or SDK is a plain data-file edit,

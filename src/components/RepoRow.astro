@@ -8,21 +8,13 @@ import RepoBadges from "./RepoBadges.astro";
 interface Props {
   row: DirectoryRow;
   nested?: boolean;
-  // Stack the name, badges and links, for a narrow grid cell.
-  compact?: boolean;
-  // Stack from 1024px up, where the row sits in half a page.
-  stackAtLg?: boolean;
 }
 
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
-const { row, nested = false, compact = false, stackAtLg = false } = Astro.props;
+const { row, nested = false } = Astro.props;
 
-// The human-readable reports are outlined buttons, the same on every row.
-// min-h-9 is 36px, over WCAG 2.5.8's 24px minimum.
-// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
-const primary =
-  "inline-flex min-h-9 items-center gap-1.5 rounded-md border border-accent px-3 py-1 text-sm font-medium text-accent hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 dark:border-accent-dark dark:text-accent-dark dark:hover:bg-slate-700";
-// Coverage, raw files and the API links are quiet text links.
+// Every link on a row is the same quiet text link: reports, coverage, raw files
+// and the API links. min-h-8 is 32px, over WCAG 2.5.8's 24px minimum.
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 const quiet =
   "inline-flex min-h-8 items-center gap-1 text-sm text-slate-600 underline underline-offset-2 hover:text-accent dark:text-slate-300 dark:hover:text-accent-dark";
@@ -40,14 +32,10 @@ const quiet =
     data-kind={row.kind}
     data-ci-status={row.ciStatus}
     data-license={row.license}
-    class:list={[
-      "flex flex-col gap-3 py-4",
-      !compact && "sm:flex-row sm:items-start sm:justify-between",
-      stackAtLg && "lg:flex-col lg:items-stretch lg:justify-start",
-    ]}
+    class="flex flex-col gap-1 py-4"
   >
-    <div class="min-w-0">
-      <h3 class="flex flex-wrap items-center gap-2">
+    <div class="flex items-start justify-between gap-4">
+      <h3 class="flex min-w-0 flex-wrap items-center gap-2">
         <a
           href={row.repo}
           class="inline-flex min-h-8 items-center font-mono text-base font-semibold break-all text-slate-900 underline decoration-slate-300 underline-offset-4 hover:text-accent hover:decoration-accent dark:text-slate-100 dark:decoration-slate-600 dark:hover:text-accent-dark dark:hover:decoration-accent-dark"
@@ -58,12 +46,11 @@ const quiet =
           {row.kind}
         </span>
       </h3>
-      <RepoBadges name={row.name} badges={row.badges} />
       {row.ciStatus !== "unknown" && (
         <p
           data-ci-status-label
           class:list={[
-            "mt-1 inline-flex min-h-6 items-center gap-1 text-xs font-medium",
+            "inline-flex min-h-8 shrink-0 items-center gap-1 text-xs font-medium",
             row.ciStatus === "passing"
               ? "text-green-700 dark:text-green-400"
               : "text-red-700 dark:text-red-400",
@@ -88,72 +75,69 @@ const quiet =
           CI {row.ciStatus}
         </p>
       )}
-      {(row.spec || row.docs) && (
-        <ul class="flex flex-wrap gap-x-4">
-          {row.spec && (
-            <li>
-              <a href={row.spec} class={quiet}>
-                <BrandIcon name="openapiinitiative" class="size-3.5" />
-                OpenAPI spec<span class="sr-only"> for {row.name}</span>
-              </a>
-            </li>
-          )}
-          {row.docs && (
-            <li>
-              <a href={row.docs} class={quiet}>
-                <BrandIcon name="docs" class="size-3.5" />
-                Docs<span class="sr-only"> for {row.name}</span>
-              </a>
-            </li>
-          )}
-        </ul>
-      )}
-      {(row.coverage || row.raw.length > 0) && (
-        <ul class="flex flex-wrap gap-x-4">
-          {row.coverage && (
-            <li>
-              <a href={row.coverage} class={quiet}>
-                <BrandIcon name="coverage" class="size-3.5" />
-                Coverage<span class="sr-only"> for {row.name}</span>
-              </a>
-            </li>
-          )}
-          {row.raw.map((file) => (
-            <li>
-              <a href={file.href} class={`${quiet} font-mono`}>
-                <BrandIcon name="file" class="size-3.5" />
-                {file.label}
-                <span class="sr-only">
-                  {" "}
-                  ({file.format}) for {row.name}
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
-
-    {(row.lighthouse || row.tests) && (
-      <ul class="flex shrink-0 flex-wrap gap-2">
+    {(row.lighthouse ||
+      row.tests ||
+      row.coverage ||
+      row.raw.length > 0 ||
+      row.spec ||
+      row.docs) && (
+      <ul aria-label={`Links for ${row.name}`} class="flex flex-wrap gap-x-4">
         {row.lighthouse && (
           <li>
-            <a href={row.lighthouse} class={primary}>
-              <BrandIcon name="lighthouse" />
+            <a href={row.lighthouse} class={quiet}>
+              <BrandIcon name="lighthouse" class="size-3.5" />
               Lighthouse<span class="sr-only"> reports for {row.name}</span>
             </a>
           </li>
         )}
         {row.tests && (
           <li>
-            <a href={row.tests} class={primary}>
-              <BrandIcon name="tests" />
+            <a href={row.tests} class={quiet}>
+              <BrandIcon name="tests" class="size-3.5" />
               Test results<span class="sr-only"> for {row.name}</span>
+            </a>
+          </li>
+        )}
+        {row.coverage && (
+          <li>
+            <a href={row.coverage} class={quiet}>
+              <BrandIcon name="coverage" class="size-3.5" />
+              Coverage<span class="sr-only"> for {row.name}</span>
+            </a>
+          </li>
+        )}
+        {row.raw.map((file) => (
+          <li>
+            <a href={file.href} class={`${quiet} font-mono`}>
+              <BrandIcon name="file" class="size-3.5" />
+              {file.label}
+              <span class="sr-only">
+                {" "}
+                ({file.format}) for {row.name}
+              </span>
+            </a>
+          </li>
+        ))}
+        {row.spec && (
+          <li>
+            <a href={row.spec} class={quiet}>
+              <BrandIcon name="openapiinitiative" class="size-3.5" />
+              OpenAPI spec<span class="sr-only"> for {row.name}</span>
+            </a>
+          </li>
+        )}
+        {row.docs && (
+          <li>
+            <a href={row.docs} class={quiet}>
+              <BrandIcon name="docs" class="size-3.5" />
+              Docs<span class="sr-only"> for {row.name}</span>
             </a>
           </li>
         )}
       </ul>
     )}
+    <RepoBadges name={row.name} badges={row.badges} />
   </div>
   {row.sdks.length > 0 && (
     <ul aria-label={`SDKs for ${row.name}`}>

@@ -116,7 +116,7 @@ test("each repo's name links to its repo", async ({ page }) => {
   ).toHaveAttribute("href", "https://github.com/alrayyes/forge-dashboard-sdk-go");
 });
 
-test("Lighthouse and Test results are the primary links, each with an icon and a text label, and go to the repo's report page", async ({
+test("Lighthouse and Test results go to the repo's report page, each with an icon and a text label", async ({
   page,
 }) => {
   await page.goto("/");
@@ -245,16 +245,14 @@ test("each row shows its README badges in order, each linking out, with the badg
   await expect(links.nth(2).getByRole("img")).toHaveAttribute("alt", "licence");
 });
 
-test("the badges sit above the coverage and raw-file links, and a nested SDK row has its own", async ({
-  page,
-}) => {
+test("the badges sit below the links, and a nested SDK row has its own", async ({ page }) => {
   await page.goto("/");
   const api = row(page, "forge-dashboard");
   const strip = api.getByRole("list", { name: "Badges for forge-dashboard", exact: true });
   const coverage = api.getByRole("link", { name: /^Coverage/ });
   const stripBox = await strip.boundingBox();
   const coverageBox = await coverage.boundingBox();
-  expect(stripBox?.y ?? 0).toBeLessThan(coverageBox?.y ?? 0);
+  expect(stripBox?.y ?? 0).toBeGreaterThan(coverageBox?.y ?? 0);
   await expect(
     row(page, "forge-dashboard-sdk-go").getByRole("list", {
       name: "Badges for forge-dashboard-sdk-go",
@@ -649,4 +647,38 @@ test("repo rows skip rendering work until they near the viewport", async ({ page
     );
   expect(values.length).toBeGreaterThan(0);
   expect(new Set(values)).toEqual(new Set(["auto"]));
+});
+
+test("a row's links are one plain line, not outlined buttons", async ({ page }) => {
+  await page.goto("/");
+  const api = row(page, "forge-dashboard");
+  const links = api.getByRole("list", { name: "Links for forge-dashboard", exact: true });
+  await expect(links.getByRole("link")).toHaveCount(
+    await api
+      .getByRole("link", { name: /^(Lighthouse|Test results|Coverage|OpenAPI spec|Docs|.*\.xml)/ })
+      .count(),
+  );
+  for (const link of await links.getByRole("link").all()) {
+    expect(await link.evaluate((el) => getComputedStyle(el).borderTopWidth)).toBe("0px");
+  }
+  const lighthouse = await links.getByRole("link", { name: /^Lighthouse/ }).boundingBox();
+  const coverage = await links.getByRole("link", { name: /^Coverage/ }).boundingBox();
+  expect(Math.abs((lighthouse?.y ?? 0) - (coverage?.y ?? 0))).toBeLessThan(12);
+});
+
+test("badges are muted until hovered, and the CI status sits at the right of the name", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  const api = row(page, "forge-dashboard");
+  const badge = api
+    .getByRole("list", { name: "Badges for forge-dashboard", exact: true })
+    .locator("img")
+    .first();
+  expect(await badge.evaluate((el) => getComputedStyle(el).filter)).toContain("grayscale");
+  const status = await api.locator("[data-ci-status-label]").boundingBox();
+  const name = await api.getByRole("heading").boundingBox();
+  expect(Math.abs((status?.y ?? 0) - (name?.y ?? 0))).toBeLessThan(24);
+  expect(status?.x ?? 0).toBeGreaterThan((name?.x ?? 0) + (name?.width ?? 0));
 });
