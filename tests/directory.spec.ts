@@ -56,12 +56,36 @@ test("the groups repos.json declares are cards with a type label and a repo coun
   await expect(washy.getByText("Product", { exact: true })).toBeVisible();
   await expect(washy.locator("[data-group-count]")).toHaveText("4 repos");
   await expect(washy.locator("[data-repo-row]")).toHaveCount(4);
-  for (const name of ["hush-hush", "forgejo", "obsidian", "movie-planner"]) {
+  for (const name of ["forgejo", "obsidian", "movie-planner"]) {
     await expect(section(page, name).locator("[data-repo-row]").first()).toBeVisible();
   }
   const api = section(page, "forge-dashboard");
   await expect(api.getByText("API and SDKs", { exact: true })).toBeVisible();
   await expect(api.getByRole("list", { name: "SDKs for forge-dashboard" })).toBeVisible();
+});
+
+test("an API's card also holds the repos that joined it: hush-hush is one card of seven", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const card = section(page, "hush-hush");
+  await expect(card).toHaveCount(1);
+  await expect(card.getByText("API and SDKs", { exact: true })).toBeVisible();
+  await expect(card.locator("[data-group-count]")).toHaveText("7 repos");
+  for (const name of ["hush-hush-cli", "hush-hush-action", "hush-hush-go"]) {
+    await expect(card.locator(`[data-repo-row][data-name="${name}"]`)).toHaveCount(1);
+  }
+  await expect(page.getByRole("heading", { level: 2, name: "hush-hush", exact: true })).toHaveCount(
+    1,
+  );
+  await page.getByLabel("Filter repositories by name").fill("hush-hush-c");
+  await expect(card.locator("[data-group-count]")).toHaveText("1 of 7 shown");
+});
+
+test("an API with nothing joined keeps its own card", async ({ page }) => {
+  await page.goto("/");
+  const card = section(page, "forge-dashboard");
+  await expect(card.locator("[data-group-count]")).toHaveText("5 repos");
 });
 
 test("a repo in no group is under Everything else", async ({ page }) => {

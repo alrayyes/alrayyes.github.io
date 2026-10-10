@@ -87,7 +87,8 @@ test("the schema accepts a repo with no reports of its own, such as this site", 
 
 test("every repo's group is declared and every group has a member", () => {
   const { groups, repos } = read("src/data/repos.json");
-  expect(groupProblems(groups, repos)).toEqual([]);
+  const { apis } = read("src/data/apis.json");
+  expect(groupProblems(groups, repos, apis)).toEqual([]);
 });
 
 test("the schema accepts a group and a repo that joins it", () => {
@@ -98,4 +99,9 @@ test("the schema accepts a group and a repo that joins it", () => {
 test("the schema rejects a group type it doesn't know", () => {
   const group = { id: "x", title: "x", type: "family" };
   expect(validate({ groups: [group], repos: [repo()] })).toBe(false);
+});
+
+test("the schema accepts an api group", () => {
+  const group = { id: "hush-hush", title: "hush-hush", type: "api" };
+  expect(validate({ groups: [group], repos: [repo({ group: "hush-hush" })] })).toBe(true);
 });

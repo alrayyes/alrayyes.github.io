@@ -75,7 +75,13 @@ function knownAbout(apis: Api[], others: OtherRepo[]): Map<string, Known> {
   }
   for (const api of apis) {
     const { badges, license } = api;
-    known.set(repoName(api.repo), { spec: api.spec, docs: api.docs, badges, license });
+    known.set(repoName(api.repo), {
+      spec: api.spec,
+      docs: api.docs,
+      badges,
+      license,
+      group: api.group,
+    });
     for (const sdk of api.sdks) {
       const { badges, license } = sdk;
       known.set(repoName(sdk.repo), { docs: sdk.docs, badges, license });
@@ -190,17 +196,26 @@ export interface DirectorySection {
 
 export const OTHER_TITLE = "Everything else";
 
-// What the page shows, in order: a card per API that has SDKs, then each group
-// repos.json declares, in the order it declares them, then every repo in
-// neither. Which group a repo is in comes from the data alone.
+// What the page shows, in order: a card per API, then each product or scaffolds
+// group repos.json declares, in the order it declares them, then every repo in
+// none. Which group a repo is in comes from the data alone. An API that names
+// an `api` group shares its card with the repos that name it too.
 export function directorySections(rows: DirectoryRow[], groups: RepoGroup[]): DirectorySection[] {
-  const apiCards = rows.filter((row) => row.sdks.length > 0);
-  const sections: DirectorySection[] = apiCards.map((row) => ({
-    type: "api",
-    title: row.name,
-    rows: [row],
-  }));
+  const apiGroups = new Map(groups.filter((g) => g.type === "api").map((g) => [g.id, g]));
+  const sections: DirectorySection[] = rows
+    .filter((row) => row.sdks.length > 0)
+    .map((row) => {
+      const group = row.group ? apiGroups.get(row.group) : undefined;
+      const joined = group ? rows.filter((other) => other !== row && other.group === group.id) : [];
+      return {
+        type: "api",
+        title: group?.title ?? row.name,
+        description: group?.description,
+        rows: [row, ...joined],
+      };
+    });
   for (const { id, title, type, description } of groups) {
+    if (type === "api") continue;
     const members = rows.filter((row) => row.group === id);
     if (members.length > 0) sections.push({ type, title, description, rows: members });
   }

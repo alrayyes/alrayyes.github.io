@@ -48,7 +48,9 @@ and kind chips are built from both files by `src/lib/repoDirectory.ts`.
 The same file decides the grouping. Its top-level `groups` array declares each
 group (`id`, `title`, `type` of `product` or `scaffolds`, and an optional
 `description`), in display order, and a repo joins one with `"group": "<id>"`.
-A repo with no `group` lands under Everything else. A `group` that names an
+A group of type `api` adds repos to an API's card: the API in `src/data/apis.json`
+names it with its own `group`, and the repos name it in `repos.json`. A repo with
+no `group` lands under Everything else. A `group` that names an
 undeclared id, or a group with no members, fails `bun run test:e2e`.
 
 ## Requirements

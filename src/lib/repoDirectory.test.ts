@@ -318,4 +318,42 @@ describe("directorySections", () => {
     const bare = directoryRows({ pages: [], apis: [{ ...apis[0], sdks: [] }], others: [] });
     expect(directorySections(bare, groups).map((s) => s.type)).toEqual(["other"]);
   });
+
+  describe("an api group", () => {
+    const apiGroups: RepoGroup[] = [{ id: "hush-hush", title: "hush-hush", type: "api" }];
+    const build = (apiGroup?: string) =>
+      directorySections(
+        directoryRows({
+          pages: [],
+          apis: [{ ...apis[0], group: apiGroup }],
+          others: [
+            {
+              ...others[0],
+              name: "hush-hush-cli",
+              repo: "https://github.com/alrayyes/hush-hush-cli",
+              group: "hush-hush",
+            },
+            others[1],
+          ],
+        }),
+        apiGroups,
+      );
+
+    test("is one card: the API with its SDKs, then the repos that joined it", () => {
+      const [card] = build("hush-hush");
+      expect(card).toMatchObject({ type: "api", title: "hush-hush" });
+      expect(card.rows.map((row) => row.name)).toEqual(["Hush-Hush", "hush-hush-cli"]);
+      expect(card.rows[0].sdks.map((sdk) => sdk.name)).toEqual(["hush-hush-go"]);
+    });
+
+    test("leaves no second card for the repos that joined it", () => {
+      expect(build("hush-hush").map((s) => s.type)).toEqual(["api", "other"]);
+    });
+
+    test("an API that names no group keeps a card of its own", () => {
+      const [card] = build();
+      expect(card).toMatchObject({ type: "api", title: "Hush-Hush" });
+      expect(card.rows.map((row) => row.name)).toEqual(["Hush-Hush"]);
+    });
+  });
 });
