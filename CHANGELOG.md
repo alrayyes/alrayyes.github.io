@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.36.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.35.1...alrayyes.github.io-v0.36.0) (2026-10-10)
+
+
+### Features
+
+* **ui:** denser grouped cards, a stats strip and a / shortcut ([#224](https://github.com/alrayyes/alrayyes.github.io/issues/224)) ([af1dbb8](https://github.com/alrayyes/alrayyes.github.io/commit/af1dbb8a6bbe29f017fbe447d23c123c172e4691))
+
 ## [0.35.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.35.0...alrayyes.github.io-v0.35.1) (2026-10-10)
 
 
