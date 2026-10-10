@@ -2,7 +2,7 @@
 
 ## Context
 
-`directoryRows` in `src/lib/repoDirectory.ts` returns one flat A to Z row list with SDKs nested under their API, and `directoryGroups` splits that into letter groups with scaffolds at the end. `src/pages/index.astro` renders letter sections and a client script filters the `[data-repo-row]` elements. Group cards need logic that exists nowhere yet. See proposal.md for motivation and the spec for behavior.
+`directoryRows` in `src/lib/repoDirectory.ts` returns one flat A to Z row list with SDKs nested under their API, and `directoryGroups` splits that into letter groups with scaffolds at the end. `src/pages/index.astro` renders letter sections and a client script filters the `[data-repo-row]` elements. Group cards need logic that exists nowhere yet. See proposal.md for motivation and the spec for behaviour.
 
 ## Goals / Non-Goals
 
