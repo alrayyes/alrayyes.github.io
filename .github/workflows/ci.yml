@@ -341,6 +341,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: bun scripts/ci-status.ts
+      - name: read the site's Lighthouse average
+        # The reports job's output, read before the build so the front page
+        # shows the average as plain HTML. Written to
+        # src/data/lighthouse-average.json; nothing commits it, and the copy in
+        # git is a seed for local builds.
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: reports
+          path: reports-in
+      - run: bun scripts/lighthouse-average.ts reports-in/lighthouse
       - name: build
         run: bun run build
         # Uploads the bundle report for main, the baseline pull requests are

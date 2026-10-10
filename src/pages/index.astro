@@ -3,6 +3,7 @@
 import RepoGroupCard from "../components/RepoGroupCard.astro";
 import { apis } from "../data/apis";
 import { ciCheckedAt, ciStatuses } from "../data/ciStatus";
+import { lighthouseAverage } from "../data/lighthouseAverage";
 import { otherRepos, repoGroups } from "../data/repos";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import Layout from "../layouts/Layout.astro";
@@ -16,7 +17,7 @@ import {
   KINDS,
   licences,
 } from "../lib/repoDirectory";
-import { lighthousePages } from "../lib/reportsIndex";
+import { bandLabel } from "../lib/reportDirectory";
 
 // This site's Lighthouse pages are its own routes, so a new page gets a link
 // without anyone listing it.
@@ -26,11 +27,21 @@ const rows = directoryRows({
   others: otherRepos,
   ciStatus: ciStatuses,
 });
-// The pages Lighthouse audits, which the tile below averages over.
+// The tile's four scores, in Lighthouse's own order.
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
-const pageFiles = Object.keys(import.meta.glob("/src/pages/**/*.astro"));
-// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
-const auditedPages = lighthousePages(pageFiles);
+const lighthouseScores = lighthouseAverage
+  ? (
+      [
+        ["performance", "Performance"],
+        ["accessibility", "Accessibility"],
+        ["best-practices", "Best practices"],
+        ["seo", "SEO"],
+      ] as const
+    ).flatMap(([key, label]) => {
+      const score = lighthouseAverage?.scores[key];
+      return score === undefined ? [] : [{ label, score }];
+    })
+  : [];
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 const ciCheckedLabel = `${ciCheckedAt.slice(0, 16).replace("T", " ")} UTC`;
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
@@ -97,30 +108,37 @@ const textButton =
         </dd>
       </div>
     ))}
-    {/* Filled in by the script below from the site's own published Lighthouse
-    reports, and left hidden when they can't be read. */}
-    <div
-      data-stat="Lighthouse"
-      data-pages={auditedPages.join(",")}
-      hidden
-      class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 sm:col-span-3 dark:border-slate-700 dark:bg-slate-800"
-    >
-      <dt class="text-sm text-slate-600 dark:text-slate-400">
-        <a
-          href="/reports/alrayyes.github.io/lighthouse/"
-          class="underline underline-offset-2 hover:text-accent dark:hover:text-accent-dark"
-        >
-          Lighthouse
-        </a>
-        site average, <span data-lighthouse-count></span>
-      </dt>
-      <dd>
-        <ul
-          data-lighthouse-scores
-          class="mt-1 flex flex-wrap gap-x-6 gap-y-2"
-        ></ul>
-      </dd>
-    </div>
+    {lighthouseAverage && (
+      <div
+        data-stat="Lighthouse"
+        data-pages={lighthouseAverage.pages}
+        class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 sm:col-span-3 dark:border-slate-700 dark:bg-slate-800"
+      >
+        <dt class="text-sm text-slate-600 dark:text-slate-400">
+          <a
+            href="/reports/alrayyes.github.io/lighthouse/"
+            class="inline-flex min-h-6 items-center underline underline-offset-2 hover:text-accent dark:hover:text-accent-dark"
+          >
+            Lighthouse
+          </a>
+          site average, {lighthouseAverage.pages}{" "}
+          {lighthouseAverage.pages === 1 ? "page" : "pages"}
+        </dt>
+        <dd>
+          <ul class="mt-1 flex flex-wrap gap-x-6 gap-y-2">
+            {lighthouseScores.map(({ label, score }) => (
+              <li class="text-sm text-slate-700 dark:text-slate-300">
+                {label}{" "}
+                <span class="font-mono text-lg font-semibold text-slate-900 dark:text-slate-100">
+                  {score}%
+                </span>{" "}
+                {bandLabel(score)}
+              </li>
+            ))}
+          </ul>
+        </dd>
+      </div>
+    )}
   </dl>
 
   {/* Only shown once the script below has run, so there is no search box that
@@ -235,10 +253,6 @@ const textButton =
     </button>
   </p>
 </Layout>
-
-<script>
-  import "../scripts/lighthouseAverage";
-</script>
 
 <script>
   import {
