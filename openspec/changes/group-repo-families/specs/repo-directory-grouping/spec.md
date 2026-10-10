@@ -12,8 +12,8 @@ The catalogue SHALL declare groups in `repos.json`, each with an id, a title and
 
 #### Scenario: Repos name a group
 
-- **WHEN** `washy-washy-cli`, `washy-washy-web` and `washy-washy-pdf` each name the group `washy-washy`
-- **THEN** they appear together in one card titled `washy-washy` with a "3 repos" count, and no other repo is in it
+- **WHEN** `washy-washy-cli`, `-web`, `-pdf` and `-core` each name the group `washy-washy`
+- **THEN** they appear together in one card titled `washy-washy` with a "4 repos" count, and no other repo is in it
 
 #### Scenario: Similar names, no declaration
 
@@ -31,8 +31,8 @@ The page SHALL render a group of type `product` as a card with its title, a "Pro
 
 #### Scenario: Product card
 
-- **WHEN** a `product` group has three members
-- **THEN** one card renders with the title, the "Product" label and "3 repos"
+- **WHEN** a `product` group has four members
+- **THEN** one card renders with the title, the "Product" label and "4 repos"
 
 ### Requirement: Scaffolds group
 
@@ -40,7 +40,7 @@ The page SHALL render a group of type `scaffolds` under its title as a heading w
 
 #### Scenario: Scaffolds present
 
-- **WHEN** the four `scaffold-*` repos name the `scaffolds` group
+- **WHEN** the eight `scaffold-*` repos name the `scaffolds` group
 - **THEN** they appear under that group's heading and description, and none is in a product card
 
 ### Requirement: API families keep their SDKs
@@ -67,8 +67,8 @@ The page SHALL hide a group card with no visible members and SHALL show "N of M 
 
 #### Scenario: Partial match
 
-- **WHEN** a filter leaves two of the three `washy-washy` repos visible
-- **THEN** the card header reads "2 of 3 shown"
+- **WHEN** a filter leaves two of the four `washy-washy` repos visible
+- **THEN** the card header reads "2 of 4 shown"
 
 #### Scenario: No match
 
