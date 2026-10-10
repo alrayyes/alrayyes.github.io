@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.34.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.33.1...alrayyes.github.io-v0.34.0) (2026-10-10)
+
+
+### Features
+
+* filter repos by passing or failing CI ([#213](https://github.com/alrayyes/alrayyes.github.io/issues/213)) ([903bf96](https://github.com/alrayyes/alrayyes.github.io/commit/903bf96c39a2dfc2d161f6d7d05e764958860c77))
+
 ## [0.33.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.33.0...alrayyes.github.io-v0.33.1) (2026-10-10)
 
 
