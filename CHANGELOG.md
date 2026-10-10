@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.33.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.32.0...alrayyes.github.io-v0.33.0) (2026-10-10)
+
+
+### Features
+
+* list every active public repo, not only those with reports ([#203](https://github.com/alrayyes/alrayyes.github.io/issues/203)) ([c29a235](https://github.com/alrayyes/alrayyes.github.io/commit/c29a23558b443b6b68d23207cd783fe51cae973d))
+
 ## [0.32.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.31.0...alrayyes.github.io-v0.32.0) (2026-10-10)
 
 
