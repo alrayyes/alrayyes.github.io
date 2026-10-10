@@ -28,9 +28,9 @@ const rows = directoryRows({
 });
 // The pages Lighthouse audits, which the tile below averages over.
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
-const auditedPages = lighthousePages(
-  Object.keys(import.meta.glob("/src/pages/**/*.astro")),
-);
+const pageFiles = Object.keys(import.meta.glob("/src/pages/**/*.astro"));
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const auditedPages = lighthousePages(pageFiles);
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 const ciCheckedLabel = `${ciCheckedAt.slice(0, 16).replace("T", " ")} UTC`;
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
