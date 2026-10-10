@@ -34,7 +34,7 @@ test("footer links to GitHub, disclaimer, privacy and the licence", async ({ pag
     "/disclaimer",
   );
   await expect(page.getByRole("link", { name: "Privacy" })).toHaveAttribute("href", "/privacy");
-  await expect(page.getByRole("link", { name: "GPL-3.0-or-later" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "GPL-3.0-or-later", exact: true })).toHaveAttribute(
     "href",
     "/license",
   );

@@ -84,9 +84,11 @@ commit, and the changelog and release notes then list the change twice.
 ## Adding an API or SDK
 
 Edit `src/data/apis.json` — one entry per API, with a `sdks` array per
-language. A docs link only belongs there once it's confirmed to actually
-resolve. The file is validated against `src/data/apis.schema.json` by
-`bun run test`, and editors that read `$schema` check it as you type.
+language. Give each entry its `license` and the `badges` from the top of the
+repo's README, in README order (the README describes the shape). A docs link
+only belongs there once it's confirmed to actually resolve. The file is
+validated against `src/data/apis.schema.json` by `bun run test`, and editors
+that read `$schema` check it as you type.
 
 ## Releases
 

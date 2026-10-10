@@ -8,7 +8,9 @@
 A directory of the public repos that publish test, coverage, or Lighthouse
 reports, deployed at [apis.ryankes.eu](https://apis.ryankes.eu). The front page
 lists every one A to Z with a filter, each API with its SDK repos under it and
-the scaffolds together in one group. Lighthouse and test results are the
+the scaffolds together in one group. Each row shows the badges from the repo's
+own README, and the filter narrows by name, kind, whether the repo has a CI
+badge, and licence. Lighthouse and test results are the
 primary links on each row. Lighthouse opens `/reports/<repo>/lighthouse/` and
 Test results opens `/reports/<repo>/tests/`; coverage and the raw XML and
 `lcov.info` files are secondary. For an API it also links the OpenAPI spec and
@@ -18,6 +20,16 @@ The APIs and the SDK repos are in `src/data/apis.json`, validated by
 `src/data/apis.schema.json`. Adding a new API or SDK is a plain data-file edit,
 not a template change.
 
+Every entry, whether API, SDK or other repo, also carries `badges` and
+`license`. `badges` is the row of badge images from the top of the repo's
+README, in README order: each has a `kind` (`ci`, `coverage`, `release`,
+`license`, `deployment` or `other`), a `label` used as the image's alt text, the
+`image` URL and the `href` it links to. Any GitHub Actions workflow badge is
+`ci`, and the CI filter looks for one, so it says whether a repo has CI, not
+whether the last run passed. `license` is the SPDX id, or `Unlicensed`, and the
+licence filter lists each value found in the data. Copy both from the README
+when you add an entry, and leave `badges` empty when the README has none.
+
 An API or SDK entry can also carry `reports`: links to the Lighthouse,
 test-result and coverage reports (`lighthouse`, `tests`, `coverage`,
 `coverageXml`) that its repo publishes at
@@ -26,8 +38,10 @@ prefix: see Reports below). Add a key only once its URL returns 200.
 
 A repo that publishes reports but isn't an API, such as a scaffold, goes in
 `src/data/repos.json`, validated by `src/data/repos.schema.json`, in the same
-`reports` shape. The list and its sort, filter and kind chips are built from
-both files by `src/lib/repoDirectory.ts`.
+`reports` shape. This site has an entry there too, with empty `reports`, so its
+row gets badges and a licence like any other; its report links come from the
+build. The list and its sort, filters and kind chips are built from both files
+by `src/lib/repoDirectory.ts`.
 
 ## Requirements
 
