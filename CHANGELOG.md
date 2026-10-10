@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.35.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.35.0...alrayyes.github.io-v0.35.1) (2026-10-10)
+
+
+### Bug Fixes
+
+* **ui:** list APIs and SDKs that publish no reports ([#225](https://github.com/alrayyes/alrayyes.github.io/issues/225)) ([d581a76](https://github.com/alrayyes/alrayyes.github.io/commit/d581a76de9f94896987ecda43d655a00b0c6b4c9))
+
 ## [0.35.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.34.0...alrayyes.github.io-v0.35.0) (2026-10-10)
 
 
