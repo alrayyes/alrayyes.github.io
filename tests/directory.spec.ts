@@ -56,7 +56,7 @@ test("the groups repos.json declares are cards with a type label and a repo coun
   await expect(washy.getByText("Product", { exact: true })).toBeVisible();
   await expect(washy.locator("[data-group-count]")).toHaveText("4 repos");
   await expect(washy.locator("[data-repo-row]")).toHaveCount(4);
-  for (const name of ["forgejo", "obsidian", "movie-planner"]) {
+  for (const name of ["hush-hush", "forgejo", "obsidian", "movie-planner"]) {
     await expect(section(page, name).locator("[data-repo-row]").first()).toBeVisible();
   }
   const api = section(page, "forge-dashboard");

@@ -2,6 +2,12 @@
   "$schema": "./repos.schema.json",
   "groups": [
     {
+      "id": "hush-hush",
+      "title": "hush-hush",
+      "type": "product",
+      "description": "The hush-hush command line client and GitHub Action."
+    },
+    {
       "id": "washy-washy",
       "title": "washy-washy",
       "type": "product",
@@ -631,7 +637,8 @@
           "href": "https://github.com/alrayyes/hush-hush-cli/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "hush-hush"
     },
     {
       "name": "backup-git-repos",
@@ -1132,7 +1139,8 @@
           "href": "https://github.com/alrayyes/hush-hush-action/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "hush-hush"
     },
     {
       "name": "forge-dashboard-e2e-fixture",
