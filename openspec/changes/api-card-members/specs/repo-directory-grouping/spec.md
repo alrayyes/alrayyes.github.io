@@ -11,7 +11,7 @@ A group of type `api` SHALL render as one card holding the API that names it, wi
 - **WHEN** `hush-hush`, `hush-hush-cli` and `hush-hush-action` all name the group `hush-hush`
 - **THEN** one card holds the API, its four SDKs, the CLI and the action, with a "7 repos" count and the "API and SDKs" label
 
-#### Scenario: Api group nobody names
+#### Scenario: A group of type `api` that nobody names
 
 - **WHEN** a group of type `api` is declared and no API names it
 - **THEN** the schema check fails and says which group
