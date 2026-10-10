@@ -31,6 +31,12 @@
       "description": "Tools that move notes and bookmarks into an Obsidian vault."
     },
     {
+      "id": "container-images",
+      "title": "Container images",
+      "type": "product",
+      "description": "Docker images other pipelines build on, with no UI or service."
+    },
+    {
       "id": "scaffolds",
       "title": "Scaffolds",
       "type": "scaffolds",
@@ -1044,7 +1050,8 @@
           "href": "https://github.com/alrayyes/bun-with-git/blob/HEAD/LICENSE"
         }
       ],
-      "license": "MIT"
+      "license": "MIT",
+      "group": "container-images"
     },
     {
       "name": "cloudflare-wrangler",
@@ -1071,7 +1078,8 @@
           "href": "https://github.com/alrayyes/cloudflare-wrangler/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "container-images"
     },
     {
       "name": "deploy-ssh",
@@ -1104,7 +1112,8 @@
           "href": "https://github.com/alrayyes/deploy-ssh/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0-or-later"
+      "license": "GPL-3.0-or-later",
+      "group": "container-images"
     },
     {
       "name": "ltex-cli-plus",
@@ -1137,7 +1146,8 @@
           "href": "https://github.com/alrayyes/ltex-cli-plus/blob/HEAD/LICENSE"
         }
       ],
-      "license": "GPL-3.0"
+      "license": "GPL-3.0",
+      "group": "container-images"
     },
     {
       "name": "hush-hush-action",
