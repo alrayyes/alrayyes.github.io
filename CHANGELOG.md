@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.32.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.31.0...alrayyes.github.io-v0.32.0) (2026-10-10)
+
+
+### Features
+
+* show repo badges and filter by CI and licence ([#200](https://github.com/alrayyes/alrayyes.github.io/issues/200)) ([bbfddc0](https://github.com/alrayyes/alrayyes.github.io/commit/bbfddc0f508b6d95810773e2567d95a4b6fe269a))
+
 ## [0.31.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.30.1...alrayyes.github.io-v0.31.0) (2026-10-09)
 
 
