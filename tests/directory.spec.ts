@@ -172,6 +172,166 @@ test("the kind chips filter by API, SDK, Scaffold or Other", async ({ page }) =>
   expect(await page.locator("[data-repo-row]:visible").count()).toBeGreaterThan(kinds.length);
 });
 
+test("each row shows its README badges in order, each linking out, with the badge's label as alt text", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const badges = page.getByRole("list", { name: "Badges for forge-dashboard", exact: true });
+  const links = badges.getByRole("link");
+  await expect(links).toHaveCount(5);
+  await expect(links.first()).toHaveAttribute(
+    "href",
+    "https://github.com/alrayyes/forge-dashboard/actions/workflows/ci.yml",
+  );
+  await expect(links.first().getByRole("img", { name: "CI" })).toHaveAttribute(
+    "src",
+    "https://github.com/alrayyes/forge-dashboard/actions/workflows/ci.yml/badge.svg?branch=main",
+  );
+  await expect(links.nth(2).getByRole("img")).toHaveAttribute("alt", "licence");
+});
+
+test("the badges sit above the coverage and raw-file links, and a nested SDK row has its own", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const api = row(page, "forge-dashboard");
+  const strip = api.getByRole("list", { name: "Badges for forge-dashboard", exact: true });
+  const coverage = api.getByRole("link", { name: /^Coverage/ });
+  const stripBox = await strip.boundingBox();
+  const coverageBox = await coverage.boundingBox();
+  expect(stripBox?.y ?? 0).toBeLessThan(coverageBox?.y ?? 0);
+  await expect(
+    row(page, "forge-dashboard-sdk-go").getByRole("list", {
+      name: "Badges for forge-dashboard-sdk-go",
+    }),
+  ).toBeVisible();
+});
+
+test("a repo whose README has no badges gets no badge list", async ({ page }) => {
+  await page.goto("/");
+  await expect(row(page, "tempus-fugit").getByRole("list", { name: /^Badges for/ })).toHaveCount(0);
+});
+
+const ci = (page: import("@playwright/test").Page) => page.getByLabel("CI", { exact: true });
+const licence = (page: import("@playwright/test").Page) =>
+  page.getByLabel("Licence", { exact: true });
+const visible = (page: import("@playwright/test").Page) => page.locator("[data-repo-row]:visible");
+// The rows that match themselves: an API stays visible while one of its SDKs
+// matches, so a visible row with a visible SDK under it is only a parent.
+const matching = (page: import("@playwright/test").Page) =>
+  visible(page).evaluateAll((rows) =>
+    rows
+      .filter((el) => !el.parentElement?.querySelector(":scope > ul [data-repo-row]:not([hidden])"))
+      .map((el) => (el as HTMLElement).dataset),
+  );
+
+test("the CI filter shows only repos with a CI badge, or only those without", async ({ page }) => {
+  await page.goto("/");
+  await expect(ci(page).locator("option")).toHaveText(["Any", "Has CI badge", "No CI badge"]);
+
+  await ci(page).selectOption("Has CI badge");
+  const withCi = await visible(page).evaluateAll((rows) =>
+    rows.map((el) => (el as HTMLElement).dataset.ci),
+  );
+  expect(withCi.length).toBeGreaterThan(0);
+  expect(new Set(withCi)).toEqual(new Set(["true"]));
+
+  await ci(page).selectOption("No CI badge");
+  const without = await visible(page).evaluateAll((rows) =>
+    rows.map((el) => (el as HTMLElement).dataset.name),
+  );
+  expect(without).toContain("tempus-fugit");
+  expect(without).not.toContain("forge-dashboard");
+});
+
+test("the licence filter lists each licence in the data and narrows to the one chosen", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(licence(page).locator("option")).toHaveText([
+    "Any",
+    "AGPL-3.0",
+    "GPL-3.0",
+    "GPL-3.0-or-later",
+    "MIT",
+    "Unlicensed",
+  ]);
+
+  await licence(page).selectOption("MIT");
+  const shown = (await matching(page)).map((data) => data.license);
+  expect(shown.length).toBeGreaterThan(0);
+  expect(new Set(shown)).toEqual(new Set(["MIT"]));
+});
+
+test("CI, licence, kind and text filters combine, and the count follows", async ({ page }) => {
+  await page.goto("/");
+  const status = page.getByRole("status");
+  const total = await page.locator("[data-repo-row]").count();
+
+  await licence(page).selectOption("MIT");
+  await ci(page).selectOption("Has CI badge");
+  await page.getByRole("button", { name: "SDK", exact: true }).click();
+  await page.getByLabel("Filter repositories by name").fill("hush");
+  const names = (await matching(page)).map((data) => data.name);
+  expect(names.sort()).toEqual([
+    "hush-hush-go",
+    "hush-hush-node",
+    "hush-hush-php",
+    "hush-hush-python",
+  ]);
+  await expect(status).toHaveText(`Showing 4 of ${total} repositories`);
+});
+
+test("active filters show as removable chips, and Clear filters resets them all", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const active = page.getByRole("list", { name: "Active filters" });
+  await expect(active).toBeHidden();
+
+  await ci(page).selectOption("Has CI badge");
+  await licence(page).selectOption("GPL-3.0-or-later");
+  await expect(active.getByRole("listitem")).toHaveText([
+    /CI: Has CI badge/,
+    /Licence: GPL-3.0-or-later/,
+  ]);
+
+  await active.getByRole("button", { name: /Remove filter CI: Has CI badge/ }).click();
+  await expect(ci(page)).toHaveValue("Any");
+  await expect(active.getByRole("listitem")).toHaveCount(1);
+
+  await page.getByRole("button", { name: "Clear filters" }).click();
+  await expect(licence(page)).toHaveValue("Any");
+  await expect(active).toBeHidden();
+  await expect(visible(page)).toHaveCount(await page.locator("[data-repo-row]").count());
+});
+
+test("an empty result offers a Clear filters button", async ({ page }) => {
+  await page.goto("/");
+  await licence(page).selectOption("AGPL-3.0");
+  await page.getByRole("button", { name: "Scaffold", exact: true }).click();
+  await expect(page.getByText("No matching repositories")).toBeVisible();
+  await page.locator("#directory-empty").getByRole("button", { name: "Clear filters" }).click();
+  await expect(page.getByText("No matching repositories")).toBeHidden();
+  await expect(visible(page).first()).toBeVisible();
+});
+
+test("the badge links are at least 24px tall, and the new controls at least 36px", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/");
+  for (const link of await row(page, "forge-dashboard")
+    .getByRole("list", { name: "Badges for forge-dashboard", exact: true })
+    .getByRole("link")
+    .all()) {
+    expect((await link.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(24);
+  }
+  for (const control of [ci(page), licence(page)]) {
+    expect((await control.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(36);
+  }
+});
+
 test.describe("without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
 
@@ -192,6 +352,19 @@ for (const scheme of ["light", "dark"] as const) {
     await page.emulateMedia({ colorScheme: scheme });
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1, name: "Repositories" })).toBeVisible();
+    await expectNoAxeViolations(page);
+  });
+}
+
+for (const scheme of ["light", "dark"] as const) {
+  test(`the front page has no axe violations in ${scheme} mode with filters active`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: scheme });
+    await page.goto("/");
+    await ci(page).selectOption("Has CI badge");
+    await licence(page).selectOption("GPL-3.0");
+    await expect(page.getByRole("list", { name: "Active filters" })).toBeVisible();
     await expectNoAxeViolations(page);
   });
 }

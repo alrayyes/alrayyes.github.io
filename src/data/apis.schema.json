@@ -44,7 +44,7 @@
     },
     "sdk": {
       "type": "object",
-      "required": ["language", "repo"],
+      "required": ["language", "repo", "license", "badges"],
       "additionalProperties": false,
       "properties": {
         "language": {
@@ -61,12 +61,18 @@
         },
         "reports": {
           "$ref": "#/$defs/reports"
+        },
+        "license": {
+          "$ref": "#/$defs/license"
+        },
+        "badges": {
+          "$ref": "#/$defs/badges"
         }
       }
     },
     "api": {
       "type": "object",
-      "required": ["name", "description", "repo", "spec", "sdks"],
+      "required": ["name", "description", "repo", "spec", "sdks", "license", "badges"],
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -95,8 +101,48 @@
         },
         "reports": {
           "$ref": "#/$defs/reports"
+        },
+        "license": {
+          "$ref": "#/$defs/license"
+        },
+        "badges": {
+          "$ref": "#/$defs/badges"
         }
       }
+    },
+    "badge": {
+      "description": "A badge from the repo's README: the image it shows and where it links. The kind is what the page filters and orders by; the label is the badge's alt text.",
+      "type": "object",
+      "required": ["kind", "label", "image", "href"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "description": "What the badge reports. `ci` is any GitHub Actions workflow badge; `other` covers package, docs and scorecard badges.",
+          "enum": ["ci", "coverage", "release", "license", "deployment", "other"]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "image": {
+          "$ref": "#/$defs/url"
+        },
+        "href": {
+          "$ref": "#/$defs/url"
+        }
+      }
+    },
+    "badges": {
+      "description": "The badges at the top of the repo's README, in README order. Empty when the README has none.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/badge"
+      }
+    },
+    "license": {
+      "description": "The repo's licence as an SPDX id, or `Unlicensed`. The licence filter lists these.",
+      "type": "string",
+      "minLength": 1
     }
   }
 }

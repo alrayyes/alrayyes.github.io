@@ -2,6 +2,8 @@
 import type { DirectoryRow } from "../lib/repoDirectory";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import BrandIcon from "./icons/BrandIcon.astro";
+// biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+import RepoBadges from "./RepoBadges.astro";
 
 interface Props {
   row: DirectoryRow;
@@ -32,6 +34,8 @@ const quiet =
     data-repo-row
     data-name={row.name}
     data-kind={row.kind}
+    data-ci={String(row.hasCi)}
+    data-license={row.license}
     class="flex flex-col gap-3 py-4 sm:flex-row sm:items-start sm:justify-between"
   >
     <div class="min-w-0">
@@ -46,6 +50,7 @@ const quiet =
           {row.kind}
         </span>
       </h3>
+      <RepoBadges name={row.name} badges={row.badges} />
       {(row.spec || row.docs) && (
         <ul class="flex flex-wrap gap-x-4">
           {row.spec && (

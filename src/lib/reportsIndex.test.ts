@@ -66,6 +66,8 @@ const api = (over: Partial<Api>): Api => ({
   description: "d",
   repo: "https://github.com/alrayyes/svc",
   spec: "https://example.com/spec",
+  license: "MIT",
+  badges: [],
   sdks: [],
   ...over,
 });
@@ -79,9 +81,16 @@ describe("catalogueRepos", () => {
           {
             language: "Go",
             repo: "https://github.com/alrayyes/svc-sdk-go",
+            license: "MIT",
+            badges: [],
             reports: { tests: `${base}/tests/` },
           },
-          { language: "PHP", repo: "https://github.com/alrayyes/svc-sdk-php" },
+          {
+            language: "PHP",
+            repo: "https://github.com/alrayyes/svc-sdk-php",
+            license: "MIT",
+            badges: [],
+          },
         ],
       }),
     ]);
@@ -100,6 +109,8 @@ describe("catalogueRepos", () => {
           {
             language: "Go",
             repo: "https://github.com/alrayyes/svc-sdk-go",
+            license: "MIT",
+            badges: [],
             reports: { coverage: `${base}/coverage/` },
           },
         ],
@@ -173,6 +184,8 @@ describe("reportSections", () => {
     kind: "Scaffold",
     repo: "https://github.com/alrayyes/scaffold-x",
     reports: { coverage: `${base}/coverage/` },
+    license: "Unlicensed",
+    badges: [],
   };
 
   test("puts this site first, then the catalogue's repos, then the others", () => {

@@ -22,7 +22,40 @@
             "tests": "https://apis.ryankes.eu/hush-hush-php/reports/tests/junit.xml",
             "coverage": "https://apis.ryankes.eu/hush-hush-php/reports/coverage/",
             "coverageXml": "https://apis.ryankes.eu/hush-hush-php/reports/coverage/coverage.xml"
-          }
+          },
+          "badges": [
+            {
+              "kind": "ci",
+              "label": "ci",
+              "image": "https://github.com/alrayyes/hush-hush-php/actions/workflows/ci.yml/badge.svg",
+              "href": "https://github.com/alrayyes/hush-hush-php/actions/workflows/ci.yml"
+            },
+            {
+              "kind": "coverage",
+              "label": "Codecov",
+              "image": "https://codecov.io/gh/alrayyes/hush-hush-php/graph/badge.svg",
+              "href": "https://codecov.io/gh/alrayyes/hush-hush-php"
+            },
+            {
+              "kind": "other",
+              "label": "Packagist",
+              "image": "https://img.shields.io/packagist/v/alrayyes/hush-hush",
+              "href": "https://packagist.org/packages/alrayyes/hush-hush"
+            },
+            {
+              "kind": "release",
+              "label": "release",
+              "image": "https://img.shields.io/github/v/release/alrayyes/hush-hush-php",
+              "href": "https://github.com/alrayyes/hush-hush-php/releases"
+            },
+            {
+              "kind": "license",
+              "label": "license",
+              "image": "https://img.shields.io/github/license/alrayyes/hush-hush-php",
+              "href": "https://github.com/alrayyes/hush-hush-php/blob/HEAD/LICENSE"
+            }
+          ],
+          "license": "MIT"
         },
         {
           "language": "Node.js / TypeScript",
@@ -32,7 +65,40 @@
             "tests": "https://apis.ryankes.eu/hush-hush-node/reports/tests/unit.xml",
             "coverage": "https://apis.ryankes.eu/hush-hush-node/reports/coverage/",
             "coverageXml": "https://apis.ryankes.eu/hush-hush-node/reports/coverage/coverage.xml"
-          }
+          },
+          "badges": [
+            {
+              "kind": "ci",
+              "label": "ci",
+              "image": "https://github.com/alrayyes/hush-hush-node/actions/workflows/ci.yml/badge.svg",
+              "href": "https://github.com/alrayyes/hush-hush-node/actions/workflows/ci.yml"
+            },
+            {
+              "kind": "coverage",
+              "label": "Codecov",
+              "image": "https://codecov.io/gh/alrayyes/hush-hush-node/graph/badge.svg",
+              "href": "https://codecov.io/gh/alrayyes/hush-hush-node"
+            },
+            {
+              "kind": "other",
+              "label": "npm",
+              "image": "https://img.shields.io/npm/v/%40hush-hush%2Fsdk",
+              "href": "https://www.npmjs.com/package/@hush-hush/sdk"
+            },
+            {
+              "kind": "release",
+              "label": "release",
+              "image": "https://img.shields.io/github/v/release/alrayyes/hush-hush-node",
+              "href": "https://github.com/alrayyes/hush-hush-node/releases"
+            },
+            {
+              "kind": "license",
+              "label": "license",
+              "image": "https://img.shields.io/github/license/alrayyes/hush-hush-node",
+              "href": "https://github.com/alrayyes/hush-hush-node/blob/HEAD/LICENSE"
+            }
+          ],
+          "license": "MIT"
         },
         {
           "language": "Python",
@@ -42,7 +108,40 @@
             "tests": "https://apis.ryankes.eu/hush-hush-python/reports/tests/junit.xml",
             "coverage": "https://apis.ryankes.eu/hush-hush-python/reports/coverage/",
             "coverageXml": "https://apis.ryankes.eu/hush-hush-python/reports/coverage/coverage.xml"
-          }
+          },
+          "badges": [
+            {
+              "kind": "ci",
+              "label": "ci",
+              "image": "https://github.com/alrayyes/hush-hush-python/actions/workflows/ci.yml/badge.svg",
+              "href": "https://github.com/alrayyes/hush-hush-python/actions/workflows/ci.yml"
+            },
+            {
+              "kind": "coverage",
+              "label": "Codecov",
+              "image": "https://codecov.io/gh/alrayyes/hush-hush-python/graph/badge.svg",
+              "href": "https://codecov.io/gh/alrayyes/hush-hush-python"
+            },
+            {
+              "kind": "other",
+              "label": "PyPI",
+              "image": "https://img.shields.io/pypi/v/hush-hush",
+              "href": "https://pypi.org/project/hush-hush/"
+            },
+            {
+              "kind": "release",
+              "label": "release",
+              "image": "https://img.shields.io/github/v/release/alrayyes/hush-hush-python",
+              "href": "https://github.com/alrayyes/hush-hush-python/releases"
+            },
+            {
+              "kind": "license",
+              "label": "license",
+              "image": "https://img.shields.io/github/license/alrayyes/hush-hush-python",
+              "href": "https://github.com/alrayyes/hush-hush-python/blob/HEAD/LICENSE"
+            }
+          ],
+          "license": "MIT"
         },
         {
           "language": "Go",
@@ -52,9 +151,75 @@
             "tests": "https://apis.ryankes.eu/hush-hush-go/reports/tests/junit.xml",
             "coverage": "https://apis.ryankes.eu/hush-hush-go/reports/coverage/",
             "coverageXml": "https://apis.ryankes.eu/hush-hush-go/reports/coverage/coverage.xml"
-          }
+          },
+          "badges": [
+            {
+              "kind": "ci",
+              "label": "ci",
+              "image": "https://github.com/alrayyes/hush-hush-go/actions/workflows/ci.yml/badge.svg",
+              "href": "https://github.com/alrayyes/hush-hush-go/actions/workflows/ci.yml"
+            },
+            {
+              "kind": "coverage",
+              "label": "Codecov",
+              "image": "https://codecov.io/gh/alrayyes/hush-hush-go/graph/badge.svg",
+              "href": "https://codecov.io/gh/alrayyes/hush-hush-go"
+            },
+            {
+              "kind": "other",
+              "label": "Go Reference",
+              "image": "https://pkg.go.dev/badge/github.com/alrayyes/hush-hush-go.svg",
+              "href": "https://pkg.go.dev/github.com/alrayyes/hush-hush-go"
+            },
+            {
+              "kind": "release",
+              "label": "release",
+              "image": "https://img.shields.io/github/v/release/alrayyes/hush-hush-go",
+              "href": "https://github.com/alrayyes/hush-hush-go/releases"
+            },
+            {
+              "kind": "license",
+              "label": "license",
+              "image": "https://img.shields.io/github/license/alrayyes/hush-hush-go",
+              "href": "https://github.com/alrayyes/hush-hush-go/blob/HEAD/LICENSE"
+            }
+          ],
+          "license": "MIT"
         }
-      ]
+      ],
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/hush-hush/actions/workflows/ci.yml/badge.svg",
+          "href": "https://github.com/alrayyes/hush-hush/actions"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/hush-hush/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/hush-hush"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/hush-hush?sort=semver",
+          "href": "https://github.com/alrayyes/hush-hush/releases"
+        },
+        {
+          "kind": "other",
+          "label": "Go Reference",
+          "image": "https://pkg.go.dev/badge/github.com/alrayyes/hush-hush.svg",
+          "href": "https://pkg.go.dev/github.com/alrayyes/hush-hush"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-GPL--3.0-blue",
+          "href": "https://github.com/alrayyes/Hush-Hush/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0"
     },
     {
       "name": "forge-dashboard",
@@ -71,7 +236,34 @@
             "tests": "https://apis.ryankes.eu/forge-dashboard-sdk-php/reports/tests/",
             "coverage": "https://apis.ryankes.eu/forge-dashboard-sdk-php/reports/coverage/",
             "coverageXml": "https://apis.ryankes.eu/forge-dashboard-sdk-php/reports/coverage/coverage.xml"
-          }
+          },
+          "badges": [
+            {
+              "kind": "ci",
+              "label": "CI",
+              "image": "https://github.com/alrayyes/forge-dashboard-sdk-php/actions/workflows/ci.yml/badge.svg",
+              "href": "https://github.com/alrayyes/forge-dashboard-sdk-php/actions/workflows/ci.yml"
+            },
+            {
+              "kind": "coverage",
+              "label": "Codecov",
+              "image": "https://codecov.io/gh/alrayyes/forge-dashboard-sdk-php/graph/badge.svg",
+              "href": "https://codecov.io/gh/alrayyes/forge-dashboard-sdk-php"
+            },
+            {
+              "kind": "other",
+              "label": "docs",
+              "image": "https://img.shields.io/badge/docs-phpdoc-blue",
+              "href": "https://alrayyes.github.io/forge-dashboard-sdk-php/"
+            },
+            {
+              "kind": "license",
+              "label": "License: MIT",
+              "image": "https://img.shields.io/badge/License-MIT-yellow.svg",
+              "href": "https://github.com/alrayyes/forge-dashboard-sdk-php/blob/HEAD/LICENSE"
+            }
+          ],
+          "license": "MIT"
         },
         {
           "language": "Node.js / TypeScript",
@@ -81,7 +273,40 @@
             "tests": "https://apis.ryankes.eu/forge-dashboard-sdk-node/reports/tests/junit.xml",
             "coverage": "https://apis.ryankes.eu/forge-dashboard-sdk-node/reports/coverage/",
             "coverageXml": "https://apis.ryankes.eu/forge-dashboard-sdk-node/reports/coverage/coverage.xml"
-          }
+          },
+          "badges": [
+            {
+              "kind": "ci",
+              "label": "CI",
+              "image": "https://github.com/alrayyes/forge-dashboard-sdk-node/actions/workflows/ci.yml/badge.svg",
+              "href": "https://github.com/alrayyes/forge-dashboard-sdk-node/actions/workflows/ci.yml"
+            },
+            {
+              "kind": "other",
+              "label": "npm",
+              "image": "https://img.shields.io/npm/v/%40forge-dashboard%2Fsdk-node",
+              "href": "https://www.npmjs.com/package/@forge-dashboard/sdk-node"
+            },
+            {
+              "kind": "coverage",
+              "label": "Codecov",
+              "image": "https://codecov.io/gh/alrayyes/forge-dashboard-sdk-node/graph/badge.svg",
+              "href": "https://codecov.io/gh/alrayyes/forge-dashboard-sdk-node"
+            },
+            {
+              "kind": "other",
+              "label": "docs",
+              "image": "https://img.shields.io/badge/docs-typedoc-blue",
+              "href": "https://alrayyes.github.io/forge-dashboard-sdk-node/"
+            },
+            {
+              "kind": "license",
+              "label": "License: MIT",
+              "image": "https://img.shields.io/badge/License-MIT-yellow.svg",
+              "href": "https://github.com/alrayyes/forge-dashboard-sdk-node/blob/HEAD/LICENSE"
+            }
+          ],
+          "license": "MIT"
         },
         {
           "language": "Python",
@@ -91,7 +316,40 @@
             "tests": "https://apis.ryankes.eu/forge-dashboard-sdk-python/reports/tests/",
             "coverage": "https://apis.ryankes.eu/forge-dashboard-sdk-python/reports/coverage/",
             "coverageXml": "https://apis.ryankes.eu/forge-dashboard-sdk-python/reports/coverage/coverage.xml"
-          }
+          },
+          "badges": [
+            {
+              "kind": "ci",
+              "label": "CI",
+              "image": "https://github.com/alrayyes/forge-dashboard-sdk-python/actions/workflows/ci.yml/badge.svg",
+              "href": "https://github.com/alrayyes/forge-dashboard-sdk-python/actions/workflows/ci.yml"
+            },
+            {
+              "kind": "other",
+              "label": "PyPI",
+              "image": "https://img.shields.io/pypi/v/forge-dashboard-sdk.svg",
+              "href": "https://pypi.org/project/forge-dashboard-sdk/"
+            },
+            {
+              "kind": "coverage",
+              "label": "Codecov",
+              "image": "https://codecov.io/gh/alrayyes/forge-dashboard-sdk-python/graph/badge.svg",
+              "href": "https://codecov.io/gh/alrayyes/forge-dashboard-sdk-python"
+            },
+            {
+              "kind": "license",
+              "label": "License: MIT",
+              "image": "https://img.shields.io/badge/License-MIT-yellow.svg",
+              "href": "https://github.com/alrayyes/forge-dashboard-sdk-python/blob/HEAD/LICENSE"
+            },
+            {
+              "kind": "other",
+              "label": "docs",
+              "image": "https://img.shields.io/badge/docs-mkdocs-blue",
+              "href": "https://alrayyes.github.io/forge-dashboard-sdk-python/"
+            }
+          ],
+          "license": "MIT"
         },
         {
           "language": "Go",
@@ -101,7 +359,34 @@
             "tests": "https://apis.ryankes.eu/forge-dashboard-sdk-go/reports/tests/",
             "coverage": "https://apis.ryankes.eu/forge-dashboard-sdk-go/reports/coverage/",
             "coverageXml": "https://apis.ryankes.eu/forge-dashboard-sdk-go/reports/coverage/coverage.xml"
-          }
+          },
+          "badges": [
+            {
+              "kind": "ci",
+              "label": "CI",
+              "image": "https://github.com/alrayyes/forge-dashboard-sdk-go/actions/workflows/ci.yml/badge.svg",
+              "href": "https://github.com/alrayyes/forge-dashboard-sdk-go/actions/workflows/ci.yml"
+            },
+            {
+              "kind": "other",
+              "label": "Go Reference",
+              "image": "https://pkg.go.dev/badge/github.com/alrayyes/forge-dashboard-sdk-go.svg",
+              "href": "https://pkg.go.dev/github.com/alrayyes/forge-dashboard-sdk-go"
+            },
+            {
+              "kind": "coverage",
+              "label": "Codecov",
+              "image": "https://codecov.io/gh/alrayyes/forge-dashboard-sdk-go/graph/badge.svg",
+              "href": "https://codecov.io/gh/alrayyes/forge-dashboard-sdk-go"
+            },
+            {
+              "kind": "license",
+              "label": "License: MIT",
+              "image": "https://img.shields.io/badge/License-MIT-yellow.svg",
+              "href": "https://github.com/alrayyes/forge-dashboard-sdk-go/blob/HEAD/LICENSE"
+            }
+          ],
+          "license": "MIT"
         }
       ],
       "reports": {
@@ -109,7 +394,40 @@
         "tests": "https://apis.ryankes.eu/forge-dashboard/reports/tests/",
         "coverage": "https://apis.ryankes.eu/forge-dashboard/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/forge-dashboard/reports/coverage/coverage.xml"
-      }
+      },
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/forge-dashboard/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/forge-dashboard/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/forge-dashboard?sort=semver",
+          "href": "https://github.com/alrayyes/forge-dashboard/releases/latest"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-AGPL--3.0-blue",
+          "href": "https://github.com/alrayyes/forge-dashboard/blob/HEAD/LICENSE"
+        },
+        {
+          "kind": "coverage",
+          "label": "coverage",
+          "image": "https://codecov.io/gh/alrayyes/forge-dashboard/branch/main/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/forge-dashboard"
+        },
+        {
+          "kind": "other",
+          "label": "Go Reference",
+          "image": "https://pkg.go.dev/badge/github.com/alrayyes/forge-dashboard.svg",
+          "href": "https://pkg.go.dev/github.com/alrayyes/forge-dashboard"
+        }
+      ],
+      "license": "AGPL-3.0"
     },
     {
       "name": "pipeline-analytics",
@@ -132,7 +450,34 @@
             "tests": "https://apis.ryankes.eu/pipeline-analytics-sdk-php/reports/tests/unit.xml",
             "coverage": "https://apis.ryankes.eu/pipeline-analytics-sdk-php/reports/coverage/",
             "coverageXml": "https://apis.ryankes.eu/pipeline-analytics-sdk-php/reports/coverage/coverage.xml"
-          }
+          },
+          "badges": [
+            {
+              "kind": "ci",
+              "label": "CI",
+              "image": "https://github.com/alrayyes/pipeline-analytics-sdk-php/actions/workflows/ci.yml/badge.svg",
+              "href": "https://github.com/alrayyes/pipeline-analytics-sdk-php/actions/workflows/ci.yml"
+            },
+            {
+              "kind": "coverage",
+              "label": "Codecov",
+              "image": "https://codecov.io/gh/alrayyes/pipeline-analytics-sdk-php/graph/badge.svg",
+              "href": "https://codecov.io/gh/alrayyes/pipeline-analytics-sdk-php"
+            },
+            {
+              "kind": "other",
+              "label": "docs",
+              "image": "https://img.shields.io/badge/docs-phpdoc-blue",
+              "href": "https://alrayyes.github.io/pipeline-analytics-sdk-php/"
+            },
+            {
+              "kind": "license",
+              "label": "License: MIT",
+              "image": "https://img.shields.io/badge/License-MIT-yellow.svg",
+              "href": "https://github.com/alrayyes/pipeline-analytics-sdk-php/blob/HEAD/LICENSE"
+            }
+          ],
+          "license": "MIT"
         },
         {
           "language": "Node.js / TypeScript",
@@ -142,7 +487,40 @@
             "tests": "https://apis.ryankes.eu/pipeline-analytics-sdk-node/reports/tests/junit.xml",
             "coverage": "https://apis.ryankes.eu/pipeline-analytics-sdk-node/reports/coverage/",
             "coverageXml": "https://apis.ryankes.eu/pipeline-analytics-sdk-node/reports/coverage/coverage.xml"
-          }
+          },
+          "badges": [
+            {
+              "kind": "ci",
+              "label": "CI",
+              "image": "https://github.com/alrayyes/pipeline-analytics-sdk-node/actions/workflows/ci.yml/badge.svg",
+              "href": "https://github.com/alrayyes/pipeline-analytics-sdk-node/actions/workflows/ci.yml"
+            },
+            {
+              "kind": "other",
+              "label": "npm",
+              "image": "https://img.shields.io/npm/v/%40pipeline-analytics%2Fsdk-node",
+              "href": "https://www.npmjs.com/package/@pipeline-analytics/sdk-node"
+            },
+            {
+              "kind": "coverage",
+              "label": "Codecov",
+              "image": "https://codecov.io/gh/alrayyes/pipeline-analytics-sdk-node/graph/badge.svg",
+              "href": "https://codecov.io/gh/alrayyes/pipeline-analytics-sdk-node"
+            },
+            {
+              "kind": "license",
+              "label": "License: MIT",
+              "image": "https://img.shields.io/badge/License-MIT-yellow.svg",
+              "href": "https://github.com/alrayyes/pipeline-analytics-sdk-node/blob/HEAD/LICENSE"
+            },
+            {
+              "kind": "other",
+              "label": "docs",
+              "image": "https://img.shields.io/badge/docs-typedoc-blue",
+              "href": "https://alrayyes.github.io/pipeline-analytics-sdk-node/"
+            }
+          ],
+          "license": "MIT"
         },
         {
           "language": "Python",
@@ -152,14 +530,107 @@
             "tests": "https://apis.ryankes.eu/pipeline-analytics-sdk-python/reports/tests/junit.xml",
             "coverage": "https://apis.ryankes.eu/pipeline-analytics-sdk-python/reports/coverage/",
             "coverageXml": "https://apis.ryankes.eu/pipeline-analytics-sdk-python/reports/coverage/coverage.xml"
-          }
+          },
+          "badges": [
+            {
+              "kind": "ci",
+              "label": "CI",
+              "image": "https://github.com/alrayyes/pipeline-analytics-sdk-python/actions/workflows/ci.yml/badge.svg",
+              "href": "https://github.com/alrayyes/pipeline-analytics-sdk-python/actions/workflows/ci.yml"
+            },
+            {
+              "kind": "other",
+              "label": "PyPI",
+              "image": "https://img.shields.io/pypi/v/pipeline-analytics-sdk.svg",
+              "href": "https://pypi.org/project/pipeline-analytics-sdk/"
+            },
+            {
+              "kind": "coverage",
+              "label": "Codecov",
+              "image": "https://codecov.io/gh/alrayyes/pipeline-analytics-sdk-python/graph/badge.svg",
+              "href": "https://codecov.io/gh/alrayyes/pipeline-analytics-sdk-python"
+            },
+            {
+              "kind": "license",
+              "label": "License: MIT",
+              "image": "https://img.shields.io/badge/License-MIT-yellow.svg",
+              "href": "https://github.com/alrayyes/pipeline-analytics-sdk-python/blob/HEAD/LICENSE"
+            },
+            {
+              "kind": "other",
+              "label": "docs",
+              "image": "https://img.shields.io/badge/docs-mkdocs-blue",
+              "href": "https://apis.ryankes.eu/pipeline-analytics-sdk-python/docs/"
+            }
+          ],
+          "license": "MIT"
         },
         {
           "language": "Go",
           "repo": "https://github.com/alrayyes/pipeline-analytics-sdk-go",
-          "docs": "https://pkg.go.dev/github.com/alrayyes/pipeline-analytics-sdk-go"
+          "docs": "https://pkg.go.dev/github.com/alrayyes/pipeline-analytics-sdk-go",
+          "badges": [
+            {
+              "kind": "ci",
+              "label": "CI",
+              "image": "https://github.com/alrayyes/pipeline-analytics-sdk-go/actions/workflows/ci.yml/badge.svg",
+              "href": "https://github.com/alrayyes/pipeline-analytics-sdk-go/actions/workflows/ci.yml"
+            },
+            {
+              "kind": "other",
+              "label": "Go Reference",
+              "image": "https://pkg.go.dev/badge/github.com/alrayyes/pipeline-analytics-sdk-go.svg",
+              "href": "https://pkg.go.dev/github.com/alrayyes/pipeline-analytics-sdk-go"
+            },
+            {
+              "kind": "coverage",
+              "label": "Codecov",
+              "image": "https://codecov.io/gh/alrayyes/pipeline-analytics-sdk-go/graph/badge.svg",
+              "href": "https://codecov.io/gh/alrayyes/pipeline-analytics-sdk-go"
+            },
+            {
+              "kind": "license",
+              "label": "License: MIT",
+              "image": "https://img.shields.io/badge/License-MIT-yellow.svg",
+              "href": "https://github.com/alrayyes/pipeline-analytics-sdk-go/blob/HEAD/LICENSE"
+            }
+          ],
+          "license": "MIT"
         }
-      ]
+      ],
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/pipeline-analytics/actions/workflows/ci.yml/badge.svg",
+          "href": "https://github.com/alrayyes/pipeline-analytics/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "coverage",
+          "label": "Codecov",
+          "image": "https://codecov.io/gh/alrayyes/pipeline-analytics/graph/badge.svg",
+          "href": "https://codecov.io/gh/alrayyes/pipeline-analytics"
+        },
+        {
+          "kind": "release",
+          "label": "Release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/pipeline-analytics",
+          "href": "https://github.com/alrayyes/pipeline-analytics/releases"
+        },
+        {
+          "kind": "license",
+          "label": "License",
+          "image": "https://img.shields.io/github/license/alrayyes/pipeline-analytics",
+          "href": "https://github.com/alrayyes/pipeline-analytics/blob/HEAD/LICENSE"
+        },
+        {
+          "kind": "other",
+          "label": "Go Reference",
+          "image": "https://pkg.go.dev/badge/github.com/alrayyes/pipeline-analytics.svg",
+          "href": "https://pkg.go.dev/github.com/alrayyes/pipeline-analytics"
+        }
+      ],
+      "license": "AGPL-3.0"
     }
   ]
 }

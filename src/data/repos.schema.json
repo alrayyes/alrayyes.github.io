@@ -20,7 +20,7 @@
   "$defs": {
     "repo": {
       "type": "object",
-      "required": ["name", "kind", "repo", "reports"],
+      "required": ["name", "kind", "repo", "reports", "license", "badges"],
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -40,6 +40,12 @@
         },
         "reports": {
           "$ref": "apis.schema.json#/$defs/reports"
+        },
+        "license": {
+          "$ref": "apis.schema.json#/$defs/license"
+        },
+        "badges": {
+          "$ref": "apis.schema.json#/$defs/badges"
         }
       }
     }
