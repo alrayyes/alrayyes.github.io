@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { buildScores, jsonLinks, type Snapshot } from "./lighthouse-repos";
+import { buildScores, jsonLinks, reportLinks, type Snapshot } from "./lighthouse-repos";
 
 const report = (performance: number) => ({
   categories: {
@@ -19,6 +19,16 @@ describe("jsonLinks", () => {
     expect(jsonLinks(index)).toEqual(["a.report.json", "b.report.json"]);
     expect(jsonLinks('<a href="home.html">x</a> <a href="home.json">JSON</a>')).toEqual([
       "home.json",
+    ]);
+  });
+});
+
+describe("reportLinks", () => {
+  test("names each report's JSON, from the JSON links or else from the HTML ones", () => {
+    expect(reportLinks(index)).toEqual(["a.report.json", "b.report.json"]);
+    expect(reportLinks('<a href="a.report.html">a</a> <a href="b.report.html">b</a>')).toEqual([
+      "a.report.json",
+      "b.report.json",
     ]);
   });
 });
@@ -55,6 +65,31 @@ describe("buildScores", () => {
       }),
     });
     expect(Object.keys(snapshot?.repos ?? {})).toEqual(["x"]);
+  });
+
+  test("reads each page's JSON beside its HTML when the index links only HTML", async () => {
+    const snapshot = await buildScores({
+      entries: [{ name: "x", lighthouse: dir }],
+      fetchText: fetchText({
+        [dir]: '<a href="a.report.html">a</a> <a href="b.report.html">b</a>',
+        [`${dir}a.report.json`]: report(1),
+        [`${dir}b.report.json`]: report(0.5),
+      }),
+    });
+    expect(snapshot?.repos.x?.pages).toBe(2);
+    expect(snapshot?.repos.x?.scores.performance).toBe(75);
+  });
+
+  test("reads the JSON beside a single report page whose directory has no index", async () => {
+    const page = `${dir}index/`;
+    const snapshot = await buildScores({
+      entries: [{ name: "x", lighthouse: `${page}report.html` }],
+      fetchText: fetchText({ [`${page}report.json`]: report(1) }),
+    });
+    expect(snapshot?.repos.x).toEqual({
+      pages: 1,
+      scores: { performance: 100, accessibility: 100, "best-practices": 100, seo: 90 },
+    });
   });
 
   test("keeps a repo's previous scores when its lookup fails", async () => {
