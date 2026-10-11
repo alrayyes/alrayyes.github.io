@@ -37,7 +37,12 @@ const frontend = `<?xml version="1.0"?><testsuites><testsuite name="x">
 
 async function serveReports(
   page: Page,
-  { index = true, manifest: withManifest = true }: { index?: boolean; manifest?: boolean } = {},
+  {
+    index = true,
+    manifest: withManifest = true,
+    linked = withManifest,
+    published,
+  }: { index?: boolean; manifest?: boolean; linked?: boolean; published?: string } = {},
 ) {
   await page.route(`**${DIR}/**`, async (route) => {
     const path = new URL(route.request().url()).pathname;
@@ -47,12 +52,14 @@ async function serveReports(
     switch (path.slice(DIR.length)) {
       case "/lighthouse/":
         return send(
-          withManifest
-            ? lighthouseIndex
-            : lighthouseIndex.replace(/<li><a href="manifest.json".*?<\/li>/, ""),
+          published ??
+            (linked
+              ? lighthouseIndex
+              : lighthouseIndex.replace(/<li><a href="manifest.json".*?<\/li>/, "")),
           "text/html",
         );
       case "/lighthouse/manifest.json":
+        if (!withManifest) return route.fulfill({ status: 404, body: "not found" });
         return send(JSON.stringify(manifest), "application/json");
       case "/tests/":
         return send(testsIndex, "text/html");
@@ -184,6 +191,21 @@ test("without a manifest there are no score tiles and no site average, and the l
   await expect(
     page.getByRole("region", { name: "Lighthouse" }).getByRole("link").first(),
   ).toBeVisible();
+});
+
+test("a curated index that doesn't link manifest.json still gets scores, and only its published runs", async ({
+  page,
+}) => {
+  const curated = `<!doctype html><h1>Lighthouse reports</h1><ul>
+<li><a href="login-2.report.html">/login</a> (<a href="login-2.report.json">JSON</a>)</li>
+<li><a href="settings-1.report.html">/settings</a> (<a href="settings-1.report.json">JSON</a>)</li></ul>`;
+  await serveReports(page, { published: curated });
+  await page.goto("/reports/pipeline-analytics/lighthouse/");
+  const lighthouse = page.getByRole("region", { name: "Lighthouse" });
+  await expect(page.getByRole("group", { name: "Site average" })).toContainText("2 pages");
+  const row = lighthouse.getByRole("listitem").filter({ hasText: "/login" }).first();
+  await expect(row).toContainText("83%");
+  await expect(row.getByText(/other runs?/)).toHaveCount(0);
 });
 
 test("the score tiles fit a 360px screen and pass axe in both themes", async ({ page }) => {

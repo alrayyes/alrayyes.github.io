@@ -93,6 +93,15 @@ describe("lighthouseRowsFromManifest", () => {
     });
   });
 
+  test("keeps only the runs whose report is published, when told which are", () => {
+    const rows = lighthouseRowsFromManifest(manifest, [
+      "login-2.report.html",
+      "home-1.report.html",
+    ]);
+    expect(rows.map((r) => r.page)).toEqual(["/", "/login"]);
+    expect(rows.find((r) => r.page === "/login")?.others).toEqual([]);
+  });
+
   test("keeps the other runs behind it, using only the file name of each path", () => {
     const login = lighthouseRowsFromManifest(manifest).find((r) => r.page === "/login");
     expect(login?.others.map((o) => o.html)).toEqual([

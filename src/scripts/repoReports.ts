@@ -280,9 +280,16 @@ async function enhance(section: HTMLElement) {
   try {
     const files = directoryLinks(await fetchText(dir));
     if (section.dataset.kind === "lighthouse") {
-      const lighthouseRows = files.includes("manifest.json")
+      // A curated index may not link manifest.json though it sits beside the
+      // reports. Then only the runs the index lists are published.
+      const manifest = await fetchText(new URL("manifest.json", new URL(dir, location.href)).href)
+        .then((text) => JSON.parse(text))
+        .catch(() => null);
+      const reports = files.filter((file) => file.endsWith(".report.html"));
+      const lighthouseRows = Array.isArray(manifest)
         ? lighthouseRowsFromManifest(
-            JSON.parse(await fetchText(new URL("manifest.json", new URL(dir, location.href)).href)),
+            manifest,
+            files.includes("manifest.json") || reports.length === 0 ? undefined : reports,
           )
         : lighthouseRowsFromFiles(files);
       if (lighthouseRows.length === 0) return;

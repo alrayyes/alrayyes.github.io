@@ -69,9 +69,13 @@ const baseName = (path: string) => path.split("/").pop() ?? path;
 
 // One row per audited page. Lighthouse CI's own paths are absolute paths on
 // the runner that made them, so only the file name is used.
-export function lighthouseRowsFromManifest(manifest: ManifestRun[]): LighthouseRow[] {
+export function lighthouseRowsFromManifest(
+  manifest: ManifestRun[],
+  published?: string[],
+): LighthouseRow[] {
   const byPage = new Map<string, ManifestRun[]>();
   for (const entry of manifest) {
+    if (published && !published.includes(baseName(entry.htmlPath))) continue;
     const page = new URL(entry.url).pathname || "/";
     byPage.set(page, [...(byPage.get(page) ?? []), entry]);
   }
