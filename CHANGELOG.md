@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.43.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.43.0...alrayyes.github.io-v0.43.1) (2026-10-11)
+
+
+### Bug Fixes
+
+* **ui:** read Lighthouse scores for repos that publish an HTML-only index ([#257](https://github.com/alrayyes/alrayyes.github.io/issues/257)) ([0c024c5](https://github.com/alrayyes/alrayyes.github.io/commit/0c024c5941f0f9bdf046fc765536e3fbc010fd0b))
+
 ## [0.43.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.42.1...alrayyes.github.io-v0.43.0) (2026-10-11)
 
 
