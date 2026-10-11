@@ -1,7 +1,7 @@
 ---
 import type { DirectoryRow } from "../lib/repoDirectory";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
-import { bandLabel } from "../lib/reportDirectory";
+import { bandLabel, scoreBand } from "../lib/reportDirectory";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import BrandIcon from "./icons/BrandIcon.astro";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
@@ -19,6 +19,12 @@ const { row, nested = false } = Astro.props;
 // and the API links. min-h-8 is 32px, over WCAG 2.5.8's 24px minimum.
 // The four categories in Lighthouse's own order, with a short visible label.
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+// biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files
+const ringColour = {
+  green: "text-emerald-600 dark:text-emerald-400",
+  amber: "text-amber-500 dark:text-amber-400",
+  red: "text-red-600 dark:text-red-400",
+} as const;
 const categories = [
   ["performance", "Performance", "Perf"],
   ["accessibility", "Accessibility", "A11y"],
@@ -103,18 +109,59 @@ const quiet =
               <ul
                 aria-label={`Lighthouse scores for ${row.name}`}
                 data-lighthouse-badges
-                class="ml-2 inline-flex flex-wrap gap-1 align-middle"
+                class="ml-2 inline-flex flex-wrap items-start gap-2 align-middle"
               >
                 {categories.flatMap(([key, name, short]) => {
                   const score = row.lighthouseScores?.[key];
                   return score === undefined
                     ? []
                     : [
-                        <li class="rounded border border-slate-300 px-1.5 text-xs text-slate-700 dark:border-slate-600 dark:text-slate-300">
-                          <span aria-hidden="true">{short} </span>
-                          <span class="sr-only">{name} </span>
-                          <span class="font-mono font-semibold">{score}</span>
-                          <span class="sr-only"> {bandLabel(score)}</span>
+                        <li
+                          data-score={key}
+                          data-band={scoreBand(score)}
+                          class="flex flex-col items-center text-xs text-slate-700 dark:text-slate-300"
+                        >
+                          <span class="relative flex size-9 items-center justify-center">
+                            <svg
+                              viewBox="0 0 36 36"
+                              aria-hidden="true"
+                              class:list={[
+                                "size-9 -rotate-90",
+                                ringColour[scoreBand(score)],
+                              ]}
+                            >
+                              <circle
+                                cx="18"
+                                cy="18"
+                                r="15.5"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="3"
+                                class="opacity-20"
+                              />
+                              <circle
+                                cx="18"
+                                cy="18"
+                                r="15.5"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="3"
+                                stroke-linecap="round"
+                                pathLength="100"
+                                stroke-dasharray={`${score} 100`}
+                              />
+                            </svg>
+                            <span
+                              aria-hidden="true"
+                              class="absolute font-mono text-[10px] font-semibold text-slate-900 dark:text-slate-100"
+                            >
+                              {score}%
+                            </span>
+                          </span>
+                          <span aria-hidden="true">{short}</span>
+                          <span class="sr-only">
+                            {name} {score}% {bandLabel(score)}
+                          </span>
                         </li>,
                       ];
                 })}

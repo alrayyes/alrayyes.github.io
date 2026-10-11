@@ -719,17 +719,37 @@ test("the Lighthouse tile reads cleanly at 375px: a spaced heading and the score
   expect(tops[2]).toBeGreaterThan(tops[0] ?? 0);
 });
 
-test("a repo row shows its own Lighthouse scores as quiet badges, and one without reports shows none", async ({
+test("a repo row shows its Lighthouse scores as rings with the percentage, and one without reports shows none", async ({
   page,
 }) => {
   await page.goto("/");
   const row = page.locator('[data-repo-row][data-name="forge-dashboard"]');
   const badges = row.locator("[data-lighthouse-badges]");
   await expect(badges).toBeVisible();
-  await expect(badges).toContainText("Perf");
-  await expect(badges).toContainText(/Good|Needs improvement|Poor/);
+  const performance = badges.locator('[data-score="performance"]');
+  await expect(performance).toContainText(/^\s*\d+%/);
+  await expect(performance).toContainText("Perf");
+  await expect(performance).toContainText(/Good|Needs improvement|Poor/);
+  await expect(performance).toHaveAttribute("data-band", /^(green|amber|red)$/);
+  await expect(performance.locator("svg[aria-hidden='true']")).toHaveCount(1);
+  await expect(badges.locator("[data-score]")).toHaveCount(4);
   await expect(
     page.locator('[data-repo-row][data-name="hush-hush-go"]').locator("[data-lighthouse-badges]"),
   ).toHaveCount(0);
   await expectNoAxeViolations(page);
+});
+
+test("every repo row that links a Lighthouse report shows its score badges", async ({ page }) => {
+  await page.goto("/");
+  const rows = page
+    .locator("[data-repo-row]")
+    .filter({ has: page.getByRole("link", { name: /^Lighthouse/ }) });
+  const names = await rows.evaluateAll((els) => els.map((el) => (el as HTMLElement).dataset.name));
+  expect(names).toEqual(expect.arrayContaining(["scaffold-astro-site", "tempus-fugit"]));
+  for (const name of names) {
+    await expect(
+      page.locator(`[data-repo-row][data-name="${name}"] [data-lighthouse-badges]`),
+      `${name} has badges`,
+    ).toHaveCount(1);
+  }
 });
