@@ -136,10 +136,12 @@ hand with `bun scripts/lighthouse-average.ts <dir with *.report.json>`.
 Each repo that publishes Lighthouse reports also shows its own four scores as
 small badges after its Lighthouse link, one per category, each with its band as
 hidden text. `scripts/lighthouse-repos.ts` reads each repo's reports directory,
-averages its pages and writes `src/data/lighthouse-scores.json`; the `build` job
-runs it after the average above, and the copy in git is a seed. A repo whose
-reports can't be read keeps its previous scores. Run it by hand with
-`bun scripts/lighthouse-repos.ts`.
+averages its pages and writes `src/data/lighthouse-scores.json`. Where the index
+page links only the HTML reports it reads the JSON beside each, and for a link to
+one report page in a directory with no index it reads that page's `report.json`.
+The `build` job runs it after the average above, and the copy in git is a seed.
+A repo whose reports can't be read keeps its previous scores. Run it by hand
+with `bun scripts/lighthouse-repos.ts`.
 
 ## Reports
 
