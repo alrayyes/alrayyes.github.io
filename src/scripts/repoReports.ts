@@ -10,9 +10,11 @@ import {
   directoryLinks,
   lighthouseRowsFromFiles,
   lighthouseRowsFromManifest,
+  pageFromReport,
   type Scores,
   sameOriginPath,
   scoreBand,
+  scoresFromReport,
   siteAverage,
 } from "../lib/reportDirectory";
 
@@ -170,6 +172,7 @@ function lighthouseRun(dir: string, row: LighthouseRow, run: LighthouseRun) {
 function renderAverage(rows: LighthouseRow[], list: HTMLElement) {
   const average = siteAverage(rows);
   if (!average) return;
+  const pages = rows.filter((row) => row.representative.scores).length;
   const group = el("div", {
     class: `${rowClass} mt-3 flex flex-col gap-3`,
     attrs: { role: "group", "aria-label": "Site average" },
@@ -181,7 +184,7 @@ function renderAverage(rows: LighthouseRow[], list: HTMLElement) {
     }),
     el("p", {
       class: "text-sm text-slate-700 dark:text-slate-300",
-      text: `Mean over ${rows.length} page${rows.length === 1 ? "" : "s"}`,
+      text: `Mean over ${pages} page${pages === 1 ? "" : "s"}`,
     }),
     scoreTiles(average),
   );
@@ -272,6 +275,28 @@ function testRow(dir: string, name: string, list: HTMLElement) {
     });
 }
 
+// Without a manifest the scores and the audited page are in each page's own
+// report. A report that can't be read keeps its link and loses its scores.
+async function withReportScores(dir: string, rows: LighthouseRow[]): Promise<LighthouseRow[]> {
+  const base = new URL(dir, location.href);
+  const read = async (row: LighthouseRow): Promise<LighthouseRow> => {
+    const json = row.representative.json;
+    if (!json) return row;
+    try {
+      const report = JSON.parse(await fetchText(new URL(json, base).href));
+      const scores = scoresFromReport(report);
+      return {
+        ...row,
+        page: pageFromReport(report) ?? row.page,
+        representative: { ...row.representative, scores },
+      };
+    } catch {
+      return row;
+    }
+  };
+  return Promise.all(rows.map(read));
+}
+
 async function enhance(section: HTMLElement) {
   const dir = section.dataset.dir;
   const rows = section.querySelector<HTMLElement>("[data-rows]");
@@ -291,7 +316,7 @@ async function enhance(section: HTMLElement) {
             manifest,
             files.includes("manifest.json") || reports.length === 0 ? undefined : reports,
           )
-        : lighthouseRowsFromFiles(files);
+        : await withReportScores(dir, lighthouseRowsFromFiles(files));
       if (lighthouseRows.length === 0) return;
       renderAverage(lighthouseRows, rows);
       renderLighthouse(dir, lighthouseRows, rows);

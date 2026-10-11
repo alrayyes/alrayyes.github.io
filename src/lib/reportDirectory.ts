@@ -104,6 +104,8 @@ export function lighthouseRowsFromManifest(
 // one page become one row, the newest first: the timestamp sorts as text.
 export function lighthouseRowsFromFiles(files: string[]): LighthouseRow[] {
   const byPage = new Map<string, LighthouseRun[]>();
+  const add = (page: string, run: LighthouseRun) =>
+    byPage.set(page, [...(byPage.get(page) ?? []), run]);
   for (const html of files
     .filter((file) => file.endsWith(".report.html"))
     .sort()
@@ -114,8 +116,17 @@ export function lighthouseRowsFromFiles(files: string[]): LighthouseRow[] {
       .replace(/^localhost-/, "")
       .replace(/-\d{4}_\d{2}_\d{2}_\d{2}_\d{2}_\d{2}$/, "")
       .replace(/_html$/, ".html");
-    const run = { html, json: files.includes(json) ? json : undefined, scores: null };
-    byPage.set(page, [...(byPage.get(page) ?? []), run]);
+    add(page, { html, json: files.includes(json) ? json : undefined, scores: null });
+  }
+  // Some repos publish a page's report as X.html beside X.json instead. The
+  // JSON is what says it is a report, so a lone HTML file is not one.
+  for (const html of files.filter(
+    (file) => file.endsWith(".html") && !file.endsWith(".report.html") && !file.startsWith("lhr-"),
+  )) {
+    const stem = html.slice(0, -".html".length);
+    if (files.includes(`${stem}.json`)) {
+      add(stem, { html, json: `${stem}.json`, scores: null });
+    }
   }
   return [...byPage.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
@@ -124,6 +135,21 @@ export function lighthouseRowsFromFiles(files: string[]): LighthouseRow[] {
       representative: representative as LighthouseRun,
       others,
     }));
+}
+
+// The page a Lighthouse report audited, as a path, or null when it names none.
+export function pageFromReport(report: unknown): string | null {
+  const r = report as {
+    finalDisplayedUrl?: string;
+    finalUrl?: string;
+    requestedUrl?: string;
+  } | null;
+  const url = r?.finalDisplayedUrl ?? r?.finalUrl ?? r?.requestedUrl;
+  try {
+    return url ? new URL(url).pathname : null;
+  } catch {
+    return null;
+  }
 }
 
 // A Lighthouse report's category scores (0 to 1) as whole percentages. A

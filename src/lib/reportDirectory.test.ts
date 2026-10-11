@@ -5,6 +5,7 @@ import {
   directoryOf,
   lighthouseRowsFromFiles,
   lighthouseRowsFromManifest,
+  pageFromReport,
   sameOriginPath,
   scoreBand,
   scoresFromReport,
@@ -116,6 +117,40 @@ describe("lighthouseRowsFromManifest", () => {
       run("http://localhost/a", false, "a-2", 0.6),
     ]);
     expect(rows[0]?.representative.html).toBe("a-1.report.html");
+  });
+});
+
+describe("lighthouseRowsFromFiles, plain pairs", () => {
+  test("reads X.html with a sibling X.json as a run, and leaves everything else out", () => {
+    const rows = lighthouseRowsFromFiles([
+      "home.html",
+      "home.json",
+      "config-machine.html",
+      "config-machine.json",
+      "notes.html",
+      "lhr-1.html",
+      "lhr-1.json",
+      "assertion-results.json",
+      "manifest.json",
+    ]);
+    expect(rows.map((r) => [r.page, r.representative.html, r.representative.json])).toEqual([
+      ["config-machine", "config-machine.html", "config-machine.json"],
+      ["home", "home.html", "home.json"],
+    ]);
+  });
+});
+
+describe("pageFromReport", () => {
+  test("is the path of the URL the report audited", () => {
+    expect(pageFromReport({ finalDisplayedUrl: "http://localhost:4321/config/machine/" })).toBe(
+      "/config/machine/",
+    );
+    expect(pageFromReport({ requestedUrl: "http://localhost:1/" })).toBe("/");
+  });
+
+  test("is null when the report names no URL", () => {
+    expect(pageFromReport({})).toBeNull();
+    expect(pageFromReport(null)).toBeNull();
   });
 });
 

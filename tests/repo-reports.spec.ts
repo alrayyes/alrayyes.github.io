@@ -58,6 +58,19 @@ async function serveReports(
               : lighthouseIndex.replace(/<li><a href="manifest.json".*?<\/li>/, "")),
           "text/html",
         );
+      case "/lighthouse/home.json":
+        return send(
+          JSON.stringify({
+            finalDisplayedUrl: "http://localhost:4321/",
+            categories: {
+              performance: { score: 0.97 },
+              accessibility: { score: 1 },
+              "best-practices": { score: 1 },
+              seo: { score: 0.9 },
+            },
+          }),
+          "application/json",
+        );
       case "/lighthouse/manifest.json":
         if (!withManifest) return route.fulfill({ status: 404, body: "not found" });
         return send(JSON.stringify(manifest), "application/json");
@@ -206,6 +219,25 @@ test("a curated index that doesn't link manifest.json still gets scores, and onl
   const row = lighthouse.getByRole("listitem").filter({ hasText: "/login" }).first();
   await expect(row).toContainText("83%");
   await expect(row.getByText(/other runs?/)).toHaveCount(0);
+});
+
+test("an index with report files but no manifest gets its scores from each report's JSON", async ({
+  page,
+}) => {
+  const plain = `<!doctype html><h1>Lighthouse reports</h1><ul>
+<li><a href="home.html">/ (HTML)</a></li><li><a href="home.json">/ (JSON)</a></li>
+<li><a href="gone.html">/gone/ (HTML)</a></li><li><a href="gone.json">/gone/ (JSON)</a></li></ul>`;
+  await serveReports(page, { manifest: false, published: plain });
+  await page.goto("/reports/pipeline-analytics/lighthouse/");
+  const lighthouse = page.getByRole("region", { name: "Lighthouse" });
+  const home = lighthouse.getByRole("listitem").filter({ hasText: "97%" }).first();
+  await expect(home).toContainText("Performance");
+  await expect(home.getByRole("link", { name: /^HTML report for/ })).toHaveAttribute(
+    "href",
+    /\/lighthouse\/home\.html$/,
+  );
+  await expect(page.getByRole("group", { name: "Site average" })).toContainText("1 page");
+  await expect(lighthouse.getByRole("link", { name: /HTML report for .*gone/ })).toBeVisible();
 });
 
 test("the score tiles fit a 360px screen and pass axe in both themes", async ({ page }) => {
