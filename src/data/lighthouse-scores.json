@@ -10,7 +10,7 @@
     "forge-dashboard": {
       "pages": 6,
       "scores": {
-        "performance": 94,
+        "performance": 95,
         "accessibility": 100,
         "best-practices": 100,
         "seo": 100
@@ -23,6 +23,24 @@
         "accessibility": 100,
         "best-practices": 100,
         "seo": 100
+      }
+    },
+    "scaffold-astro-site": {
+      "pages": 6,
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      }
+    },
+    "tempus-fugit": {
+      "pages": 1,
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 63
       }
     },
     "washy-washy-web": {

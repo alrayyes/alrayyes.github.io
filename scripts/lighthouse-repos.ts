@@ -29,11 +29,32 @@ export function jsonLinks(html: string): string[] {
   );
 }
 
+// Each report's JSON. An index that links only the HTML pages has the JSON
+// beside each one, under the same name.
+export function reportLinks(html: string): string[] {
+  const json = jsonLinks(html);
+  if (json.length > 0) return json;
+  return [...html.matchAll(/href="([^"]+)\.html"/g)].flatMap((match) =>
+    match[1] ? [`${match[1]}.json`] : [],
+  );
+}
+
 // A link to one report page names its directory by what comes before the file.
 export const directoryOf = (url: string): string => url.slice(0, url.lastIndexOf("/") + 1);
 
-async function averageOfDirectory(url: string, fetchText: FetchText) {
-  const names = jsonLinks(await fetchText(url));
+// A directory without an index page can still hold the one report a link names,
+// so that report's JSON beside its HTML is read directly.
+async function namesIn(url: string, link: string, fetchText: FetchText) {
+  try {
+    return reportLinks(await fetchText(url));
+  } catch (error) {
+    if (!link.endsWith(".html")) throw error;
+    return [link.slice(link.lastIndexOf("/") + 1).replace(/\.html$/, ".json")];
+  }
+}
+
+async function averageOfDirectory(url: string, link: string, fetchText: FetchText) {
+  const names = await namesIn(url, link, fetchText);
   // An index can link a file that isn't a report, so one bad file isn't fatal.
   const settled = await Promise.allSettled(
     names.map(async (name) => JSON.parse(await fetchText(new URL(name, url).href))),
@@ -57,13 +78,14 @@ export async function buildScores({
 }): Promise<Snapshot | null> {
   const directories = entries.map((entry) => ({
     name: entry.name,
+    link: entry.lighthouse,
     lighthouse: directoryOf(entry.lighthouse),
   }));
   let failed = 0;
   const looked = await Promise.all(
     directories.map(async (entry): Promise<[string, LighthouseAverage | undefined]> => {
       try {
-        return [entry.name, await averageOfDirectory(entry.lighthouse, fetchText)];
+        return [entry.name, await averageOfDirectory(entry.lighthouse, entry.link, fetchText)];
       } catch {
         failed++;
         return [entry.name, previous?.repos[entry.name]];
