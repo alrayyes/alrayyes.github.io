@@ -718,3 +718,18 @@ test("the Lighthouse tile reads cleanly at 375px: a spaced heading and the score
   expect(tops[2]).toBe(tops[3]);
   expect(tops[2]).toBeGreaterThan(tops[0] ?? 0);
 });
+
+test("a repo row shows its own Lighthouse scores as quiet badges, and one without reports shows none", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const row = page.locator('[data-repo-row][data-name="forge-dashboard"]');
+  const badges = row.locator("[data-lighthouse-badges]");
+  await expect(badges).toBeVisible();
+  await expect(badges).toContainText("Perf");
+  await expect(badges).toContainText(/Good|Needs improvement|Poor/);
+  await expect(
+    page.locator('[data-repo-row][data-name="hush-hush-go"]').locator("[data-lighthouse-badges]"),
+  ).toHaveCount(0);
+  await expectNoAxeViolations(page);
+});

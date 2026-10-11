@@ -44,6 +44,8 @@ export interface DirectoryRow {
   license: string;
   // The result of the newest completed CI run, from the build-time snapshot.
   ciStatus: CiStatus;
+  // The repo's average Lighthouse scores from the build-time snapshot, if it has them.
+  lighthouseScores?: Record<string, number>;
   // The id of the group repos.json puts this repo in, if any.
   group?: string;
   // An API's SDKs, listed under it. Empty for every other kind.
@@ -128,11 +130,13 @@ export function directoryRows({
   apis,
   others,
   ciStatus = {},
+  lighthouseScores = {},
 }: {
   pages: string[];
   apis: Api[];
   others: OtherRepo[];
   ciStatus?: Record<string, CiStatus>;
+  lighthouseScores?: Record<string, Record<string, number>>;
 }): DirectoryRow[] {
   const known = knownAbout(apis, others);
   const parents = sdkParents(apis);
@@ -152,6 +156,7 @@ export function directoryRows({
         badges,
         license,
         ciStatus: ciStatus[section.name] ?? "unknown",
+        lighthouseScores: lighthouseScores[section.name],
         lighthouse: inGroup("Lighthouse").length > 0 ? `${detail}lighthouse/` : undefined,
         tests: inGroup("Tests").length > 0 ? `${detail}tests/` : undefined,
         coverage: inGroup("Coverage").find((file) => file.format === "HTML")?.href,

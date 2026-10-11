@@ -4,6 +4,7 @@ import RepoGroupCard from "../components/RepoGroupCard.astro";
 import { apis } from "../data/apis";
 import { ciCheckedAt, ciStatuses } from "../data/ciStatus";
 import { lighthouseAverage } from "../data/lighthouseAverage";
+import { lighthouseRepoScores } from "../data/lighthouseScores";
 import { otherRepos, repoGroups } from "../data/repos";
 // biome-ignore lint/correctness/noUnusedImports: used in the template below the frontmatter fence, which Biome does not parse for .astro files
 import Layout from "../layouts/Layout.astro";
@@ -19,6 +20,12 @@ import {
 } from "../lib/repoDirectory";
 import { bandLabel } from "../lib/reportDirectory";
 
+// This site's own average is the tile's, so its row shows the same numbers.
+const siteScores: Record<string, Record<string, number>> = {};
+if (lighthouseAverage) {
+  siteScores["alrayyes.github.io"] = lighthouseAverage.scores;
+}
+const scoresByRepo = { ...lighthouseRepoScores, ...siteScores };
 // This site's Lighthouse pages are its own routes, so a new page gets a link
 // without anyone listing it.
 const rows = directoryRows({
@@ -26,6 +33,7 @@ const rows = directoryRows({
   apis,
   others: otherRepos,
   ciStatus: ciStatuses,
+  lighthouseScores: scoresByRepo,
 });
 // The tile's four scores, in Lighthouse's own order.
 // biome-ignore lint/correctness/noUnusedVariables: used in the template below the frontmatter fence, which Biome does not parse for .astro files

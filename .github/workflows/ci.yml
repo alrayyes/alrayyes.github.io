@@ -351,6 +351,11 @@ jobs:
           name: reports
           path: reports-in
       - run: bun scripts/lighthouse-average.ts reports-in/lighthouse
+      - name: read each repo's Lighthouse scores
+        # Each repo's published reports, averaged into
+        # src/data/lighthouse-scores.json for the badges on its row. Nothing
+        # commits it, and a lookup that fails keeps the seed's value.
+        run: bun scripts/lighthouse-repos.ts
       - name: build
         run: bun run build
         # Uploads the bundle report for main, the baseline pull requests are
