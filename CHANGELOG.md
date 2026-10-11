@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.43.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.42.1...alrayyes.github.io-v0.43.0) (2026-10-11)
+
+
+### Features
+
+* **ui:** show each repo's Lighthouse scores as badges on its row ([#254](https://github.com/alrayyes/alrayyes.github.io/issues/254)) ([479e2e6](https://github.com/alrayyes/alrayyes.github.io/commit/479e2e671380aed845fb7ad1488e8cf39476c862))
+
 ## [0.42.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.42.0...alrayyes.github.io-v0.42.1) (2026-10-10)
 
 
