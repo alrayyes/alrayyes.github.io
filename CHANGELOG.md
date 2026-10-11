@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.44.2](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.44.1...alrayyes.github.io-v0.44.2) (2026-10-11)
+
+
+### Bug Fixes
+
+* **reports:** read scores from each report's JSON when there's no manifest ([#266](https://github.com/alrayyes/alrayyes.github.io/issues/266)) ([0bc23d7](https://github.com/alrayyes/alrayyes.github.io/commit/0bc23d7dff9ae92b76a0451f349548e5c05adf13))
+
 ## [0.44.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.44.0...alrayyes.github.io-v0.44.1) (2026-10-11)
 
 
