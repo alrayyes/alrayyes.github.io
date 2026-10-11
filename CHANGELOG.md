@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.44.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.43.1...alrayyes.github.io-v0.44.0) (2026-10-11)
+
+
+### Features
+
+* **ui:** give a row's Lighthouse scores the report page's ring look ([#259](https://github.com/alrayyes/alrayyes.github.io/issues/259)) ([679ebbc](https://github.com/alrayyes/alrayyes.github.io/commit/679ebbcfb2007cc112bcc62a3bfd8d4cffaa1330))
+
 ## [0.43.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.43.0...alrayyes.github.io-v0.43.1) (2026-10-11)
 
 
