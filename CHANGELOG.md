@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.44.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.44.0...alrayyes.github.io-v0.44.1) (2026-10-11)
+
+
+### Bug Fixes
+
+* **reports:** read manifest.json even when the index doesn't link it ([#263](https://github.com/alrayyes/alrayyes.github.io/issues/263)) ([54053ff](https://github.com/alrayyes/alrayyes.github.io/commit/54053ff18dc3e45d740410ce3f258b852d4ece0e))
+
 ## [0.44.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.43.1...alrayyes.github.io-v0.44.0) (2026-10-11)
 
 
