@@ -201,6 +201,24 @@ describe("directoryRows", () => {
   });
 });
 
+describe("Lighthouse scores", () => {
+  const rows = flatten(
+    directoryRows({
+      pages: [],
+      apis,
+      others,
+      lighthouseScores: { "Hush-Hush": { performance: 91 } },
+    }),
+  );
+
+  test("carries a repo's scores from the snapshot, and none without one", () => {
+    expect(rows.find((row) => row.name === "Hush-Hush")?.lighthouseScores).toEqual({
+      performance: 91,
+    });
+    expect(rows.find((row) => row.name === "hush-hush-go")?.lighthouseScores).toBeUndefined();
+  });
+});
+
 describe("CI status", () => {
   const withStatus = directoryRows({
     pages: [],

@@ -15,6 +15,18 @@ export interface LighthouseAverage {
   scores: Record<string, number>;
 }
 
+// The mean of each category over the parsed reports; null when none has a score.
+export function averageOfReports(reports: unknown[]): LighthouseAverage | null {
+  const rows: LighthouseRow[] = reports.flatMap((report, index) => {
+    const scores = scoresFromReport(report);
+    return scores
+      ? [{ page: String(index), representative: { html: "", scores }, others: [] }]
+      : [];
+  });
+  const scores = siteAverage(rows);
+  return scores ? { pages: rows.length, scores } : null;
+}
+
 export function averageOf(dir: string): LighthouseAverage | null {
   let names: string[];
   try {
@@ -22,16 +34,15 @@ export function averageOf(dir: string): LighthouseAverage | null {
   } catch {
     return null;
   }
-  const rows: LighthouseRow[] = names.flatMap((name) => {
-    try {
-      const scores = scoresFromReport(JSON.parse(readFileSync(join(dir, name), "utf8")));
-      return scores ? [{ page: name, representative: { html: "", scores }, others: [] }] : [];
-    } catch {
-      return [];
-    }
-  });
-  const scores = siteAverage(rows);
-  return scores ? { pages: rows.length, scores } : null;
+  return averageOfReports(
+    names.flatMap((name) => {
+      try {
+        return [JSON.parse(readFileSync(join(dir, name), "utf8"))];
+      } catch {
+        return [];
+      }
+    }),
+  );
 }
 
 if (import.meta.main) {

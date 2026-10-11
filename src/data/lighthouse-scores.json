@@ -1,0 +1,44 @@
+{
+  "repos": {
+    "Hush-Hush": {
+      "pages": 10,
+      "scores": {
+        "performance": 100,
+        "best-practices": 100
+      }
+    },
+    "forge-dashboard": {
+      "pages": 6,
+      "scores": {
+        "performance": 94,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      }
+    },
+    "pipeline-analytics": {
+      "pages": 22,
+      "scores": {
+        "performance": 94,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      }
+    },
+    "washy-washy-web": {
+      "pages": 4,
+      "scores": {
+        "performance": 98,
+        "accessibility": 100,
+        "best-practices": 99,
+        "seo": 100
+      }
+    },
+    "movie-planner-web": {
+      "pages": 2,
+      "scores": {
+        "performance": 96
+      }
+    }
+  }
+}
