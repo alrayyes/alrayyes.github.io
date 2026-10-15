@@ -10,10 +10,8 @@
     "forge-dashboard": {
       "pages": 6,
       "scores": {
-        "performance": 95,
-        "accessibility": 100,
-        "best-practices": 100,
-        "seo": 100
+        "performance": 93,
+        "best-practices": 99
       }
     },
     "pipeline-analytics": {
@@ -21,8 +19,7 @@
       "scores": {
         "performance": 94,
         "accessibility": 100,
-        "best-practices": 100,
-        "seo": 100
+        "best-practices": 100
       }
     },
     "scaffold-astro-site": {
@@ -34,13 +31,21 @@
         "seo": 100
       }
     },
+    "service-not-ready": {
+      "pages": 3,
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 50
+      }
+    },
     "tempus-fugit": {
       "pages": 1,
       "scores": {
         "performance": 99,
         "accessibility": 100,
-        "best-practices": 100,
-        "seo": 63
+        "best-practices": 100
       }
     },
     "washy-washy-web": {
@@ -48,23 +53,14 @@
       "scores": {
         "performance": 98,
         "accessibility": 100,
-        "best-practices": 99,
+        "best-practices": 100,
         "seo": 100
       }
     },
     "movie-planner-web": {
       "pages": 2,
       "scores": {
-        "performance": 96
-      }
-    },
-    "service-not-ready": {
-      "pages": 3,
-      "scores": {
-        "performance": 97,
-        "accessibility": 100,
-        "best-practices": 96,
-        "seo": 50
+        "performance": 93
       }
     }
   }

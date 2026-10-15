@@ -677,7 +677,14 @@ test("a repo row shows its Lighthouse scores as rings with the percentage, and o
   await expect(performance).toContainText(/Good|Needs improvement|Poor/);
   await expect(performance).toHaveAttribute("data-band", /^(green|amber|red)$/);
   await expect(performance.locator("svg[aria-hidden='true']")).toHaveCount(1);
-  await expect(badges.locator("[data-score]")).toHaveCount(4);
+  // One ring per category the repo's reports carry, no more: a category that has left the
+  // reports gets no ring.
+  const { repos } = JSON.parse(readFileSync("src/data/lighthouse-scores.json", "utf8")) as {
+    repos: Record<string, { scores: Record<string, number> }>;
+  };
+  await expect(badges.locator("[data-score]")).toHaveCount(
+    Object.keys(repos["forge-dashboard"]?.scores ?? {}).length,
+  );
   await expect(
     page.locator('[data-repo-row][data-name="hush-hush-go"]').locator("[data-lighthouse-badges]"),
   ).toHaveCount(0);
