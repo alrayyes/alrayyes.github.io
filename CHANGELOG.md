@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.46.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.46.0...alrayyes.github.io-v0.46.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* **ui:** refresh the Lighthouse score seed and stop pinning four rings ([#283](https://github.com/alrayyes/alrayyes.github.io/issues/283)) ([3e63369](https://github.com/alrayyes/alrayyes.github.io/commit/3e63369da85fae62605829cdbaf6d91cec05f369))
+
 ## [0.46.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.45.0...alrayyes.github.io-v0.46.0) (2026-10-15)
 
 
