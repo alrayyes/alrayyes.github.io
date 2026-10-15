@@ -285,6 +285,7 @@
       "kind": "Service",
       "repo": "https://github.com/alrayyes/service-not-ready",
       "reports": {
+        "lighthouse": "https://apis.ryankes.eu/service-not-ready/reports/lighthouse/",
         "tests": "https://apis.ryankes.eu/service-not-ready/reports/tests/unit.xml",
         "coverage": "https://apis.ryankes.eu/service-not-ready/reports/coverage/",
         "coverageXml": "https://apis.ryankes.eu/service-not-ready/reports/coverage/coverage.xml"
