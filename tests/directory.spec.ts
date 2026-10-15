@@ -86,6 +86,10 @@ test("coverage and the raw files each have an icon", async ({ page }) => {
   await page.goto("/");
   const go = row(page, "forge-dashboard-sdk-go");
   const coverage = go.getByRole("link", { name: /^Coverage/ });
+  await expect(coverage).toHaveAttribute(
+    "href",
+    "https://apis.ryankes.eu/forge-dashboard-sdk-go/reports/coverage/",
+  );
   await expect(coverage.locator("svg[aria-hidden='true']")).toHaveCount(1);
   const xml = go.getByRole("link", { name: /^coverage\.xml/ });
   await expect(xml.locator("svg[aria-hidden='true']")).toHaveCount(1);
@@ -363,6 +367,9 @@ const unreported = [
 test("every active repo is listed, including those that publish no reports", async ({ page }) => {
   await page.goto("/");
   for (const name of unreported) await expect(row(page, name)).toHaveCount(1);
+  await expect(
+    section(page, "Everything else").locator('[data-repo-row][data-name="alrayyes.github.io"]'),
+  ).toHaveCount(1);
   await expect(row(page, "bun-with-git").getByRole("link", { name: /^Lighthouse/ })).toHaveCount(0);
   await expect(row(page, "bun-with-git").getByRole("link", { name: /^Test results/ })).toHaveCount(
     0,
