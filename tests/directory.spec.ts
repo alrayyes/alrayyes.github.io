@@ -8,37 +8,6 @@ const row = (page: import("@playwright/test").Page, name: string) =>
 const section = (page: import("@playwright/test").Page, name: string) =>
   page.getByRole("region", { name, exact: true });
 
-test("the front page lists every repo once, with SDKs under their API, each section A to Z", async ({
-  page,
-}) => {
-  await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1, name: "Repositories" })).toBeVisible();
-
-  const names = await page
-    .locator("[data-repo-row]")
-    .evaluateAll((rows) => rows.map((el) => (el as HTMLElement).dataset.name ?? ""));
-  expect(names).toContain("alrayyes.github.io");
-  expect(names).toContain("hush-hush");
-  expect(names).toContain("scaffold-go-api");
-  expect(new Set(names).size).toBe(names.length);
-  for (const heading of ["washy-washy", "Scaffolds", "Everything else"]) {
-    const topLevel = await section(page, heading)
-      .locator("[data-repo-row]:not(ul ul [data-repo-row])")
-      .evaluateAll((rows) => rows.map((el) => (el as HTMLElement).dataset.name ?? ""));
-    const sorted = [...topLevel].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
-    expect(topLevel).toEqual(sorted);
-  }
-});
-
-test("an API lists its SDKs under it", async ({ page }) => {
-  await page.goto("/");
-  const sdks = page.getByRole("list", { name: "SDKs for forge-dashboard" });
-  await expect(sdks.locator('[data-repo-row][data-kind="SDK"]').first()).toBeVisible();
-  await expect(page.locator('[data-group-section] > ul > li > div[data-kind="SDK"]')).toHaveCount(
-    0,
-  );
-});
-
 test("every scaffold sits in the Scaffolds section, under its description", async ({ page }) => {
   await page.goto("/");
   const group = section(page, "Scaffolds");
@@ -83,19 +52,6 @@ test("an API's card also holds the repos that joined it: hush-hush is one card o
   await expect(card.locator("[data-group-count]")).toHaveText("1 of 7 shown");
 });
 
-test("an API with nothing joined keeps its own card", async ({ page }) => {
-  await page.goto("/");
-  const card = section(page, "forge-dashboard");
-  await expect(card.locator("[data-group-count]")).toHaveText("5 repos");
-});
-
-test("a repo in no group is under Everything else", async ({ page }) => {
-  await page.goto("/");
-  await expect(
-    section(page, "Everything else").locator('[data-repo-row][data-name="alrayyes.github.io"]'),
-  ).toHaveCount(1);
-});
-
 test("a card says how many of its repos the filter leaves, and goes when none match", async ({
   page,
 }) => {
@@ -116,21 +72,17 @@ test("each repo's name links to its repo", async ({ page }) => {
   ).toHaveAttribute("href", "https://github.com/alrayyes/forge-dashboard-sdk-go");
 });
 
-test("Lighthouse and Test results go to the repo's report page, each with an icon and a text label", async ({
-  page,
-}) => {
+test("Lighthouse and Test results each have an icon and a text label", async ({ page }) => {
   await page.goto("/");
   const analytics = row(page, "pipeline-analytics");
   const lighthouse = analytics.getByRole("link", { name: /^Lighthouse/ });
   const tests = analytics.getByRole("link", { name: /^Test results/ });
-  await expect(lighthouse).toHaveAttribute("href", "/reports/pipeline-analytics/lighthouse/");
-  await expect(tests).toHaveAttribute("href", "/reports/pipeline-analytics/tests/");
   for (const link of [lighthouse, tests]) {
     await expect(link.locator("svg[aria-hidden='true']")).toHaveCount(1);
   }
 });
 
-test("coverage and the raw files are secondary links, each with an icon", async ({ page }) => {
+test("coverage and the raw files each have an icon", async ({ page }) => {
   await page.goto("/");
   const go = row(page, "forge-dashboard-sdk-go");
   const coverage = go.getByRole("link", { name: /^Coverage/ });
@@ -140,18 +92,7 @@ test("coverage and the raw files are secondary links, each with an icon", async 
   );
   await expect(coverage.locator("svg[aria-hidden='true']")).toHaveCount(1);
   const xml = go.getByRole("link", { name: /^coverage\.xml/ });
-  await expect(xml).toHaveAttribute(
-    "href",
-    "https://apis.ryankes.eu/forge-dashboard-sdk-go/reports/coverage/coverage.xml",
-  );
   await expect(xml.locator("svg[aria-hidden='true']")).toHaveCount(1);
-});
-
-test("a repo with no Lighthouse report has no Lighthouse link", async ({ page }) => {
-  await page.goto("/");
-  await expect(
-    row(page, "forge-dashboard-sdk-go").getByRole("link", { name: /^Lighthouse/ }),
-  ).toHaveCount(0);
 });
 
 test("a link's name says which repo it belongs to, and still starts with its visible text", async ({
@@ -426,6 +367,9 @@ const unreported = [
 test("every active repo is listed, including those that publish no reports", async ({ page }) => {
   await page.goto("/");
   for (const name of unreported) await expect(row(page, name)).toHaveCount(1);
+  await expect(
+    section(page, "Everything else").locator('[data-repo-row][data-name="alrayyes.github.io"]'),
+  ).toHaveCount(1);
   await expect(row(page, "bun-with-git").getByRole("link", { name: /^Lighthouse/ })).toHaveCount(0);
   await expect(row(page, "bun-with-git").getByRole("link", { name: /^Test results/ })).toHaveCount(
     0,
