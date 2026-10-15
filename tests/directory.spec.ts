@@ -18,7 +18,7 @@ test("the front page lists every repo once, with SDKs under their API, each sect
     .locator("[data-repo-row]")
     .evaluateAll((rows) => rows.map((el) => (el as HTMLElement).dataset.name ?? ""));
   expect(names).toContain("alrayyes.github.io");
-  expect(names).toContain("Hush-Hush");
+  expect(names).toContain("hush-hush");
   expect(names).toContain("scaffold-go-api");
   expect(new Set(names).size).toBe(names.length);
   for (const heading of ["washy-washy", "Scaffolds", "Everything else"]) {
@@ -180,11 +180,11 @@ test("this site's own row links its report files", async ({ page }) => {
 
 test("an API row keeps its OpenAPI spec and docs links", async ({ page }) => {
   await page.goto("/");
-  const hush = row(page, "Hush-Hush");
+  const hush = row(page, "hush-hush");
   await expect(hush.getByRole("link", { name: /^OpenAPI spec/ })).toBeVisible();
   await expect(hush.getByRole("link", { name: /^Docs/ })).toHaveAttribute(
     "href",
-    "https://apis.ryankes.eu/Hush-Hush/docs/api/#description/introduction",
+    "https://apis.ryankes.eu/hush-hush/docs/api/#description/introduction",
   );
 });
 
