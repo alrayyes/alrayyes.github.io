@@ -1,17 +1,18 @@
+import { expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
-import { expect, test } from "@playwright/test";
+import { join } from "node:path";
 import Ajv2020 from "ajv/dist/2020";
 import addFormats from "ajv-formats";
-import { groupProblems } from "../src/lib/repoGroups";
+import { groupProblems } from "../lib/repoGroups";
 
-const read = (path: string) => JSON.parse(readFileSync(path, "utf8"));
+const read = (file: string) => JSON.parse(readFileSync(join(import.meta.dir, file), "utf8"));
 
 // repos.schema.json reuses the `reports` shape from the catalogue's schema, so
 // the two can't drift: it is added by its $id and referenced from there.
 const ajv = new Ajv2020({ allErrors: true });
 addFormats(ajv);
-ajv.addSchema(read("src/data/apis.schema.json"));
-const validate = ajv.compile(read("src/data/repos.schema.json"));
+ajv.addSchema(read("apis.schema.json"));
+const validate = ajv.compile(read("repos.schema.json"));
 
 const repo = (over: Record<string, unknown> = {}) => ({
   name: "scaffold-x",
@@ -24,7 +25,7 @@ const repo = (over: Record<string, unknown> = {}) => ({
 });
 
 test("the repos list matches its JSON Schema", () => {
-  const ok = validate(read("src/data/repos.json"));
+  const ok = validate(read("repos.json"));
   expect(validate.errors ?? []).toEqual([]);
   expect(ok).toBe(true);
 });
@@ -86,8 +87,8 @@ test("the schema accepts a repo with no reports of its own, such as this site", 
 });
 
 test("every repo's group is declared and every group has a member", () => {
-  const { groups, repos } = read("src/data/repos.json");
-  const { apis } = read("src/data/apis.json");
+  const { groups, repos } = read("repos.json");
+  const { apis } = read("apis.json");
   expect(groupProblems(groups, repos, apis)).toEqual([]);
 });
 

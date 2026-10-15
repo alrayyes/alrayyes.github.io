@@ -1,16 +1,17 @@
+import { expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
-import { expect, test } from "@playwright/test";
+import { join } from "node:path";
 import Ajv2020 from "ajv/dist/2020";
 import addFormats from "ajv-formats";
 
-const read = (path: string) => JSON.parse(readFileSync(path, "utf8"));
+const read = (file: string) => JSON.parse(readFileSync(join(import.meta.dir, file), "utf8"));
 
 const ajv = new Ajv2020({ allErrors: true });
 addFormats(ajv);
-const validate = ajv.compile(read("src/data/apis.schema.json"));
+const validate = ajv.compile(read("apis.schema.json"));
 
 test("the catalogue matches its JSON Schema", () => {
-  const ok = validate(read("src/data/apis.json"));
+  const ok = validate(read("apis.json"));
   expect(validate.errors ?? []).toEqual([]);
   expect(ok).toBe(true);
 });
