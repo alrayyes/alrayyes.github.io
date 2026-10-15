@@ -56,7 +56,7 @@ group (`id`, `title`, `type` of `product` or `scaffolds`, and an optional
 A group of type `api` adds repos to an API's card: the API in `src/data/apis.json`
 names it with its own `group`, and the repos name it in `repos.json`. A repo with
 no `group` lands under Everything else. A `group` that names an
-undeclared id, or a group with no members, fails `bun run test:e2e`.
+undeclared id, or a group with no members, fails `bun run test:unit`.
 
 ## Requirements
 
@@ -74,7 +74,7 @@ bun run dev
 bun run build
 bun run check                 # astro check, type-checks .astro and .ts together
 bun run test                  # unit, then playwright
-bun run test:unit             # bun test, for src/lib
+bun run test:unit             # bun test, for src/lib and src/data
 bun run test:coverage         # the same, writing coverage/lcov.info for Codecov
 bun run test:e2e              # playwright, against the built site
 

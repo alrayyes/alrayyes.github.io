@@ -1,5 +1,5 @@
 // The catalogue this page renders, loaded from apis.json and described by
-// apis.schema.json (checked by tests/catalogue-schema.spec.ts). A docs link is
+// apis.schema.json (checked by src/data/apis.schema.test.ts). A docs link is
 // only included once its URL has actually been checked to resolve
 // (curl -o /dev/null -w '%{http_code}').
 import type { Reports } from "../lib/reportLinks";

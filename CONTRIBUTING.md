@@ -36,7 +36,7 @@ See [README.md](README.md#everyday-commands).
 Two layers, each there because the other can't cover it:
 
 - **Unit** (`bun run test:unit`): `bun test` over the `*.test.ts` files
-  beside the code in `src/lib`. They pin each branch and edge case of the
+  beside the code in `src/lib` and `src/data`. They pin each branch and edge case of the
   pure logic, such as the licence splitter and the theme preference, in
   milliseconds and without a browser.
 - **End to end** (`bun run test:e2e`): Playwright against the built site,
