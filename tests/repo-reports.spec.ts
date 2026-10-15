@@ -202,7 +202,10 @@ test("a curated index that doesn't link manifest.json still gets scores, and onl
   await serveReports(page, { published: curated });
   await page.goto("/reports/pipeline-analytics/lighthouse/");
   const lighthouse = page.getByRole("region", { name: "Lighthouse" });
-  await expect(page.getByRole("group", { name: "Site average" })).toContainText("2 pages");
+  const average = page.getByRole("group", { name: "Site average" });
+  await expect(average).toContainText("2 pages");
+  // 83 and 91 average to 87.
+  await expect(average.locator('[data-score="performance"]')).toContainText("87%");
   const row = lighthouse.getByRole("listitem").filter({ hasText: "/login" }).first();
   await expect(row).toContainText("83%");
   await expect(row.getByText(/other runs?/)).toHaveCount(0);
