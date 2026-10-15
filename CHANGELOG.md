@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.46.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.45.0...alrayyes.github.io-v0.46.0) (2026-10-15)
+
+
+### Features
+
+* **catalogue:** link service-not-ready's Lighthouse reports ([#277](https://github.com/alrayyes/alrayyes.github.io/issues/277)) ([a3b833b](https://github.com/alrayyes/alrayyes.github.io/commit/a3b833bfdb4e22ad3f96bacac697a91567b7a646))
+
 ## [0.45.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.44.2...alrayyes.github.io-v0.45.0) (2026-10-15)
 
 
