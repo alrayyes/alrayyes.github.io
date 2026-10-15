@@ -36,9 +36,9 @@ See [README.md](README.md#everyday-commands).
 Two layers, each there because the other can't cover it:
 
 - **Unit** (`bun run test:unit`): `bun test` over the `*.test.ts` files
-  beside the code in `src/lib` and `src/data`. They pin each branch and edge case of the
-  pure logic, such as the licence splitter and the theme preference, in
-  milliseconds and without a browser.
+  beside the code in `src/lib` and `src/data`. They pin each branch and edge
+  case of the pure logic, such as the licence splitter and the theme
+  preference, in milliseconds and without a browser.
 - **End to end** (`bun run test:e2e`): Playwright against the built site,
   one journey per page with an axe scan inside it. They check what a
   visitor sees and does, which the unit layer can't.
