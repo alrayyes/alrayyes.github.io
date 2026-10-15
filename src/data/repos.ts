@@ -1,6 +1,6 @@
 // The repos that publish reports but aren't in the API catalogue, loaded from
 // repos.json and described by repos.schema.json (checked by
-// tests/repos-schema.spec.ts). A report link is only included once its URL has
+// src/data/repos.schema.test.ts). A report link is only included once its URL has
 // been checked to resolve (curl -o /dev/null -w '%{http_code}').
 
 import type { RepoGroup } from "../lib/repoGroups";
