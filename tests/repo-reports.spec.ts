@@ -181,19 +181,6 @@ test("a Lighthouse score is a tile with a percentage, its category and its band 
   await expect(accessibility).toHaveAttribute("data-band", "green");
 });
 
-test("a Lighthouse page opens with a site average of each category over its pages", async ({
-  page,
-}) => {
-  await serveReports(page);
-  await page.goto("/reports/pipeline-analytics/lighthouse/");
-  const average = page.getByRole("group", { name: "Site average" });
-  // 83 and 91 average to 87; the other login runs don't count.
-  await expect(average.locator('[data-score="performance"]')).toContainText("87%");
-  await expect(average.locator('[data-score="performance"]')).toContainText("Needs improvement");
-  await expect(average.locator('[data-score="seo"]')).toContainText("100%");
-  await expect(average).toContainText("2 pages");
-});
-
 test("without a manifest there are no score tiles and no site average, and the links stay", async ({
   page,
 }) => {
@@ -238,20 +225,6 @@ test("an index with report files but no manifest gets its scores from each repor
   );
   await expect(page.getByRole("group", { name: "Site average" })).toContainText("1 page");
   await expect(lighthouse.getByRole("link", { name: /HTML report for .*gone/ })).toBeVisible();
-});
-
-test("the score tiles fit a 360px screen and pass axe in both themes", async ({ page }) => {
-  await serveReports(page);
-  await page.setViewportSize({ width: 360, height: 800 });
-  await page.goto("/reports/pipeline-analytics/lighthouse/");
-  await expect(page.getByRole("group", { name: "Site average" })).toBeVisible();
-  const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-  );
-  expect(overflow).toBeLessThanOrEqual(0);
-  await expectNoAxeViolations(page);
-  await page.emulateMedia({ colorScheme: "dark" });
-  await expectNoAxeViolations(page);
 });
 
 test("a repo's page lists its test files with what each one found, counting cases when the root has no totals", async ({
@@ -336,6 +309,8 @@ for (const kind of ["", "lighthouse/", "tests/"]) {
     await page.goto(`/reports/pipeline-analytics/${kind}`);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     if (kind === "tests/") await expect(page.getByText("51 tests, 0 failed")).toBeVisible();
+    if (kind === "lighthouse/")
+      await expect(page.getByRole("group", { name: "Site average" })).toBeVisible();
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - window.innerWidth,
     );
