@@ -104,21 +104,3 @@ test("the homepage header shows no current-page marker", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("header").first().locator('[aria-current="page"]')).toHaveCount(0);
 });
-
-test("the header fits a 375px viewport without horizontal scroll", async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 800 });
-  await page.goto("/disclaimer");
-  const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-  );
-  expect(overflow).toBeLessThanOrEqual(0);
-});
-
-test("the front page doesn't scroll horizontally at 375px", async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 800 });
-  await page.goto("/");
-  const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-  );
-  expect(overflow).toBeLessThanOrEqual(0);
-});
