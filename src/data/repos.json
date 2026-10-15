@@ -1150,6 +1150,40 @@
       "group": "container-images"
     },
     {
+      "name": "release-watch",
+      "kind": "Docker image",
+      "repo": "https://github.com/alrayyes/release-watch",
+      "reports": {},
+      "badges": [
+        {
+          "kind": "ci",
+          "label": "CI",
+          "image": "https://github.com/alrayyes/release-watch/actions/workflows/ci.yml/badge.svg?branch=main",
+          "href": "https://github.com/alrayyes/release-watch/actions/workflows/ci.yml"
+        },
+        {
+          "kind": "release",
+          "label": "release",
+          "image": "https://img.shields.io/github/v/release/alrayyes/release-watch?sort=semver",
+          "href": "https://github.com/alrayyes/release-watch/releases/latest"
+        },
+        {
+          "kind": "other",
+          "label": "image",
+          "image": "https://img.shields.io/badge/ghcr.io-release--watch-2496ED?logo=docker&logoColor=white",
+          "href": "https://github.com/alrayyes/release-watch/pkgs/container/release-watch"
+        },
+        {
+          "kind": "license",
+          "label": "licence",
+          "image": "https://img.shields.io/badge/licence-GPL--3.0--or--later-blue",
+          "href": "https://github.com/alrayyes/release-watch/blob/HEAD/LICENSE"
+        }
+      ],
+      "license": "GPL-3.0-or-later",
+      "group": "container-images"
+    },
+    {
       "name": "hush-hush-action",
       "kind": "Action",
       "repo": "https://github.com/alrayyes/hush-hush-action",
