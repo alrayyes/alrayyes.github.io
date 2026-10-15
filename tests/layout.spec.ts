@@ -3,7 +3,7 @@ import { expectNoAxeViolations } from "./axe";
 
 test("lists every API with a repo, spec and docs link", async ({ page }) => {
   await page.goto("/");
-  for (const name of ["Hush-Hush", "forge-dashboard", "pipeline-analytics"]) {
+  for (const name of ["hush-hush", "forge-dashboard", "pipeline-analytics"]) {
     const row = page.locator(`[data-repo-row][data-name="${name}"]`);
     await expect(row).toHaveAttribute("data-kind", "API");
     await expect(row.getByRole("link", { name: /^OpenAPI spec/ })).toBeVisible();
@@ -15,7 +15,7 @@ test("each API's docs link points at that API's generated docs on apis.ryankes.e
 }) => {
   await page.goto("/");
   for (const [name, path] of [
-    ["Hush-Hush", "Hush-Hush"],
+    ["hush-hush", "hush-hush"],
     ["forge-dashboard", "forge-dashboard"],
     ["pipeline-analytics", "pipeline-analytics"],
   ]) {

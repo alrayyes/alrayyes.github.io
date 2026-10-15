@@ -4,14 +4,14 @@
     {
       "name": "hush-hush",
       "description": "Self-hosted secrets object store: age-sealed ciphertext, no plaintext ever stored or returned.",
-      "repo": "https://github.com/alrayyes/Hush-Hush",
-      "spec": "https://github.com/alrayyes/Hush-Hush/blob/main/api/openapi.yaml",
-      "docs": "https://apis.ryankes.eu/Hush-Hush/docs/api/#description/introduction",
+      "repo": "https://github.com/alrayyes/hush-hush",
+      "spec": "https://github.com/alrayyes/hush-hush/blob/main/api/openapi.yaml",
+      "docs": "https://apis.ryankes.eu/hush-hush/docs/api/#description/introduction",
       "reports": {
-        "lighthouse": "https://apis.ryankes.eu/Hush-Hush/reports/lighthouse/",
-        "tests": "https://apis.ryankes.eu/Hush-Hush/reports/tests/junit.xml",
-        "coverage": "https://apis.ryankes.eu/Hush-Hush/reports/coverage/",
-        "coverageXml": "https://apis.ryankes.eu/Hush-Hush/reports/coverage/coverage.xml"
+        "lighthouse": "https://apis.ryankes.eu/hush-hush/reports/lighthouse/",
+        "tests": "https://apis.ryankes.eu/hush-hush/reports/tests/junit.xml",
+        "coverage": "https://apis.ryankes.eu/hush-hush/reports/coverage/",
+        "coverageXml": "https://apis.ryankes.eu/hush-hush/reports/coverage/coverage.xml"
       },
       "sdks": [
         {
@@ -216,7 +216,7 @@
           "kind": "license",
           "label": "licence",
           "image": "https://img.shields.io/badge/licence-GPL--3.0-blue",
-          "href": "https://github.com/alrayyes/Hush-Hush/blob/HEAD/LICENSE"
+          "href": "https://github.com/alrayyes/hush-hush/blob/HEAD/LICENSE"
         }
       ],
       "license": "GPL-3.0",
