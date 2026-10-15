@@ -8,6 +8,7 @@ import type { LighthouseRow, LighthouseRun } from "../lib/reportDirectory";
 import {
   bandLabel,
   directoryLinks,
+  freshUrl,
   lighthouseRowsFromFiles,
   lighthouseRowsFromManifest,
   pageFromReport,
@@ -153,7 +154,7 @@ function iconButton(dir: string, name: string, glyph: IconName, label: string) {
 }
 
 async function fetchText(url: string) {
-  const response = await fetch(sameOriginPath(url));
+  const response = await fetch(freshUrl(sameOriginPath(url), Date.now()));
   if (!response.ok) throw new Error(String(response.status));
   return response.text();
 }

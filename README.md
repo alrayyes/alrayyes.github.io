@@ -163,7 +163,10 @@ its four scores as percentages, each with a ring and a band word (Good, Needs
 improvement or Poor), a site average of them above the rows, and one row per
 test file with its tests, failures, errors, skipped and time. Where a
 directory has no index page, or JavaScript is off, it shows the links the
-catalogue holds.
+catalogue holds. The page asks for the index, the manifest and each file with a
+changing query string. GitHub Pages lets a cache keep every file for ten
+minutes, and a manifest from before a deploy names report files the deploy has
+since removed, so its links would 404.
 
 Every deploy also publishes this repo's own test and coverage reports under
 that path:

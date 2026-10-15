@@ -3,6 +3,7 @@ import {
   bandLabel,
   directoryLinks,
   directoryOf,
+  freshUrl,
   lighthouseRowsFromFiles,
   lighthouseRowsFromManifest,
   pageFromReport,
@@ -49,6 +50,17 @@ describe("directoryOf", () => {
       "https://apis.ryankes.eu/x/reports/tests/",
     );
     expect(directoryOf("/reports/tests/unit.xml")).toBe("/reports/tests/");
+  });
+});
+
+describe("freshUrl", () => {
+  test("adds a parameter that changes with the stamp, so a cached copy isn't reused", () => {
+    expect(freshUrl("/x/reports/lighthouse/", 1)).toBe("/x/reports/lighthouse/?fresh=1");
+    expect(freshUrl("/x/reports/lighthouse/", 2)).not.toBe(freshUrl("/x/reports/lighthouse/", 1));
+  });
+
+  test("keeps a query the URL already has", () => {
+    expect(freshUrl("/x/manifest.json?a=b", 7)).toBe("/x/manifest.json?a=b&fresh=7");
   });
 });
 

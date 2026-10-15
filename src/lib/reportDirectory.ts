@@ -35,6 +35,14 @@ export function sameOriginPath(url: string): string {
   }
 }
 
+// GitHub Pages serves every file with max-age=600, so a manifest or index read
+// within ten minutes of a deploy can name files the deploy removed. A changing
+// query string is a different cache key, which makes the request reach the
+// origin.
+export function freshUrl(url: string, stamp: number): string {
+  return `${url}${url.includes("?") ? "&" : "?"}fresh=${stamp}`;
+}
+
 // Lighthouse's own bands: 90 and up is good, 50 to 89 needs work, below is poor.
 export type ScoreBand = "green" | "amber" | "red";
 export const scoreBand = (score: number): ScoreBand =>

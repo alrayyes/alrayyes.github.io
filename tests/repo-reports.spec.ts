@@ -115,6 +115,29 @@ test("a repo with no Lighthouse report has no Lighthouse page, and its overview 
   await expect(page.getByRole("heading", { level: 2, name: "Coverage" })).toBeVisible();
 });
 
+test("the Lighthouse page asks for the index and manifest fresh, so a copy cached from before a deploy can't send it to files that are gone", async ({
+  page,
+}) => {
+  const seen: string[] = [];
+  page.on("request", (request) => {
+    if (/\/pipeline-analytics\/reports\/lighthouse\/(manifest\.json)?(\?|$)/.test(request.url()))
+      seen.push(request.url());
+  });
+  await serveReports(page);
+  await page.goto("/reports/pipeline-analytics/lighthouse/");
+  await expect(page.getByRole("group", { name: "Site average" })).toBeVisible();
+  const first = [...seen];
+  expect(first).toHaveLength(2);
+  for (const url of first) expect(new URL(url).search).not.toBe("");
+
+  seen.length = 0;
+  await page.reload();
+  await expect(page.getByRole("group", { name: "Site average" })).toBeVisible();
+  expect(seen.map((url) => new URL(url).search)).not.toEqual(
+    first.map((url) => new URL(url).search),
+  );
+});
+
 test("a repo's page lists its Lighthouse pages with their scores as text", async ({ page }) => {
   await serveReports(page);
   await page.goto("/reports/pipeline-analytics/lighthouse/");
