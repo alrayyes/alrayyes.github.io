@@ -690,7 +690,9 @@ test("every repo row that links a Lighthouse report shows its score badges", asy
     .locator("[data-repo-row]")
     .filter({ has: page.getByRole("link", { name: /^Lighthouse/ }) });
   const names = await rows.evaluateAll((els) => els.map((el) => (el as HTMLElement).dataset.name));
-  expect(names).toEqual(expect.arrayContaining(["scaffold-astro-site", "tempus-fugit"]));
+  expect(names).toEqual(
+    expect.arrayContaining(["scaffold-astro-site", "service-not-ready", "tempus-fugit"]),
+  );
   for (const name of names) {
     await expect(
       page.locator(`[data-repo-row][data-name="${name}"] [data-lighthouse-badges]`),

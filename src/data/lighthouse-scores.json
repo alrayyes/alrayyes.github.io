@@ -57,6 +57,15 @@
       "scores": {
         "performance": 96
       }
+    },
+    "service-not-ready": {
+      "pages": 3,
+      "scores": {
+        "performance": 97,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 50
+      }
     }
   }
 }
