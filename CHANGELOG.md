@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.45.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.44.2...alrayyes.github.io-v0.45.0) (2026-10-15)
+
+
+### Features
+
+* **catalogue:** add release-watch to the container images ([#272](https://github.com/alrayyes/alrayyes.github.io/issues/272)) ([7531dcc](https://github.com/alrayyes/alrayyes.github.io/commit/7531dccf5d15ffe24e7afaad8831905f622161b9))
+
+
+### Bug Fixes
+
+* **catalogue:** point the hush-hush row at the lowercase path ([#274](https://github.com/alrayyes/alrayyes.github.io/issues/274)) ([96168e2](https://github.com/alrayyes/alrayyes.github.io/commit/96168e22ea088bc2b46182c3ecdbeedda9fd4023))
+
 ## [0.44.2](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.44.1...alrayyes.github.io-v0.44.2) (2026-10-11)
 
 
