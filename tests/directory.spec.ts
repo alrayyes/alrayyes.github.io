@@ -635,6 +635,7 @@ test("the container image repos share one card", async ({ page }) => {
     "cloudflare-wrangler",
     "deploy-ssh",
     "ltex-cli-plus",
+    "release-watch",
   ]);
 });
 
