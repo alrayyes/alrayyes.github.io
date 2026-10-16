@@ -62,6 +62,15 @@ describe("junitSummary", () => {
     expect(summary.seconds).toBe(0);
   });
 
+  test("falls back to the case times when the root's time isn't a number", () => {
+    const summary = junitSummary(
+      parse(
+        `<testsuites time="abc"><testsuite><testcase name="a" time="2"/><testcase name="b" time="0.5"/></testsuite></testsuites>`,
+      ),
+    );
+    expect(summary.seconds).toBe(2.5);
+  });
+
   test("reads a single testsuite root the same way", () => {
     const summary = junitSummary(
       parse(`<testsuite tests="3" failures="1" errors="0" skipped="0" time="1.5"/>`),
@@ -80,6 +89,12 @@ describe("describeSummary", () => {
   test("writes every figure out in full", () => {
     expect(describeSummary({ tests: 51, failed: 0, errors: 0, skipped: 0, seconds: 1 })).toBe(
       "51 tests, 0 failed, 0 errors, 0 skipped",
+    );
+  });
+
+  test("says 0 tests, plural", () => {
+    expect(describeSummary({ tests: 0, failed: 0, errors: 0, skipped: 0, seconds: 0 })).toBe(
+      "0 tests, 0 failed, 0 errors, 0 skipped",
     );
   });
 
