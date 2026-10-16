@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.46.2](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.46.1...alrayyes.github.io-v0.46.2) (2026-10-16)
+
+
+### Bug Fixes
+
+* **reports:** keep the catalogue's links when the first report file is gone ([#290](https://github.com/alrayyes/alrayyes.github.io/issues/290)) ([dda5871](https://github.com/alrayyes/alrayyes.github.io/commit/dda5871c8a17e19429d64ed723c8aaeeb109d214))
+
 ## [0.46.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.46.0...alrayyes.github.io-v0.46.1) (2026-10-15)
 
 
