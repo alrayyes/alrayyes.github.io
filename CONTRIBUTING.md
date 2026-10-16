@@ -64,6 +64,14 @@ skips `test`, for example. GitHub counts a job skipped this way as passing,
 so every required check still reports. `commits`, the secret scan, and the
 title check always run. Touching `ci.yml` itself runs everything.
 
+`audit` fails a pull request only on advisories the change adds over its base,
+so a newly published advisory doesn't turn unrelated pull requests red. Every
+advisory already in `bun.lock` on `main` is tracked in the one open
+`Dependency advisories` ticket, which `advisory-scan.yml` creates, updates and
+closes (daily, on a push that changes `package.json` or `bun.lock`, or by hand
+from the Actions tab). No pipeline ignores an advisory, and there is no audit
+hook in `pre-push`. To audit by hand, run `bun audit`.
+
 When a job starts reading a new kind of file, add it to the script and a
 case to `scripts/changed-groups.test.ts`. The pre-push globs in
 `lefthook.yml` mirror the same groups.
