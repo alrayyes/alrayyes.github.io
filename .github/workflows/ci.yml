@@ -91,8 +91,11 @@ jobs:
           bun-version-file: package.json
       # Fails only on advisories this change adds over its base. One already on
       # main waits in the `Dependency advisories` ticket that advisory-scan.yml
-      # keeps. Nothing is ignored here.
-      - uses: alrayyes/advisory-scan@425418a63e80eb10142fbd2e82127b7ef3a51d68 # main after v0.1.0
+      # keeps. Nothing is ignored here. A scheduled or manual run has no base to
+      # compare with, and with an advisory already on main the gate would fail
+      # it and block the deploy, so only a pull request or a push gets the gate.
+      - if: github.event_name == 'pull_request' || github.event_name == 'push'
+        uses: alrayyes/advisory-scan@425418a63e80eb10142fbd2e82127b7ef3a51d68 # main after v0.1.0
         with:
           mode: gate
           command: bun audit

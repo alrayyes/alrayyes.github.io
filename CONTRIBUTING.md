@@ -65,7 +65,9 @@ so every required check still reports. `commits`, the secret scan, and the
 title check always run. Touching `ci.yml` itself runs everything.
 
 `audit` fails a pull request only on advisories the change adds over its base,
-so a newly published advisory doesn't turn unrelated pull requests red. Every
+so a newly published advisory doesn't turn unrelated pull requests red. A
+scheduled or manual run has no base to compare with, so it skips the gate and
+leaves the advisories to the scan. Every
 advisory already in `bun.lock` on `main` is tracked in the one open
 `Dependency advisories` ticket, which `advisory-scan.yml` creates, updates and
 closes (daily, on a push that changes `package.json` or `bun.lock`, or by hand
