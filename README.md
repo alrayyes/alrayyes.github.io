@@ -163,7 +163,10 @@ its four scores as percentages, each with a ring and a band word (Good, Needs
 improvement or Poor), a site average of them above the rows, and one row per
 test file with its tests, failures, errors, skipped and time. Where a
 directory has no index page, or JavaScript is off, it shows the links the
-catalogue holds.
+catalogue holds. It does the same when the first Lighthouse report it would link
+returns 404, with a note that the list is out of date: GitHub Pages lets a cache
+keep the index and manifest for ten minutes, and a deploy renames the report
+files, so a list read just after one can name files that are gone.
 
 Every deploy also publishes this repo's own test and coverage reports under
 that path:

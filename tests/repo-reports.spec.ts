@@ -42,13 +42,22 @@ async function serveReports(
     manifest: withManifest = true,
     linked = withManifest,
     published,
-  }: { index?: boolean; manifest?: boolean; linked?: boolean; published?: string } = {},
+    gone = false,
+  }: {
+    index?: boolean;
+    manifest?: boolean;
+    linked?: boolean;
+    published?: string;
+    gone?: boolean;
+  } = {},
 ) {
   await page.route(`**${DIR}/**`, async (route) => {
     const path = new URL(route.request().url()).pathname;
     const send = (body: string, type: string) =>
       route.fulfill({ status: 200, contentType: type, body });
     if (!index && path.endsWith("/")) return route.fulfill({ status: 404, body: "not found" });
+    if (gone && path.startsWith(`${DIR}/lighthouse/`) && path.endsWith(".report.html"))
+      return route.fulfill({ status: 404, body: "not found" });
     switch (path.slice(DIR.length)) {
       case "/lighthouse/":
         return send(
@@ -113,6 +122,22 @@ test("a repo with no Lighthouse report has no Lighthouse page, and its overview 
   );
   await expect(page.getByRole("link", { name: /^Lighthouse/ })).toHaveCount(0);
   await expect(page.getByRole("heading", { level: 2, name: "Coverage" })).toBeVisible();
+});
+
+test("when the first report file is gone, the page keeps the catalogue's link and says the list is out of date", async ({
+  page,
+}) => {
+  await serveReports(page, { gone: true });
+  await page.goto("/reports/pipeline-analytics/lighthouse/");
+  const lighthouse = page.getByRole("region", { name: "Lighthouse" });
+  await expect(lighthouse.getByRole("status")).toContainText("just republished");
+  await expect(lighthouse.getByRole("link", { name: /Lighthouse/ }).first()).toHaveAttribute(
+    "href",
+    "https://apis.ryankes.eu/pipeline-analytics/reports/lighthouse/",
+  );
+  await expect(page.locator("[data-score]")).toHaveCount(0);
+  await expect(lighthouse.getByRole("link", { name: /HTML report for/ })).toHaveCount(0);
+  await expectNoAxeViolations(page);
 });
 
 test("a repo's page lists its Lighthouse pages with their scores as text", async ({ page }) => {

@@ -297,6 +297,26 @@ async function withReportScores(dir: string, rows: LighthouseRow[]): Promise<Lig
   return Promise.all(rows.map(read));
 }
 
+// GitHub Pages lets a cache keep the index and manifest for ten minutes, and a
+// deploy renames the report files, so a list read just after one can name files
+// that are gone. A request for the first report says so before the page draws
+// buttons that lead to 404 pages.
+async function firstReportIsGone(dir: string, rows: LighthouseRow[]) {
+  const first = rows[0]?.representative.html;
+  if (!first) return false;
+  const url = sameOriginPath(new URL(first, new URL(dir, location.href)).href);
+  const response = await fetch(url, { method: "HEAD" }).catch(() => null);
+  return response?.status === 404;
+}
+
+function staleNotice() {
+  return el("p", {
+    class: "mt-3 text-sm text-slate-700 dark:text-slate-300",
+    text: "These reports were just republished, so this list is out of date. Open the directory below for the current files, or reload in a few minutes.",
+    attrs: { role: "status" },
+  });
+}
+
 async function enhance(section: HTMLElement) {
   const dir = section.dataset.dir;
   const rows = section.querySelector<HTMLElement>("[data-rows]");
@@ -318,6 +338,10 @@ async function enhance(section: HTMLElement) {
           )
         : await withReportScores(dir, lighthouseRowsFromFiles(files));
       if (lighthouseRows.length === 0) return;
+      if (await firstReportIsGone(dir, lighthouseRows)) {
+        fallback.before(staleNotice());
+        return;
+      }
       renderAverage(lighthouseRows, rows);
       renderLighthouse(dir, lighthouseRows, rows);
     } else if (section.dataset.kind === "tests") {
