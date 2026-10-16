@@ -89,13 +89,16 @@ jobs:
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version-file: package.json
-      - name: bun install
-        run: bun install --frozen-lockfile --ignore-scripts
-      - name: bun audit
-        # No patched release exists for the braces advisory (first_patched_version
-        # is null). It is lint time only; it never ships in the static site.
-        # Drop the ignore once a patch lands. See #109.
-        run: bun audit --ignore=GHSA-vfj7-8cjw-p6xm || (sleep 5 && bun audit --ignore=GHSA-vfj7-8cjw-p6xm)
+      # Fails only on advisories this change adds over its base. One already on
+      # main waits in the `Dependency advisories` ticket that advisory-scan.yml
+      # keeps. Nothing is ignored here. A scheduled or manual run has no base to
+      # compare with, and with an advisory already on main the gate would fail
+      # it and block the deploy, so only a pull request or a push gets the gate.
+      - if: github.event_name == 'pull_request' || github.event_name == 'push'
+        uses: alrayyes/advisory-scan@425418a63e80eb10142fbd2e82127b7ef3a51d68 # main after v0.1.0
+        with:
+          mode: gate
+          command: bun audit
 
   # Biome's pattern-based rules (lint, above) can't do cross-file taint
   # tracking; this is the separate security pass that can — the free
