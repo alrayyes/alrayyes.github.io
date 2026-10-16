@@ -255,19 +255,20 @@ test("an index with report files but no manifest gets its scores from each repor
   await expect(lighthouse.getByRole("link", { name: /HTML report for .*gone/ })).toBeVisible();
 });
 
-test("a repo's page lists its test files with what each one found, counting cases when the root has no totals", async ({
+test("a repo's page lists its test files with what each one found, and marks a failing one", async ({
   page,
 }) => {
   await serveReports(page);
   await page.goto("/reports/pipeline-analytics/tests/");
   const tests = page.getByRole("region", { name: "Tests" });
 
+  // How the numbers are counted, with or without totals on the root, is
+  // src/lib/junit.test.ts. The browser proves the page shows them and the time.
   const e2eRow = tests.getByRole("listitem").filter({ hasText: "e2e.xml" });
   await expect(e2eRow).toContainText("51 tests, 0 failed, 0 errors, 0 skipped");
   await expect(e2eRow).toContainText("58.8 s");
 
   const frontendRow = tests.getByRole("listitem").filter({ hasText: "frontend.xml" });
-  await expect(frontendRow).toContainText("3 tests, 1 failed, 0 errors, 1 skipped");
   await expect(frontendRow).toContainText("Failed");
 });
 
