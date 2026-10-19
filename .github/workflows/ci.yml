@@ -172,14 +172,14 @@ jobs:
           fail_ci_if_error: true
       - name: upload the report on failure
         if: failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: playwright-report
           path: playwright-report/
           retention-days: 7
       - name: keep the test and coverage reports for the reports job
         # On pull requests too, so assembling them is checked before a merge.
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: test-reports
           path: |
@@ -221,7 +221,7 @@ jobs:
       - name: install Node for Lighthouse
         # Lighthouse 13 needs Node 22.19 or newer, and it spawns Chrome, so it
         # gets a real Node rather than bun's compatibility layer.
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24.21.0
       - name: Lighthouse, one report per page in this shard
@@ -230,7 +230,7 @@ jobs:
           LIGHTHOUSE_SHARD: ${{ matrix.shard }}/${{ strategy.job-total }}
         run: ./scripts/lighthouse.sh
       - name: keep this shard's reports for the reports job
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: lighthouse-${{ matrix.shard }}
           path: lighthouse/
@@ -249,11 +249,11 @@ jobs:
         with:
           bun-version-file: package.json
       - name: fetch the test and coverage reports
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: test-reports
       - name: fetch every Lighthouse shard
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: lighthouse-*
           merge-multiple: true
@@ -262,7 +262,7 @@ jobs:
         run: bun scripts/assemble-reports.ts site-reports
       - name: keep the reports for the deploy
         if: github.event_name != 'pull_request'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: reports
           path: site-reports/
@@ -349,7 +349,7 @@ jobs:
         # shows the average as plain HTML. Written to
         # src/data/lighthouse-average.json; nothing commits it, and the copy in
         # git is a seed for local builds.
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: reports
           path: reports-in
@@ -370,7 +370,7 @@ jobs:
         # apis.ryankes.eu/reports/. This is the user site, so Pages redirects
         # its own /alrayyes.github.io/ prefix to the root: the /<repo>/reports/
         # the other repos use would 404 here.
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: reports
           path: dist/reports
