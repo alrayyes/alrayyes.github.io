@@ -95,7 +95,7 @@ jobs:
       # compare with, and with an advisory already on main the gate would fail
       # it and block the deploy, so only a pull request or a push gets the gate.
       - if: github.event_name == 'pull_request' || github.event_name == 'push'
-        uses: alrayyes/advisory-scan@425418a63e80eb10142fbd2e82127b7ef3a51d68 # main after v0.1.0
+        uses: alrayyes/advisory-scan@c9f794de4354b870e159510f036779baf20f4a2f # main after v0.1.0
         with:
           mode: gate
           command: bun audit
