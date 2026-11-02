@@ -1,4 +1,5 @@
 ---
+
 name: "OPSX: Apply"
 description: "Implement tasks from an OpenSpec change (Experimental)"
 allowed-tools: Bash(openspec:*)
@@ -35,9 +36,11 @@ In both branches, never create the root as a side effect: do not run `openspec i
    Always announce: "Using change: <name>" and how to override (e.g., `/opsx:apply <other>`).
 
 2. **Check status to understand the schema**
+
    ```bash
    openspec status --change "<name>" --json
    ```
+
    Parse the JSON to understand:
    - `schemaName`: The workflow being used (e.g., "spec-driven")
    - `planningHome`, `changeRoot`, and `actionContext`: planning scope and edit constraints

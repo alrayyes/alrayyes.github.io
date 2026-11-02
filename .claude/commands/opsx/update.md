@@ -1,4 +1,5 @@
 ---
+
 name: "OPSX: Update"
 description: "Update a change - revise existing planning artifacts and keep them coherent (Experimental)"
 allowed-tools: Bash(openspec:*)
@@ -44,9 +45,11 @@ This workflow revises artifacts that already exist; it never creates missing one
    Always announce: "Using change: <name>" and how to override (e.g., `/opsx:update <other>`).
 
 2. **Get the change's artifacts**
+
    ```bash
    openspec status --change "<name>" --json
    ```
+
    Parse the JSON to understand current state. The response includes:
    - `schemaName`: The workflow schema being used (e.g., "spec-driven")
    - `artifacts`: Array of artifacts with their status ("done", "skipped", "ready", "blocked")
@@ -79,6 +82,7 @@ This workflow revises artifacts that already exist; it never creates missing one
    - Show each proposed revision and why - including the requested edit drafted in step 4. Write only after the user confirms.
    - If the user rejects a revision, do not write it - leave that artifact unchanged.
    - When a substantial rewrite is needed, get that artifact's rules and template first:
+
      ```bash
      openspec instructions "<artifact-id>" --change "<name>" --json
      ```
@@ -102,4 +106,4 @@ After each invocation, show:
 - Edit only the concrete files in `existingOutputPaths`; never write to a glob `resolvedOutputPath`.
 - Do not advance the build frontier: if an artifact has empty `existingOutputPaths` and status `ready` or `blocked`, creating them is a separate step, outside this workflow. Leave `skipped` artifacts untouched. The only new-file scope is a confirmed concrete path under a glob artifact whose `existingOutputPaths` is non-empty.
 - Confirm every edit with the user before writing.
-- If the request changes the change's *intent* rather than refining it, ask for a distinct unused change name and recommend `openspec new change "<new-change-name>"` instead (the "Update vs. Start Fresh" heuristic).
+- If the request changes the change's _intent_ rather than refining it, ask for a distinct unused change name and recommend `openspec new change "<new-change-name>"` instead (the "Update vs. Start Fresh" heuristic).

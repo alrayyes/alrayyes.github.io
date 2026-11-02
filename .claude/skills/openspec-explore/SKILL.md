@@ -1,13 +1,14 @@
 ---
+
 name: openspec-explore
 description: Enter OpenSpec explore mode - a thinking partner for exploring ideas, investigating problems, and clarifying requirements in a project that uses OpenSpec. Use when the user wants to think through something before or during an OpenSpec change. Also use when the user says "openspec explore" or "opsx explore".
 allowed-tools: Bash(openspec:*)
 license: MIT
 compatibility: Requires openspec CLI.
 metadata:
-  author: openspec
-  version: "1.0"
-  generatedBy: "1.13.2"
+author: openspec
+version: "1.0"
+generatedBy: "1.13.2"
 ---
 
 Enter explore mode. Think deeply. Visualize freely. Follow the conversation wherever it goes.
@@ -132,7 +133,7 @@ This tells you:
 - Their names and task status
 - What the user might be working on
 
-That is the *change* list - work in flight. It does not include the project's durable capabilities, so list those too:
+That is the _change_ list - work in flight. It does not include the project's durable capabilities, so list those too:
 ```bash
 openspec list --specs
 ```
@@ -179,14 +180,14 @@ If the user mentions a change or you detect one is relevant:
 
    `<capability-path>` is the spec directory relative to `specs/` (for example, `user-auth` or `identity/user-auth`). Preserve an existing capability's full path and follow the project's established organization for new capabilities.
 
-    | Insight Type               | Where to Capture                    |
-    |----------------------------|-------------------------------------|
-    | New requirement discovered | `specs/<capability-path>/spec.md` |
-    | Requirement changed        | `specs/<capability-path>/spec.md` |
-    | Design decision made       | `design.md`                       |
-    | Scope changed              | `proposal.md`                     |
-    | New work identified        | `tasks.md`                        |
-    | Assumption invalidated     | Relevant artifact                   |
+   | Insight Type               | Where to Capture                  |
+   | -------------------------- | --------------------------------- |
+   | New requirement discovered | `specs/<capability-path>/spec.md` |
+   | Requirement changed        | `specs/<capability-path>/spec.md` |
+   | Design decision made       | `design.md`                       |
+   | Scope changed              | `proposal.md`                     |
+   | New work identified        | `tasks.md`                        |
+   | Assumption invalidated     | Relevant artifact                 |
 
    Example offers:
    - "That's a design decision. Capture it in design.md?"
