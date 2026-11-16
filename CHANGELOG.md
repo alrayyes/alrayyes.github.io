@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.47.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.46.6...alrayyes.github.io-v0.47.0) (2026-11-16)
+
+
+### Features
+
+* **storybook:** publish component catalogues for this site and forge-dashboard ([#316](https://github.com/alrayyes/alrayyes.github.io/issues/316)) ([b15d975](https://github.com/alrayyes/alrayyes.github.io/commit/b15d97579253ac0e36eba8af2d0e4982789c810f))
+
+
+### Bug Fixes
+
+* **deps:** bump the bun-dependencies group across 1 directory with 7 updates ([#309](https://github.com/alrayyes/alrayyes.github.io/issues/309)) ([fe5e042](https://github.com/alrayyes/alrayyes.github.io/commit/fe5e042eb6cc44e855552d2fac9721f85f39563c))
+
 ## [0.46.6](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.46.5...alrayyes.github.io-v0.46.6) (2026-11-16)
 
 
