@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.46.6](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.46.5...alrayyes.github.io-v0.46.6) (2026-11-16)
+
+
+### Bug Fixes
+
+* **deps:** pin @emnapi/runtime to 1.11.3 ([#314](https://github.com/alrayyes/alrayyes.github.io/issues/314)) ([099a567](https://github.com/alrayyes/alrayyes.github.io/commit/099a5674f376c250343324db9ccdd7707835aaf3))
+
 ## [0.46.5](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.46.4...alrayyes.github.io-v0.46.5) (2026-11-16)
 
 
