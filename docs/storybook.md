@@ -49,5 +49,16 @@ so a story never reaches the network.
 
 ## Where it is published
 
-CI builds the catalogue and the deploy serves it at
-<https://apis.ryankes.eu/storybook/>, beside the one for forge-dashboard.
+The `storybook` job in `.github/workflows/ci.yml` builds this catalogue, takes
+a screenshot of every story in light and dark, and scans each with axe. It then
+builds forge-dashboard's catalogue and assembles both with
+`scripts/assemble-storybook.ts`. The deploy serves them at
+<https://apis.ryankes.eu/storybook/>, one directory each: `alrayyes-github-io/`
+and `forge-dashboard/`. The job refuses a catalogue that lists no stories, and
+the deploy fetches both `index.json` files from the live site.
+
+forge-dashboard doesn't publish its own catalogue, so the job checks out the
+commit in `FD_REF` and builds it. No bot reads that pin: move it by hand when
+the catalogue should change.
+
+The screenshots are an artifact of the run, `storybook-screenshots`.

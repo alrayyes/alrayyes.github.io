@@ -92,15 +92,18 @@ bun run lint:tailwind         # oxlint, shadcn/lint's Tailwind rules
 
 The site's components have a Storybook, one story per state and colour scheme.
 `bun run storybook` opens it. How it works, and why it renders the components
-before Storybook sees them, is in [docs/storybook.md](docs/storybook.md).
+before Storybook sees them, is in [docs/storybook.md](docs/storybook.md). The
+deploy publishes it, with forge-dashboard's, at
+<https://apis.ryankes.eu/storybook/>.
 
 ## Deployment
 
 The `build` and `deploy` jobs in `.github/workflows/ci.yml` build the site
 and deploy it to GitHub Pages on every push to `main`, served at the custom
 domain `apis.ryankes.eu` (`public/CNAME`, with a DNS `CNAME` record pointed
-at `alrayyes.github.io`). They need the `lint`, `audit`, `security`, `test`
-and `prose` jobs, so a red run on `main` deploys nothing. The Actions tab's
+at `alrayyes.github.io`). They need the `lint`, `audit`, `security`, `test`,
+`storybook` and `prose` jobs, so a red run on `main` deploys nothing. The
+Actions tab's
 "Run workflow" button redeploys by hand, through the same gates, and so does a
 scheduled run every six hours. The reason for GitHub Pages over Cloudflare is in
 [the deployment decision record](docs/adr/0001-deploy-to-github-pages.md).
