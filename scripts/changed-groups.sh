@@ -24,6 +24,8 @@ while IFS= read -r file; do
   # assemble the published reports.
   case "$file" in
     scripts/changed-groups.* | scripts/assemble-reports.* | scripts/lighthouse.* | scripts/lighthouse-shard.* | \
+      scripts/assemble-storybook.* | scripts/render-stories.* | scripts/story-exports.* | \
+      scripts/storybook-* | .storybook/* | \
       src/* | public/* | tests/* | astro.config.mjs | tsconfig.json | package.json | bun.lock | \
       biome.json | .oxlintrc.json | playwright.config.ts | CHANGELOG.md | LICENSE)
       site=true

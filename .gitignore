@@ -36,3 +36,8 @@ CHANGELOG.md
 # Vale's style packages, downloaded by `vale sync`.
 /styles/Google/
 /styles/proselint/
+
+# Markup scripts/render-stories.ts writes for the Storybook stories, and the
+# screenshots scripts/storybook-screenshots.ts takes of them.
+.storybook/rendered/
+docs/storybook/

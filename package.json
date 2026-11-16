@@ -20,9 +20,13 @@
     "preview": "astro preview",
     "sort-package-json": "sort-package-json",
     "sort-package-json:check": "sort-package-json --check",
+    "storybook": "bun scripts/render-stories.ts && storybook dev -p 6006",
+    "storybook:render": "bun scripts/render-stories.ts",
+    "storybook:screenshots": "bun scripts/storybook-screenshots.ts",
     "test": "bun run test:unit && bun run test:e2e",
     "test:coverage": "bun run test:unit --coverage --coverage-reporter=lcov",
     "test:e2e": "playwright test",
+    "test:storybook": "bun test ./scripts/storybook-smoke.ts",
     "test:unit": "bun test src scripts"
   },
   "overrides": {
@@ -49,6 +53,7 @@
     "@commitlint/config-conventional": "21.2.4",
     "@playwright/test": "1.65.0",
     "@shadcn/lint": "0.2.5",
+    "@storybook/html-vite": "10.6.7",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
     "bun-types": "1.4.4",
@@ -60,7 +65,9 @@
     "prettier": "3.9.10",
     "prettier-plugin-astro": "1.1.2",
     "sort-package-json": "4.1.0",
-    "typescript": "6.0.3"
+    "storybook": "10.6.7",
+    "typescript": "6.0.3",
+    "vite": "8.3.5"
   },
   "packageManager": "bun@1.3.14",
   "trustedDependencies": [

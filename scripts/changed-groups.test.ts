@@ -44,6 +44,14 @@ describe("changed-groups.sh", () => {
     "scripts/lighthouse.sh",
     "scripts/lighthouse-shard.sh",
     "scripts/lighthouse-shard.test.ts",
+    ".storybook/preview.ts",
+    "scripts/assemble-storybook.ts",
+    "scripts/assemble-storybook.test.ts",
+    "scripts/render-stories.ts",
+    "scripts/story-exports.ts",
+    "scripts/story-exports.test.ts",
+    "scripts/storybook-screenshots.ts",
+    "scripts/storybook-smoke.ts",
   ])("%s changes the site, the files lint, test and build read", (file) => {
     expect(groups(file).site).toBe("true");
   });

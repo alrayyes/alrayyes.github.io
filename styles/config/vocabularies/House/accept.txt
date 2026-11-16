@@ -35,3 +35,5 @@ Tailwind
 toolchain
 wrangler
 Cobertura
+Storybook
+Vite

@@ -269,6 +269,71 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
+  # Both component catalogues, served at /storybook/. This repo's is built and
+  # scanned with axe in light and dark (scripts/storybook-screenshots.ts).
+  # forge-dashboard's isn't published anywhere, so it is built here from the
+  # commit pinned below. Pinned inline, so no bot bumps it: move FD_REF by hand
+  # when that catalogue should change.
+  storybook:
+    needs: changes
+    if: needs.changes.outputs.site == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      FD_REF: 18adff570dc3d3bb9825c931595ebdc1f0cd0171
+      STORYBOOK_DISABLE_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
+      - name: bun install
+        run: bun install --frozen-lockfile --ignore-scripts
+      - name: install playwright's browser
+        run: |
+          bunx playwright install --with-deps chromium ||
+            (sleep 5 && bunx playwright install --with-deps chromium)
+      - name: build this site's catalogue, screenshot it and scan it with axe
+        run: |
+          bun scripts/render-stories.ts
+          bunx storybook build --quiet -o storybook-in/alrayyes-github-io
+          bun scripts/storybook-screenshots.ts --static-dir=storybook-in/alrayyes-github-io
+      - name: fetch forge-dashboard at the pinned commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: alrayyes/forge-dashboard
+          ref: ${{ env.FD_REF }}
+          path: forge-dashboard
+          persist-credentials: false
+      - name: build forge-dashboard's catalogue
+        # Install scripts run: its `prepare` is `svelte-kit sync`, which the
+        # build needs. LEFTHOOK=0 stops its own prepare hook installing hooks.
+        working-directory: forge-dashboard
+        env:
+          LEFTHOOK: "0"
+        run: |
+          bun install --frozen-lockfile
+          cd web
+          bunx storybook build --quiet -o ../../storybook-in/forge-dashboard
+      - name: assemble both under one directory
+        run: bun scripts/assemble-storybook.ts storybook-in site-storybook
+      - name: keep the screenshots for review
+        # Also on a red run: the PNGs are what explains an axe failure.
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: storybook-screenshots
+          path: docs/storybook/
+          retention-days: 7
+      - name: keep the catalogues for the deploy
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: storybook
+          path: site-storybook/
+          if-no-files-found: error
+          retention-days: 1
+
   # Layout and structure. Style and mechanics are prose.yml — see its header
   # comment for why they're split out.
   prose:
@@ -323,7 +388,7 @@ jobs:
   # skipped gate through, and the two `contains` checks still stop a failed
   # or cancelled one.
   build:
-    needs: [lint, audit, security, test, lighthouse, reports, prose]
+    needs: [lint, audit, security, test, lighthouse, reports, storybook, prose]
     if: >-
       always() && github.event_name != 'pull_request'
       && !contains(needs.*.result, 'failure')
@@ -374,6 +439,12 @@ jobs:
         with:
           name: reports
           path: dist/reports
+      - name: add the component catalogues
+        # Served at apis.ryankes.eu/storybook/, one directory per catalogue.
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: storybook
+          path: dist/storybook
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
@@ -418,3 +489,10 @@ jobs:
             --retry 6 --retry-delay 10 --retry-all-errors \
             --output reports.html "${PAGE_URL%/}/"
           grep -q 'data-name="alrayyes.github.io"' reports.html
+          # Both catalogues, each by its index of stories, not just a 200.
+          for catalogue in alrayyes-github-io forge-dashboard; do
+            curl --fail --silent --show-error --location \
+              --retry 6 --retry-delay 10 --retry-all-errors \
+              --output "$catalogue.json" "${PAGE_URL%/}/storybook/$catalogue/index.json"
+            jq -e '[.entries[] | select(.type == "story")] | length > 0' "$catalogue.json" > /dev/null
+          done
