@@ -304,6 +304,7 @@ jobs:
           repository: alrayyes/forge-dashboard
           ref: ${{ env.FD_REF }}
           path: forge-dashboard
+          persist-credentials: false
       - name: build forge-dashboard's catalogue
         # Install scripts run: its `prepare` is `svelte-kit sync`, which the
         # build needs. LEFTHOOK=0 stops its own prepare hook installing hooks.
@@ -317,6 +318,8 @@ jobs:
       - name: assemble both under one directory
         run: bun scripts/assemble-storybook.ts storybook-in site-storybook
       - name: keep the screenshots for review
+        # Also on a red run: the PNGs are what explains an axe failure.
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: storybook-screenshots
@@ -491,5 +494,5 @@ jobs:
             curl --fail --silent --show-error --location \
               --retry 6 --retry-delay 10 --retry-all-errors \
               --output "$catalogue.json" "${PAGE_URL%/}/storybook/$catalogue/index.json"
-            jq -e '.entries | length > 0' "$catalogue.json" > /dev/null
+            jq -e '[.entries[] | select(.type == "story")] | length > 0' "$catalogue.json" > /dev/null
           done

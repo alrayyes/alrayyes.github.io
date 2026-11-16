@@ -25,7 +25,6 @@ const preview: Preview = {
     (story, context) => {
       const theme = context.globals.theme === "dark" ? "dark" : "light";
       document.documentElement.dataset.theme = theme;
-      document.body.style.background = theme === "dark" ? "#0f172a" : "#f8fafc";
       return story();
     },
   ],

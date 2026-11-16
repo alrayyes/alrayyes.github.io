@@ -64,6 +64,18 @@ pre-push:
         - "CHANGELOG.md"
         - "LICENSE"
 
+    - name: storybook
+      run: bun run test:storybook
+      glob:
+        - "src/**"
+        - ".storybook/**"
+        - "scripts/*storybook*"
+        - "scripts/render-stories.*"
+        - "scripts/story-exports.*"
+        - "astro.config.mjs"
+        - "package.json"
+        - "bun.lock"
+
     - name: e2e
       run: bun run test:e2e
       glob:

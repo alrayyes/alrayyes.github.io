@@ -23,6 +23,8 @@
       "OpenSpec",
       "pipeline-analytics",
       "Playwright",
+      "Storybook",
+      "Vite",
       "pre-commit",
       "proselint",
       "Renovate",

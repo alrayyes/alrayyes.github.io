@@ -10,8 +10,9 @@
 // 4. axe scans the same DOM state. Any violation, and any story that throws,
 //    fails the run after every story has been tried.
 //
-// The lefthook pre-push job and the CI job both call this script. It does not
-// use Storybook"s test-runner (rules/storybook.md).
+// The CI `storybook` job calls this script. The pre-push hook runs the lighter
+// `test:storybook` smoke test instead, since this one needs a browser and
+// takes about a minute. It does not use Storybook's test-runner.
 
 import { spawn } from "node:child_process";
 import { createReadStream } from "node:fs";

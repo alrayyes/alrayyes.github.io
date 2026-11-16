@@ -1,23 +1,23 @@
 # Component catalogue
 
-Every component under `src/components/` has a story per state that matters. The
-catalogue is the inventory a design audit works from: it shows a row with a
+Every component under `src/components/` has a story for each state worth seeing.
+The catalogue is the inventory a design audit works from: it shows a row with a
 failing build, a card with nothing in it and every colour scheme, which a
 screenshot of one route misses.
 
 ## Why the stories aren't Astro
 
-Storybook can't run an `.astro` file in the browser. `storybook-astro` 0.2.1
-claims to, but its production build on Astro 7 writes an empty bundle (the
-index lists the story, the iframe chunk is 0 bytes), and it only declares
-support up to Astro 6. So the catalogue uses `@storybook/html-vite` and renders
-the components first:
+Storybook can't run `.astro` files in the browser. `storybook-astro` 0.2.1
+claims to, but its production build on Astro 7 writes an empty bundle (the index
+lists the story, the iframe chunk is 0 bytes), and it only declares support up
+to Astro 6. So the catalogue uses `@storybook/html-vite` and renders the
+components first:
 
 1. `src/components/<Name>.fixtures.ts` lists each state as props, plus the page
    URL for a component that reads `Astro.url`.
 2. `bun run storybook:render` loads those files through Vite with Astro's
-   plugins, renders each state with Astro's container (the same code path as
-   the site build) and writes `.storybook/rendered/<Name>.json`. Git ignores it.
+   plugins, renders each state with Astro's container (the same code path as the
+   site build) and writes `.storybook/rendered/<Name>.json`. Git ignores it.
 3. `src/components/<Name>.stories.ts` has one export per state, and each shows
    that markup.
 
@@ -44,13 +44,13 @@ toggle does.
 ## Adding a component
 
 Add `<Name>.fixtures.ts` and `<Name>.stories.ts` next to it. Copy a pair that
-exists. Sample data lives in `.storybook/sample.ts`, with data URIs for images,
+exists. Sample data lives in `.storybook/sample.ts`, with inline `data:` images,
 so a story never reaches the network.
 
 ## Where it is published
 
-The `storybook` job in `.github/workflows/ci.yml` builds this catalogue, takes
-a screenshot of every story in light and dark, and scans each with axe. It then
+The `storybook` job in `.github/workflows/ci.yml` builds this catalogue, takes a
+screenshot of every story in light and dark, and scans each with axe. It then
 builds forge-dashboard's catalogue and assembles both with
 `scripts/assemble-storybook.ts`. The deploy serves them at
 <https://apis.ryankes.eu/storybook/>, one directory each: `alrayyes-github-io/`
@@ -61,4 +61,6 @@ forge-dashboard doesn't publish its own catalogue, so the job checks out the
 commit in `FD_REF` and builds it. No bot reads that pin: move it by hand when
 the catalogue should change.
 
-The screenshots are an artifact of the run, `storybook-screenshots`.
+The screenshots are an artifact of the run, `storybook-screenshots`. Only this
+site's catalogue gets screenshots and an axe scan. forge-dashboard's is
+published as built.
