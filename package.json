@@ -37,18 +37,18 @@
   "dependencies": {
     "@codecov/astro-plugin": "2.0.1",
     "@fontsource-variable/inter": "5.3.0",
-    "@tailwindcss/vite": "4.3.3",
-    "astro": "7.4.4",
-    "tailwindcss": "4.3.3"
+    "@tailwindcss/vite": "4.3.5",
+    "astro": "7.4.8",
+    "tailwindcss": "4.3.5"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
     "@axe-core/playwright": "4.14.0",
-    "@biomejs/biome": "2.6.4",
+    "@biomejs/biome": "2.6.6",
     "@commitlint/cli": "21.2.4",
     "@commitlint/config-conventional": "21.2.4",
-    "@playwright/test": "1.64.1",
-    "@shadcn/lint": "0.2.3",
+    "@playwright/test": "1.65.0",
+    "@shadcn/lint": "0.2.5",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
     "bun-types": "1.4.4",
@@ -56,7 +56,7 @@
     "lighthouse": "13.6.0",
     "linkedom": "0.18.15",
     "markdownlint-cli2": "0.24.0",
-    "oxlint": "1.90.0",
+    "oxlint": "1.93.0",
     "prettier": "3.9.10",
     "prettier-plugin-astro": "1.1.2",
     "sort-package-json": "4.1.0",
