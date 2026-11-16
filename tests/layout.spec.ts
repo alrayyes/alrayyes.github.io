@@ -27,6 +27,14 @@ test("each API's docs link points at that API's generated docs on apis.ryankes.e
   }
 });
 
+test("footer links to the component catalogues", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("link", { name: "Component catalogues" })).toHaveAttribute(
+    "href",
+    "/storybook/",
+  );
+});
+
 test("footer links to GitHub, disclaimer, privacy and the licence", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("link", { name: "Disclaimer" })).toHaveAttribute(
