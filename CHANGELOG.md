@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.48.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.47.0...alrayyes.github.io-v0.48.0) (2026-11-16)
+
+
+### Features
+
+* **footer:** link the component catalogues ([#318](https://github.com/alrayyes/alrayyes.github.io/issues/318)) ([5c9c6fe](https://github.com/alrayyes/alrayyes.github.io/commit/5c9c6fe2b4af390535a8fd4145309bb160d3ecbd))
+
 ## [0.47.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.46.6...alrayyes.github.io-v0.47.0) (2026-11-16)
 
 
