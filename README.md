@@ -88,6 +88,12 @@ bun run lint:mechanics        # ltex-cli-plus
 bun run lint:tailwind         # oxlint, shadcn/lint's Tailwind rules
 ```
 
+## Component catalogue
+
+The site's components have a Storybook, one story per state and colour scheme.
+`bun run storybook` opens it. How it works, and why it renders the components
+before Storybook sees them, is in [docs/storybook.md](docs/storybook.md).
+
 ## Deployment
 
 The `build` and `deploy` jobs in `.github/workflows/ci.yml` build the site
