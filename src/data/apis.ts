@@ -31,6 +31,8 @@ export interface Api {
   repo: string;
   spec: string;
   docs?: string;
+  // The repo's component catalogue under /storybook/, if it publishes one.
+  storybook?: string;
   reports?: Reports;
   license: string;
   badges: Badge[];

@@ -97,7 +97,8 @@ const quiet =
       row.coverage ||
       row.raw.length > 0 ||
       row.spec ||
-      row.docs) && (
+      row.docs ||
+      row.storybook) && (
       <ul aria-label={`Links for ${row.name}`} class="flex flex-wrap gap-x-4">
         {row.lighthouse && (
           <li>
@@ -210,6 +211,14 @@ const quiet =
             <a href={row.docs} class={quiet}>
               <BrandIcon name="docs" class="size-3.5" />
               Docs<span class="sr-only"> for {row.name}</span>
+            </a>
+          </li>
+        )}
+        {row.storybook && (
+          <li>
+            <a href={row.storybook} class={quiet}>
+              <BrandIcon name="braces" class="size-3.5" />
+              Component catalogue<span class="sr-only"> for {row.name}</span>
             </a>
           </li>
         )}

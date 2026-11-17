@@ -23,6 +23,10 @@
       "format": "uri",
       "pattern": "^https://"
     },
+    "storybook": {
+      "type": "string",
+      "pattern": "^/storybook/[a-z0-9-]+/$"
+    },
     "reports": {
       "description": "Links to the reports the repo publishes at apis.ryankes.eu/<repo>/reports/. Only set a key once its URL has been checked to resolve.",
       "type": "object",
@@ -92,6 +96,10 @@
         "docs": {
           "description": "Only set once the URL has been checked to resolve.",
           "$ref": "#/$defs/url"
+        },
+        "storybook": {
+          "description": "The repo's component catalogue, a path under /storybook/ on this site.",
+          "$ref": "#/$defs/storybook"
         },
         "sdks": {
           "type": "array",
