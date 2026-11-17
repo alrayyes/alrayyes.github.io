@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.49.2](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.49.1...alrayyes.github.io-v0.49.2) (2026-11-17)
+
+
+### Bug Fixes
+
+* **a11y:** size the repo row placeholder to the row at phone width ([#337](https://github.com/alrayyes/alrayyes.github.io/issues/337)) ([6186851](https://github.com/alrayyes/alrayyes.github.io/commit/6186851bba5fe104cdfc70adcf01a90ec00ffafa))
+
 ## [0.49.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.49.0...alrayyes.github.io-v0.49.1) (2026-11-17)
 
 
