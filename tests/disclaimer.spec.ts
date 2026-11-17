@@ -41,3 +41,9 @@ test("the disclaimer page doesn't scroll horizontally at 375px", async ({ page }
   );
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("the warranty sentence keeps its spaces around the licence link", async ({ page }) => {
+  await page.goto("/disclaimer");
+  const section = page.getByRole("region", { name: "3. Warranty and liability" });
+  await expect(section).toContainText("per the terms of the GPL-3.0-or-later licence");
+});

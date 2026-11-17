@@ -73,3 +73,8 @@ test("the table of contents reads down each column at 900px", async ({ page }) =
   expect(second?.y).toBeGreaterThan(first?.y ?? 0);
   expect(second?.x).toBe(first?.x);
 });
+
+test("the summary credit keeps a space before the TLDRLegal link", async ({ page }) => {
+  await page.goto("/license");
+  await expect(page.getByText("Summary from TLDRLegal")).toBeVisible();
+});
