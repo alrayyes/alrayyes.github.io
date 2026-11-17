@@ -119,6 +119,11 @@ test("this site's own row links its report files", async ({ page }) => {
   );
 });
 
+test("the intro says which repos link a component catalogue", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("header p").first()).toContainText(/component catalogue/i);
+});
+
 test("an API row keeps its OpenAPI spec and docs links", async ({ page }) => {
   await page.goto("/");
   const hush = row(page, "hush-hush");
