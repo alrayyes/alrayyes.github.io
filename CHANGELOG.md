@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.49.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.49.0...alrayyes.github.io-v0.49.1) (2026-11-17)
+
+
+### Bug Fixes
+
+* **lint:** keep Biome out of .claude ([#332](https://github.com/alrayyes/alrayyes.github.io/issues/332)) ([519e465](https://github.com/alrayyes/alrayyes.github.io/commit/519e46590313c8c8fda1e27ebdf40f15cad02270))
+
 ## [0.49.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.48.2...alrayyes.github.io-v0.49.0) (2026-11-17)
 
 
