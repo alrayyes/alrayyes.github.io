@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.48.2](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.48.1...alrayyes.github.io-v0.48.2) (2026-11-17)
+
+
+### Bug Fixes
+
+* **a11y:** give the theme toggle a name before scripts run ([#327](https://github.com/alrayyes/alrayyes.github.io/issues/327)) ([1275be9](https://github.com/alrayyes/alrayyes.github.io/commit/1275be95c59bc0cf55f79c5ff0ab1c2a75e9f3ca))
+* **pages:** keep the spaces around inline links ([#328](https://github.com/alrayyes/alrayyes.github.io/issues/328)) ([c722c25](https://github.com/alrayyes/alrayyes.github.io/commit/c722c256862efffbf20b95220fc27672b1ca9b02))
+
 ## [0.48.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.48.0...alrayyes.github.io-v0.48.1) (2026-11-17)
 
 
