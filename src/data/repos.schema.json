@@ -45,6 +45,10 @@
           "format": "uri",
           "pattern": "^https://"
         },
+        "storybook": {
+          "description": "The repo's component catalogue, a path under /storybook/ on this site.",
+          "$ref": "apis.schema.json#/$defs/storybook"
+        },
         "reports": {
           "$ref": "apis.schema.json#/$defs/reports"
         },

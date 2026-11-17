@@ -27,11 +27,10 @@ test("each API's docs link points at that API's generated docs on apis.ryankes.e
   }
 });
 
-test("footer links to the component catalogues", async ({ page }) => {
+test("the footer leaves the component catalogues to the repo rows", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("link", { name: "Component catalogues" })).toHaveAttribute(
-    "href",
-    "/storybook/",
+  await expect(page.getByRole("contentinfo").getByRole("link", { name: /catalogue/i })).toHaveCount(
+    0,
   );
 });
 

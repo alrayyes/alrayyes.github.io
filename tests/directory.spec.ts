@@ -129,6 +129,19 @@ test("an API row keeps its OpenAPI spec and docs links", async ({ page }) => {
   );
 });
 
+test("this site's and forge-dashboard's rows link their component catalogue, no other row does", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(
+    row(page, "alrayyes.github.io").getByRole("link", { name: /^Component catalogue/ }),
+  ).toHaveAttribute("href", "/storybook/alrayyes-github-io/");
+  await expect(
+    row(page, "forge-dashboard").getByRole("link", { name: /^Component catalogue/ }),
+  ).toHaveAttribute("href", "/storybook/forge-dashboard/");
+  await expect(page.getByRole("link", { name: /^Component catalogue/ })).toHaveCount(2);
+});
+
 test("the filter narrows the repos, announces the count, and says when nothing matches", async ({
   page,
 }) => {
@@ -600,7 +613,9 @@ test("a row's links are one plain line, not outlined buttons", async ({ page }) 
   const links = api.getByRole("list", { name: "Links for forge-dashboard", exact: true });
   await expect(links.getByRole("link")).toHaveCount(
     await api
-      .getByRole("link", { name: /^(Lighthouse|Test results|Coverage|OpenAPI spec|Docs|.*\.xml)/ })
+      .getByRole("link", {
+        name: /^(Lighthouse|Test results|Coverage|OpenAPI spec|Docs|Component catalogue|.*\.xml)/,
+      })
       .count(),
   );
   for (const link of await links.getByRole("link").all()) {

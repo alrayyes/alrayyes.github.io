@@ -94,7 +94,8 @@ The site's components have a Storybook, one story per state and colour scheme.
 `bun run storybook` opens it. How it works, and why it renders the components
 before Storybook sees them, is in [docs/storybook.md](docs/storybook.md). The
 deploy publishes it, with forge-dashboard's, at
-<https://apis.ryankes.eu/storybook/>, and the site footer links there.
+<https://apis.ryankes.eu/storybook/>, and each repo's row on the front page
+links its own catalogue.
 
 ## Deployment
 

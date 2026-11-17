@@ -12,6 +12,8 @@ export interface OtherRepo {
   name: string;
   kind: string;
   repo: string;
+  // The repo's component catalogue under /storybook/, if it publishes one.
+  storybook?: string;
   reports: Reports;
   license: string;
   badges: Badge[];

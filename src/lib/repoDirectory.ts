@@ -35,6 +35,8 @@ export interface DirectoryRow {
   repo: string;
   spec?: string;
   docs?: string;
+  // The repo's component catalogue, a path under /storybook/.
+  storybook?: string;
   lighthouse?: string;
   tests?: string;
   coverage?: string;
@@ -60,6 +62,7 @@ const kindOf = (kind: string): RepoKind =>
 interface Known {
   spec?: string;
   docs?: string;
+  storybook?: string;
   badges: Badge[];
   license: string;
   group?: string;
@@ -70,6 +73,7 @@ function knownAbout(apis: Api[], others: OtherRepo[]): Map<string, Known> {
   const known = new Map<string, Known>();
   for (const other of others) {
     known.set(repoName(other.repo), {
+      storybook: other.storybook,
       badges: other.badges,
       license: other.license,
       group: other.group,
@@ -80,6 +84,7 @@ function knownAbout(apis: Api[], others: OtherRepo[]): Map<string, Known> {
     known.set(repoName(api.repo), {
       spec: api.spec,
       docs: api.docs,
+      storybook: api.storybook,
       badges,
       license,
       group: api.group,

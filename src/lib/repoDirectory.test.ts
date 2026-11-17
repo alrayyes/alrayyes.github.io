@@ -33,6 +33,7 @@ const apis: Api[] = [
     repo: "https://github.com/alrayyes/Hush-Hush",
     spec: "https://example.test/openapi.yaml",
     docs: "https://example.test/docs",
+    storybook: "https://example.test/storybook/hush/",
     reports: reports("Hush-Hush"),
     license: "GPL-3.0",
     badges: [badge("ci", "Hush-Hush"), badge("license", "Hush-Hush")],
@@ -191,6 +192,12 @@ describe("directoryRows", () => {
     });
     expect(byName("hush-hush-go")?.docs).toBe("https://example.test/go");
     expect(byName("scaffold-go-api")?.spec).toBeUndefined();
+  });
+
+  test("carries a repo's component catalogue only when its entry names one", () => {
+    expect(byName("Hush-Hush")?.storybook).toBe("https://example.test/storybook/hush/");
+    expect(byName("hush-hush-go")?.storybook).toBeUndefined();
+    expect(byName("scaffold-go-api")?.storybook).toBeUndefined();
   });
 
   test("links this site's own Lighthouse and test reports to its report page too", () => {

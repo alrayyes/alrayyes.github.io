@@ -226,6 +226,7 @@
       "name": "forge-dashboard",
       "description": "A single-page dashboard of open pull requests, issues, and CI/CD status across GitHub and Forgejo repositories.",
       "repo": "https://github.com/alrayyes/forge-dashboard",
+      "storybook": "/storybook/forge-dashboard/",
       "spec": "https://github.com/alrayyes/forge-dashboard/blob/main/api/openapi.yaml",
       "docs": "https://apis.ryankes.eu/forge-dashboard/docs/api/#description/introduction",
       "sdks": [
