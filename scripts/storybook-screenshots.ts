@@ -32,11 +32,9 @@ const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
 const STORY_TIMEOUT_MS = 15_000;
 const THEMES = ["light", "dark"] as const;
 
-// Violations we know about and have not fixed, as "<rule> <selector>". The
-// theme toggle only gets its aria-label from a script, so rendered markup
-// without the script has a nameless button. Remove an entry when its fix
-// merges: a stale entry hides nothing, but it misleads.
-const KNOWN_VIOLATIONS = new Set(["button-name #theme-toggle"]);
+// Violations we know about and have not fixed, as "<rule> <selector>". Remove an
+// entry when its fix merges: a stale entry hides nothing, but it misleads.
+const KNOWN_VIOLATIONS = new Set<string>();
 
 type IndexEntry = { id: string; type: string };
 

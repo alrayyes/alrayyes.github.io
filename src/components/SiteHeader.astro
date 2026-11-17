@@ -54,6 +54,7 @@ const current = Astro.url.pathname.replace(/^\/+|\/+$/g, "");
     <button
       type="button"
       id="theme-toggle"
+      aria-label="Switch theme"
       class="inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border border-slate-200 bg-white p-1.5 text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
     >
       {/* Both icons are always in the DOM; a data-theme-scoped CSS rule
