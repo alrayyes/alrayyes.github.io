@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.48.1](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.48.0...alrayyes.github.io-v0.48.1) (2026-11-17)
+
+
+### Bug Fixes
+
+* **reports:** keep the space before the front page link ([#322](https://github.com/alrayyes/alrayyes.github.io/issues/322)) ([dd671e6](https://github.com/alrayyes/alrayyes.github.io/commit/dd671e6365dd2eac349fe3ba33492c9513a26693))
+
 ## [0.48.0](https://github.com/alrayyes/alrayyes.github.io/compare/alrayyes.github.io-v0.47.0...alrayyes.github.io-v0.48.0) (2026-11-16)
 
 
